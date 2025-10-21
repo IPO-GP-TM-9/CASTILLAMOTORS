@@ -45,13 +45,13 @@ header .header-content {
 
 header .header-content .header-content-inner h1 {
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 300px;
     font-size: 50px;
-    font-weight: 300;
+    font-weight: 3000;
 }
 
 header .header-content .header-content-inner p {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     font-size: 16px;
     font-weight: 300;
     color: rgba(255,255,255,.7);
@@ -222,7 +222,7 @@ header .header-content .header-content-inner p {
 
 .navbar-default .nav > li.active>a,
 .navbar-default .nav>li.active>a:focus {
-    color: yellowgreen!important;
+    color: #A92727!important;
     background-color: transparent;
 }
 
@@ -280,7 +280,7 @@ header .header-content .header-content-inner p {
 
     .navbar-default.affix .nav > li>a:hover,
     .navbar-default.affix .nav>li>a:focus:hover {
-        color: yellowgreen;
+        color: #77181E;
     }
 }
 
