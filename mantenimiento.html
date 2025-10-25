@@ -1,38 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contratar Mantenimiento - Castilla Motors</title>
+    <title>Mantenimiento - Castilla Motors</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 </head>
-
 <body class="mantenimiento">
 
     <!-- NAVBAR -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">
-                    <img src="images/logo_horizontal.png" width="150">
-                </a>
+                <a class="navbar-brand" href="index.html"><img src="images/logo_horizontal.png" width="150"></a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="index.html">Inicio</a></li>
                     <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Servicios <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Servicios <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="comprar.html">Comprar</a></li>
                             <li><a href="alquilar.html">Alquilar</a></li>
@@ -45,105 +34,64 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
+    <!-- INTRO -->
     <section class="intro" style="padding-top: 100px; padding-bottom: 50px;">
         <div class="container text-center">
-            <h1 class="section-heading" style="color:white;">Contratar Mantenimiento</h1>
-            <p class="text-light">Selecciona los servicios de mantenimiento que necesites y reserva tu cita con Castilla Motors.</p>
+            <h1 class="section-heading" style="color: white;">Servicios de Mantenimiento</h1>
+            <p class="text-light">Mantén tu vehículo como nuevo con Castilla Motors.</p>
         </div>
     </section>
 
-    <!-- LISTA DE MANTENIMIENTOS -->
-    <section class="content" id="seccion-lista">
+    <!-- CONTENIDO -->
+    <section class="content">
         <div class="container">
-            <h2 class="section-header text-center" style="margin-bottom: 40px;">Servicios Disponibles</h2>
-            <div class="row" id="lista-mantenimientos">
+            <h2 class="text-center" style="margin-bottom: 40px;">Nuestros Servicios</h2>
 
-                <div class="col-sm-4">
-                    <div class="panel panel-default text-center">
-                        <div class="panel-heading">
-                            <h3>Revisión General</h3>
+            <form id="mantenimientoForm">
+                <div class="row">
+                    <!-- Servicio 1 -->
+                    <div class="col-sm-4">
+                        <div class="panel panel-default text-center">
+                            <div class="panel-heading"><h3>Cambio de Aceite</h3></div>
+                            <div class="panel-body">
+                                <p>Tipo: Básico</p>
+                                <p>Duración: 1 día</p>
+                                <p class="lead" style="color:#c9302c;">€60</p>
+                                <input type="checkbox" name="servicio" value="60" data-nombre="Cambio de Aceite"> Seleccionar
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <p>Tipo: Preventivo</p>
-                            <p>Duración: 2 días</p>
-                            <p class="lead" style="color:#c9302c;">€150</p>
-                            <input type="checkbox" class="mantenimiento-checkbox" data-nombre="Revisión General" data-precio="150" data-dias="2"> Seleccionar
+                    </div>
+
+                    <!-- Servicio 2 -->
+                    <div class="col-sm-4">
+                        <div class="panel panel-default text-center">
+                            <div class="panel-heading"><h3>Revisión Completa</h3></div>
+                            <div class="panel-body">
+                                <p>Tipo: Premium</p>
+                                <p>Duración: 2 días</p>
+                                <p class="lead" style="color:#c9302c;">€180</p>
+                                <input type="checkbox" name="servicio" value="180" data-nombre="Revisión Completa"> Seleccionar
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 3 -->
+                    <div class="col-sm-4">
+                        <div class="panel panel-default text-center">
+                            <div class="panel-heading"><h3>Limpieza Integral</h3></div>
+                            <div class="panel-body">
+                                <p>Tipo: Detallado</p>
+                                <p>Duración: 1 día</p>
+                                <p class="lead" style="color:#c9302c;">€50</p>
+                                <input type="checkbox" name="servicio" value="50" data-nombre="Limpieza Integral"> Seleccionar
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-sm-4">
-                    <div class="panel panel-default text-center">
-                        <div class="panel-heading">
-                            <h3>Cambio de Frenos</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>Tipo: Correctivo</p>
-                            <p>Duración: 1 día</p>
-                            <p class="lead" style="color:#c9302c;">€120</p>
-                            <input type="checkbox" class="mantenimiento-checkbox" data-nombre="Cambio de Frenos" data-precio="120" data-dias="1"> Seleccionar
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="panel panel-default text-center">
-                        <div class="panel-heading">
-                            <h3>Climatización y Filtros</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>Tipo: Correctivo</p>
-                            <p>Duración: 1 día</p>
-                            <p class="lead" style="color:#c9302c;">€90</p>
-                            <input type="checkbox" class="mantenimiento-checkbox" data-nombre="Climatización y Filtros" data-precio="90" data-dias="1"> Seleccionar
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <h3 style="margin-top: 20px;">Precio Total: <span id="precio-total">€0</span></h3>
-                <button id="reservar-btn" class="btn btn-primary btn-lg" disabled>Reservar Mantenimiento</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- FORMULARIO DE RESERVA -->
-    <section id="formulario-reserva" class="content" style="display:none;">
-        <div class="container">
-            <h2 class="section-header text-center">Confirmar Reservación</h2>
-            <div id="lista-seleccionados" class="text-center" style="margin-bottom: 30px;"></div>
-
-            <form id="form-reserva" class="col-md-8 col-md-offset-2">
-                <div class="form-group">
-                    <label>Nombre *</label>
-                    <input type="text" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Apellidos *</label>
-                    <input type="text" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Dirección *</label>
-                    <input type="text" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Teléfono (opcional)</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Método de Pago *</label><br>
-                    <label><input type="radio" name="pago" required> Tarjeta de Crédito</label><br>
-                    <label><input type="radio" name="pago"> PayPal</label><br>
-                    <label><input type="radio" name="pago"> Metálico</label>
-                </div>
-
-                <div id="comentarios-container"></div>
 
                 <div class="text-center" style="margin-top:30px;">
-                    <button type="button" id="volver-btn" class="btn btn-default btn-lg" style="margin-right:10px;">Volver Atrás</button>
-                    <button type="submit" class="btn btn-success btn-lg">Contratar Mantenimientos</button>
+                    <h3>Total: <span id="precioTotal">€0</span></h3>
+                    <button type="button" id="reservarBtn" class="btn btn-primary">Reservar mantenimiento</button>
                 </div>
             </form>
         </div>
@@ -153,7 +101,7 @@
     <footer class="page-footer">
         <div class="contact" id="contacto">
             <div class="container">
-                <h2 class="section-heading">Contáctanos</h2>
+                <h2>Contáctanos</h2>
                 <p><span class="glyphicon glyphicon-earphone"></span><br> +34 456 789 042</p>
                 <p><span class="glyphicon glyphicon-envelope"></span><br> CastillaMotors@uclm.es</p>
             </div>
@@ -165,68 +113,40 @@
         </div>
     </footer>
 
-    <!-- JS -->
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
-        const checkboxes = document.querySelectorAll('.mantenimiento-checkbox');
-        const totalEl = document.getElementById('precio-total');
-        const reservarBtn = document.getElementById('reservar-btn');
-        const formulario = document.getElementById('formulario-reserva');
-        const listaSeleccionados = document.getElementById('lista-seleccionados');
-        const comentariosContainer = document.getElementById('comentarios-container');
-        const seccionLista = document.getElementById('seccion-lista');
-        const volverBtn = document.getElementById('volver-btn');
+        const checkboxes = document.querySelectorAll('input[name="servicio"]');
+        const totalEl = document.getElementById('precioTotal');
+        const reservarBtn = document.getElementById('reservarBtn');
 
-        checkboxes.forEach(chk => {
-            chk.addEventListener('change', actualizarTotal);
-        });
+        checkboxes.forEach(cb => cb.addEventListener('change', calcularTotal));
 
-        function actualizarTotal() {
+        function calcularTotal() {
             let total = 0;
-            let seleccionados = 0;
-            checkboxes.forEach(chk => {
-                if (chk.checked) {
-                    total += parseFloat(chk.dataset.precio);
-                    seleccionados++;
-                }
+            checkboxes.forEach(cb => {
+                if (cb.checked) total += parseFloat(cb.value);
             });
-            totalEl.textContent = "€" + total.toFixed(2);
-            reservarBtn.disabled = seleccionados === 0;
+            totalEl.textContent = '€' + total;
         }
 
         reservarBtn.addEventListener('click', () => {
-            const seleccionados = Array.from(checkboxes).filter(chk => chk.checked);
-            if (seleccionados.length === 0) return;
-
-            listaSeleccionados.innerHTML = "<h4>Mantenimientos Seleccionados:</h4>";
-            comentariosContainer.innerHTML = "";
-            seleccionados.forEach(s => {
-                listaSeleccionados.innerHTML += `<p><strong>${s.dataset.nombre}</strong> - €${s.dataset.precio} (${s.dataset.dias} días)</p>`;
-                comentariosContainer.innerHTML += `
-                    <div class="form-group">
-                        <label>Comentarios para "${s.dataset.nombre}" *</label>
-                        <textarea class="form-control" required></textarea>
-                    </div>`;
+            const seleccionados = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    seleccionados.push({
+                        nombre: cb.dataset.nombre,
+                        precio: cb.value
+                    });
+                }
             });
-
-            seccionLista.style.display = "none";
-            formulario.style.display = "block";
-        });
-
-        // Botón Volver Atrás
-        volverBtn.addEventListener('click', () => {
-            formulario.style.display = "none";
-            seccionLista.style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Simulación de envío del formulario
-        document.getElementById('form-reserva').addEventListener('submit', e => {
-            e.preventDefault();
-            alert("¡Mantenimientos contratados con éxito!");
+            if (seleccionados.length === 0) {
+                alert("Selecciona al menos un mantenimiento.");
+                return;
+            }
+            localStorage.setItem('mantenimientos', JSON.stringify(seleccionados));
+            window.location.href = 'formu-mant.html';
         });
     </script>
-
 </body>
 </html>
