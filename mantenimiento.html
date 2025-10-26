@@ -8,6 +8,8 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body class="mantenimiento">
 
@@ -15,24 +17,31 @@
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html"><img src="images/logo_horizontal.png" width="150"></a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"> <img src="images/logo_horizontal.png" width="150">
+                </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Servicios <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="comprar.html">Comprar</a></li>
-                            <li><a href="alquilar.html">Alquilar</a></li>
-                            <li class="active"><a href="mantenimiento.html">Mantenimiento</a></li>
+                    <li>
+                        <a href="index.html">Inicio</a>
+                    </li>
+                    <li class="dropdown active"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Servicios <span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="about-us">
+                            <li class="active"><a href="comprar.html">Comprar</a></li> <li><a href="alquilar.html">Alquilar</a></li>
+                            <li><a href="mantenimiento.html">Mantenimiento</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contacto">Contacto</a></li>
+                    <li>
+                        <a href="#contacto">Contacto</a>
+                    </li>
                 </ul>
-            </div>
-        </div>
-    </nav>
+            </div></div></nav>
 
     <!-- INTRO -->
     <section class="intro" style="padding-top: 100px; padding-bottom: 50px;">
@@ -47,7 +56,7 @@
         <div class="container">
             <h2 class="text-center" style="margin-bottom: 40px;">Nuestros Servicios</h2>
 
-            <form id="mantenimientoForm">
+            <form>
                 <div class="row">
                     <!-- Servicio 1 -->
                     <div class="col-sm-4">
@@ -90,8 +99,9 @@
                 </div>
 
                 <div class="text-center" style="margin-top:30px;">
-                    <h3>Total: <span id="precioTotal">€0</span></h3>
-                    <button type="button" id="reservarBtn" class="btn btn-primary">Reservar mantenimiento</button>
+                    <h3>Total: <span>€0</span></h3>
+                    <a href="formu-mant.html" class="btn btn-primary btn-lg">Reservar Mantenimineto</a>
+
                 </div>
             </form>
         </div>
@@ -114,39 +124,16 @@
     </footer>
 
     <script src="js/jquery-1.11.3.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        const checkboxes = document.querySelectorAll('input[name="servicio"]');
-        const totalEl = document.getElementById('precioTotal');
-        const reservarBtn = document.getElementById('reservarBtn');
 
-        checkboxes.forEach(cb => cb.addEventListener('change', calcularTotal));
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
 
-        function calcularTotal() {
-            let total = 0;
-            checkboxes.forEach(cb => {
-                if (cb.checked) total += parseFloat(cb.value);
-            });
-            totalEl.textContent = '€' + total;
-        }
+    <!-- Custom Javascript -->
+    <script src="js/custom.js"></script>
 
-        reservarBtn.addEventListener('click', () => {
-            const seleccionados = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    seleccionados.push({
-                        nombre: cb.dataset.nombre,
-                        precio: cb.value
-                    });
-                }
-            });
-            if (seleccionados.length === 0) {
-                alert("Selecciona al menos un mantenimiento.");
-                return;
-            }
-            localStorage.setItem('mantenimientos', JSON.stringify(seleccionados));
-            window.location.href = 'formu-mant.html';
-        });
-    </script>
+
 </body>
 </html>

@@ -224,6 +224,7 @@ header .header-content .header-content-inner p {
 .navbar-default .nav>li.active>a:focus {
     color: #A92727!important;
     background-color: transparent;
+
 }
 
 .navbar-default .nav > li.active>a:hover,
@@ -303,6 +304,7 @@ header .header-content .header-content-inner p {
     color: #222;
     background-color: #eee;
 }
+
 
 .btn-default:active,
 .btn-default.active,
