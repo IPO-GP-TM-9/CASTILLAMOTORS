@@ -45,41 +45,38 @@
     </nav>
 
     <!-- SECCIÓN PRINCIPAL -->
-    <section class="intro" style="padding-top: 100px; padding-bottom: 40px;">
+    <section class="intro">
         <div class="container text-center">
-            <h1 class="section-heading" style="color:white;">Reserva de Mantenimiento</h1>
-            <p class="text-light">Completa tus datos para finalizar tu reserva.</p>
+            <h1>Reserva de Mantenimiento</h1>
+            <p>Completa tus datos para finalizar tu reserva.</p>
         </div>
     </section>
 
-    <!-- FORMULARIO -->
+    <!-- CONTENIDO -->
     <section class="content">
         <div class="container">
-            <h2 class="text-center" style="margin-bottom:40px;">Detalles de tu Reserva</h2>
+            <h2 class="text-center">Detalles de tu Reserva</h2>
+            <div>
+                <h3>Mantenimientos Seleccionados</h3>
 
-           <!-- Mantenimientos Seleccionados -->
-<!-- Mantenimientos Seleccionados -->
-<div>
-    <h3>Mantenimientos Seleccionados</h3>
+                <!-- Servicio 1 -->
+                <div >
+                    <h4><strong>Cambio de Aceite</strong></h4>
+                    €60 | 1 día<br>
+                    <textarea class="form-control" placeholder="Comentario sobre este servicio" ></textarea>
+                </div>
 
-    <!-- Servicio 1 -->
-    <div style="margin-bottom:15px;">
-        <h4><strong>Cambio de Aceite</strong></h4>
-        €60 | 1 día<br>
-        <textarea class="form-control" placeholder="Comentario sobre este servicio" ></textarea>
-    </div>
+                <!-- Servicio 2 -->
+                <div>
+                    <h4><strong>Revisión Completa</strong></h4>
+                    €180 | 2 días<br>
+                    <textarea class="form-control" placeholder="Comentario sobre este servicio" ></textarea>
+                </div>
 
-    <!-- Servicio 2 -->
-    <div style="margin-bottom:15px;">
-        <h4><strong>Revisión Completa</strong></h4>
-        €180 | 2 días<br>
-        <textarea class="form-control" placeholder="Comentario sobre este servicio" ></textarea>
-    </div>
-
-    <div style="text-align:right; margin-top:10px;">
-        <strong>Total: €240</strong>
-    </div>
-</div>
+                <div class="text-right">
+                    <strong>Total: €240</strong>
+                </div>
+            </div>
 
 
 
@@ -91,37 +88,37 @@
                         <h3>Datos Personales</h3>
                         <div class="form-group">
                             <label>Nombre *</label>
-                            <input type="text" class="form-control" >
+                            <input class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>Apellidos *</label>
-                            <input type="text" class="form-control" >
+                            <input class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>Dirección *</label>
-                            <input type="text" class="form-control" >
+                            <input class="form-control" >
                         </div>
                         <div class="form-group">
                             <label>Teléfono </label>
-                            <input type="tel" class="form-control" placeholder="Opcional">
+                            <input class="form-control" placeholder="Opcional">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <label><br><br><br>Método de pago *</label>
                         <select class="form-control">
-                            <option value="">Seleccione...</option>
-                            <option value="tarjeta">Tarjeta de crédito</option>
-                            <option value="paypal">PayPal</option>
-                            <option value="metalico">Metálico</option>
+                            <option>Seleccione...</option>
+                            <option>Tarjeta de crédito</option>
+                            <option>PayPal</option>
+                            <option>Metálico</option>
                         </select><br>
 
 
                     </div>
                 </div>
 
-                <div class="text-center" style="margin-top:30px;">
-                   <a href="mantenimiento.html" class="btn btn-primary volveratras">Volver atrás</a>
+                <div class="text-center">
+                   <br><a href="mantenimiento.html" class="btn btn-primary volveratras">Volver atrás</a>
                     <a class="btn btn-primary btn-lg">Confirmar Reserva</a>
                 </div>
             </form>
@@ -146,13 +143,10 @@
 
     <script src="js/jquery-1.11.3.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Plugin JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
 
-    <!-- Custom Javascript -->
     <script src="js/custom.js"></script>
 </body>
 </html>
