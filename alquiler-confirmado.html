@@ -2,15 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario de Compra - Castilla Motors</title>
+    <title>Alquiler Confirmado - Castilla Motors</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-</head>
-<body class="comprar">
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    </head>
+<body>
+
+    <!-- NAVBAR -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -32,9 +34,9 @@
                             Servicios <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="about-us">
-                            <li class="active"><a href="comprar.html">Comprar</a></li>
+                            <li><a href="comprar.html">Comprar</a></li>
                             <li><a href="alquilar.html">Alquilar</a></li>
-                            <li><a href="mantenimiento.html">Mantenimiento</a></li>
+                            <li class="active"><a href="mantenimiento.html">Mantenimiento</a></li>
                         </ul>
                     </li>
                     <li><a href="#contacto">Contacto</a></li>
@@ -45,73 +47,64 @@
 
     <section class="intro">
         <div class="container text-center">
-            <h1>Solicitud de Compra</h1>
-            <p>Completa tus datos y nos pondremos en contacto contigo.</p>
+            <h1>Alquiler Confirmado</h1>
+                <p>Gracias por confiar en <strong>Castilla Motors</strong>.</p>
         </div>
     </section>
 
+    <!-- CONTENIDO -->
     <section class="content">
         <div class="container">
-            <h2 class="text-center">Detalles de tu Solicitud</h2>
-            <div>
-                <h3>Vehículo de Interés</h3>
 
-                <div >
-                    <h4><strong>Peugeot 5008 GT (2021)</strong></h4>
-                    45.000€ | Modelo 1 | Color<br>
-                    <div class="form-control" >Descripción</div>
-                </div>
 
-                <label for="cantidad"><strong>Cantidad:</strong></label>
-                <input type="number" id="cantidad" name="cantidad" min="1" value="1" style="width: 80px;">
+            <!-- Datos del cliente -->
+            <div class="info-cliente">
+                <h3>Datos del Usuario</h3>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p><strong>Nombre:</strong> Pablo</p>
+                        <p><strong>Apellidos </strong>Ramón Palarea</p>
+                        <p><strong>Dirección:</strong> Calle ejemplo</p>
+                        <p><strong>Método de Pago:</strong> Visa</p>
+                         <p><strong>Fecha de Realización</strong> 9/10/2025</p>
+                        <p><strong>Fecha de Inicio</strong> 10/10/2025</p>
+                        <p><strong>Fecha de Finalización</strong> 27/10/2025</p>
 
-                <div class="text-right">
-                    <strong>Total estimado: 45.000€</strong>
+                    </div>
                 </div>
             </div>
 
+            <!-- Detalle de servicios -->
+            <div>
+                <h3>Coches Alquilados</h3>
 
-
-                        <form>
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <h3>Datos Personales</h3>
-                        <div class="form-group">
-                            <label>Nombre *</label>
-                            <input class="form-control" >
-                        </div>
-                        <div class="form-group">
-                            <label>Apellidos *</label>
-                            <input class="form-control" >
-                        </div>
-                        <div class="form-group">
-                            <label>Dirección *</label>
-                            <input class="form-control" >
-                        </div>
+                <!-- Servicio 1 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Coche 1</h4></div>
+                    <div class="panel-body">
+                        <p><strong>Precio:</strong> 85€ / Día</p>
+                        <p><strong>Modelo:</strong> Modelo ejemplo</p>
+                        <p><strong>Fabricante:</strong> Fabricante ejemplo</p>
+                        <p><strong>Cantidad:</strong> 1</p>
 
                     </div>
 
-                    <div class="col-md-6">
-                        <label><br><br><br>Método de pago *</label>
-                        <select class="form-control">
-                            <option>Seleccione...</option>
-                            <option>Google Pay</option>
-                            <option>Visa</option>
-                        </select><br>
-
-
-                    </div>
                 </div>
 
-                <div class="text-center">
-                   <br><a href="comprar.html" class="btn btn-primary volveratras">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg" href="compra-confirmada.html">Confirmar Compra</a>
-                </div>
-            </form>
+
+
+            </div>
+
+            <!-- Total -->
+            <div class="text-center">
+                <h3>Total a Pagar: <strong>77000€</strong></h3>
+                <br>
+                <a href="index.html" class="btn btn-primary">Volver al Inicio</a>
+            </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="page-footer">
         <div class="contact" id="contacto">
             <div class="container">
@@ -134,5 +127,6 @@
     <script src="js/jquery.easing.min.js"></script>
 
     <script src="js/custom.js"></script>
+
 </body>
 </html>
