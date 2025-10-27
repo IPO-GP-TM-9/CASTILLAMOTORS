@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Compra - Castilla Motors</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+<body class="comprar">
+
+    <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <img src="images/logo_horizontal.png" width="150">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Servicios <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="about-us">
+                            <li class="active"><a href="comprar.html">Comprar</a></li>
+                            <li><a href="alquilar.html">Alquilar</a></li>
+                            <li><a href="mantenimiento.html">Mantenimiento</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="intro">
+        <div class="container text-center">
+            <h1>Solicitud de Compra</h1>
+            <p>Completa tus datos y nos pondremos en contacto contigo.</p>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <h2 class="text-center">Detalles de tu Solicitud</h2>
+            <div>
+                <h3>Vehículo de Interés</h3>
+
+                <div >
+                    <h4><strong>Peugeot 5008 GT (2021)</strong></h4>
+                    €85 / Día | Modelo 1<br>
+                    <div class="form-control" >Descripción</div>
+                </div>
+
+                <label for="cantidad"><strong>Cantidad:</strong></label>
+    <input type="number" id="cantidad" name="cantidad" min="1" value="1" style="width: 80px;">
+
+                <br>
+                <label for="start-date">Fecha de inicio:</label>
+                <input type="date" id="start-date" name="start-date">
+                <br>
+                <label for="end-date">Fecha de fin:</label>
+                <input type="date" id="end-date" name="end-date">
+
+
+                <div class="text-right">
+                    <strong>Total estimado: €85 * 5 Días = €425</strong>
+                </div>
+            </div>
+
+
+
+                        <form>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h3>Datos Personales</h3>
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos *</label>
+                            <input class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección *</label>
+                            <input class="form-control" >
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label><br><br><br>Método de pago *</label>
+                        <select class="form-control">
+                            <option>Seleccione...</option>
+                            <option>Google Pay</option>
+                            <option>Visa</option>
+                        </select><br>
+
+
+
+                    </div>
+                </div>
+
+                <div class="text-center">
+                   <br><a href="comprar.html" class="btn btn-primary volveratras">Volver atrás</a>
+                    <a class="btn btn-primary btn-lg">Confirmar Compra</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        <div class="contact" id="contacto">
+            <div class="container">
+                <h2>Contáctanos</h2>
+                <p><span class="glyphicon glyphicon-earphone"></span><br> +34 456 789 042</p>
+                <p><span class="glyphicon glyphicon-envelope"></span><br> CastillaMotors@uclm.es</p>
+            </div>
+        </div>
+        <div class="small-print">
+            <div class="container">
+                <p>Copyright &copy; CastillaMotors.com 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery.easing.min.js"></script>
+
+    <script src="js/custom.js"></script>
+</body>
+</html>
