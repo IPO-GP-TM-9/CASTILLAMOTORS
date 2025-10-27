@@ -58,24 +58,21 @@
 
                 <div >
                     <h4><strong>Peugeot 5008 GT (2021)</strong></h4>
-                    45.000€ | KM 0<br>
-                    <textarea class="form-control" placeholder="Comentarios sobre el vehículo (opcional)" ></textarea>
+                    45.000€ | Modelo 1 | Color<br>
+                    <div class="form-control" >Descripción</div>
                 </div>
 
-                <div>
-                    <h4><strong>Garantía Extendida (+2 Años)</strong></h4>
-                    850€ | Cobertura Total<br>
-                    <textarea class="form-control" placeholder="Consultas sobre la garantía (opcional)" ></textarea>
-                </div>
+                <label for="cantidad"><strong>Cantidad:</strong></label>
+    <input type="number" id="cantidad" name="cantidad" min="1" value="1" style="width: 80px;">
 
                 <div class="text-right">
-                    <strong>Total estimado: 45.850€</strong>
+                    <strong>Total estimado: 45.000€</strong>
                 </div>
             </div>
 
 
 
-            <form>
+                        <form>
                 <div class="row">
 
                     <div class="col-md-6">
@@ -89,38 +86,27 @@
                             <input class="form-control" >
                         </div>
                         <div class="form-group">
-                            <label>Email *</label>
-                            <input class="form-control" type="email">
+                            <label>Dirección *</label>
+                            <input class="form-control" >
                         </div>
-                        <div class="form-group">
-                            <label>Teléfono </label>
-                            <input class="form-control" placeholder="Opcional">
-                        </div>
+
                     </div>
 
                     <div class="col-md-6">
-                        <label><br><br><br>Interés en Financiación *</label>
+                        <label><br><br><br>Método de pago *</label>
                         <select class="form-control">
                             <option>Seleccione...</option>
-                            <option>Sí, deseo recibir información</option>
-                            <option>No, realizaré pago al contado</option>
-                            <option>Indeciso, valorar opciones</option>
+                            <option>Google Pay</option>
+                            <option>Visa</option>
                         </select><br>
 
-                        <div class="form-group">
-                            <label>Método de contacto preferido *</label>
-                            <select class="form-control">
-                                <option>Email</option>
-                                <option>Teléfono</option>
-                            </select>
-                        </div>
 
                     </div>
                 </div>
 
                 <div class="text-center">
                    <br><a href="comprar.html" class="btn btn-primary volveratras">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg">Solicitar Información</a>
+                    <a class="btn btn-primary btn-lg">Confirmar Compra</a>
                 </div>
             </form>
         </div>
