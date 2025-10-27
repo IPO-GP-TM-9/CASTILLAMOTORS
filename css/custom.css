@@ -440,3 +440,43 @@ img::-moz-selection {
 .precio{
     color: #A92727;
 }
+
+/*
+ * Estilos para el botón del Chatbot
+ */
+#chatbot-toggle {
+  position: fixed;       /* Fijo en la pantalla */
+  bottom: 25px;          /* A 25px del borde inferior */
+  right: 25px;           /* A 25px del borde DERECHO */
+  z-index: 1000;         /* Por encima de todo */
+
+  /* Tamaño (más grande) */
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;    /* Circular */
+  font-size: 34px;       /* Icono más grande */
+
+  /* Centrado del icono */
+  padding: 18px 0;
+  text-align: center;
+  line-height: 1.4;      /* Ajuste de línea */
+
+  /* Sombra para que destaque */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  /* Estilo rojo (como tu botón "Empieza Ya") */
+  color: #ffffff;
+  background-color: #a92727; /* Un rojo similar al de tu captura */
+  border-color: #a92727;
+
+  /* Transición suave */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efecto al pasar el ratón por encima */
+#chatbot-toggle:hover {
+  color: #ffffff;
+  background-color: #c9302c; /* Un rojo más oscuro */
+  border-color: #ac2925;
+  transform: scale(1.05); /* Ligeramente más grande */
+}
