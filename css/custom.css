@@ -480,3 +480,13 @@ img::-moz-selection {
   border-color: #ac2925;
   transform: scale(1.05); /* Ligeramente más grande */
 }
+
+.cantidad{
+    width: 80px;
+}
+
+.precio_coche{
+    margin-top: 0;
+    color: #c9302c;
+    font-weight: bold;
+}
