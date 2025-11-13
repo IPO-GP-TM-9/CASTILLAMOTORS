@@ -117,9 +117,9 @@
                     </div>
                 </div>
 
-                <div class="text-center">
-                   <br><a href="mantenimiento.html" class="btn btn-primary volveratras">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg" href="mant-confirmado.html">Confirmar Reserva</a>
+                <div class="flex-container">
+                    <a class="btn btn-primary volveratras " data-toggle="modal" data-target="#cancelModal">Volver atrás</a>
+                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmModal">Confirmar Reserva</a>
                 </div>
             </form>
         </div>
@@ -140,6 +140,41 @@
             </div>
         </div>
     </footer>
+
+
+<div class="modal fade" id="cancelModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="cancellLabel">Volver Atrás</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas cancelar la reserva? Los datos introducidos se perderán
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="mantenimiento.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Confirmar Reserva</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que toda la información es correcta?
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="mant-confirmado.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="js/jquery-1.11.3.min.js"></script>
 

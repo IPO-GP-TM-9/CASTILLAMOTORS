@@ -116,9 +116,9 @@
                 </div>
 
                 <!-- BOTONES -->
-                <div class="text-center">
-                   <br><a href="alq.html" class="btn btn-primary volveratras">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg" href="alquiler-confirmado.html">Confirmar Alquiler</a>
+                <div class="flex-container">
+                   <a class="btn btn-primary volveratras"  data-toggle="modal" data-target="#cancelModal">Volver atrás</a>
+                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmModal">Confirmar Alquiler</a>
 
 
 
@@ -141,6 +141,40 @@
             </div>
         </div>
     </footer>
+
+<div class="modal fade" id="cancelModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="cancelModalLabel">Volver Atrás</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas cancelar el alquiler? Los datos introducidos se perderán
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="alquilar.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Confirmar Alquiler</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que toda la información es correcta?
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="alquiler-confirmado.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="js/jquery-1.11.3.min.js"></script>
 

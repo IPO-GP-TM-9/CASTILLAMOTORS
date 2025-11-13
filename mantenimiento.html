@@ -100,7 +100,7 @@
 
                 <div class="text-center">
                     <h3>Total: <span>0€</span></h3>
-                    <a href="formu-mant.html" class="btn btn-primary btn-lg">Reservar Mantenimiento</a>
+                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmModal">Reservar Mantenimiento</a>
 
                 </div>
             </form>
@@ -122,6 +122,24 @@
             </div>
         </div>
     </footer>
+
+
+<div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Confirmar Reserva</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas reservar los mantenimientos seleccionados?
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="formu-mant.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="js/jquery-1.11.3.min.js"></script>
 

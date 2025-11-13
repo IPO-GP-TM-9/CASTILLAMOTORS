@@ -433,7 +433,8 @@ img::-moz-selection {
 }
 
 .volveratras{
-    background-color: #282832
+    background-color: #282832;
+
 
 }
 
@@ -489,4 +490,28 @@ img::-moz-selection {
     margin-top: 0;
     color: #c9302c;
     font-weight: bold;
+}
+
+.confirmar{
+    float: right;
+}
+
+.flex-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-small {
+  padding: 10px 15px;
+  font-size: 12px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.botones-compra {
+    display: flex;
+    justify-content: center; /* los centra */
+    gap: 40px; /* separa los botones */
 }

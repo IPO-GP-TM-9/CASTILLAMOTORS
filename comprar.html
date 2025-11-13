@@ -108,7 +108,7 @@
                 <!-- Botones -->
                 <div class="container" style="margin-bottom: 40px;">
                   <div class="text-center">
-                    <a href="realizar-compra.html" class="btn btn-primary btn-lg">Comprar seleccionados</a>
+                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmModal">Comprar seleccionados</a>
                   </div>
                 </div>
 
@@ -145,6 +145,23 @@
     <a href="#" id="chatbot-toggle" class="btn">
     	<span class="glyphicon glyphicon-comment"></span>
     </a>
+
+<div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Confirmar Compra</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas comprar los vehículos seleccionados?
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="realizar-compra.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 
