@@ -88,28 +88,41 @@
                         <h3>Datos Personales</h3>
                         <div class="form-group">
                             <label>Nombre *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="nombre" name="nombre" required >
+                            <div class="help-block error obligatorio" >
+                                Por favor, introduce tu nombre.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Apellidos *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="apellidos" name="apellido" required >
+                            <div class="help-block error obligatorio" >
+                                Por favor, introduce tus apellidos.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Dirección *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="direccion" name="direccion" required>
+                            <div class="help-block error obligatorio">
+                                Por favor, introduce tu dirección.
+                            </div>
                         </div>
 
                     </div>
 
                     <div class="col-md-6">
+                        <div class="form-group" >
                         <label><br><br><br>Método de pago *</label>
-                        <select class="form-control">
-                            <option>Seleccione...</option>
-                            <option>Google Pay</option>
-                            <option>Visa</option>
-                            <option>Paypal</option>
+                        <select class="form-control" id="metodoPago" name="metodoPago" required>
+                            <option  value="">Seleccione...</option>
+                            <option value="googlepay">Google Pay</option>
+                            <option value="visa">Visa</option>
+                            <option value="paypal">Paypal</option>
                         </select><br>
-
+                             <div class="help-block error obligatorio" >
+                            Por favor, selecciona un método de pago.
+                        </div>
+                        </div>
 
 
                     </div>
@@ -118,7 +131,9 @@
                 <!-- BOTONES -->
                 <div class="flex-container">
                    <a class="btn btn-primary volveratras"  data-toggle="modal" data-target="#cancelModal">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#confirmModal">Confirmar Alquiler</a>
+                    <button id="btnConfirmar" type="button" class="btn btn-primary btn-lg">
+                    Confirmar Alquiler
+                </button>
 
 
 
@@ -183,5 +198,7 @@
     <script src="js/jquery.easing.min.js"></script>
 
     <script src="js/custom.js"></script>
+
+    <script src="js/validation.js"></script>
 </body>
 </html>

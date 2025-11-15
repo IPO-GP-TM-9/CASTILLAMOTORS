@@ -515,3 +515,14 @@ img::-moz-selection {
     justify-content: center; /* los centra */
     gap: 40px; /* separa los botones */
 }
+
+.is-invalid {
+    border: 2px solid red !important;
+}
+
+.obligatorio{
+
+    display: none;
+    color: red;
+}
+
