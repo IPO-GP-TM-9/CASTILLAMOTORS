@@ -621,3 +621,159 @@ img::-moz-selection {
     margin-bottom: 5px; /* espacio entre precio y textarea */
 
 }
+
+
+
+/* =========================================
+   BOTÓN FLOTANTE A+ (modo texto grande)
+   ========================================= */
+.btn-big-mode {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 2000;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #282832;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  line-height: 70px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-big-mode:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+/* =========================================
+   MODO TEXTO GRANDE LIMPIO
+   ========================================= */
+
+/* Escalar todo salvo header y chatbot */
+#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) {
+    font-size: 1.25em;
+    line-height: 1.6;
+}
+
+/* Textos generales dentro de esas secciones */
+#big-mode-toggle:checked ~ .page-content > * p,
+#big-mode-toggle:checked ~ .page-content > * a,
+#big-mode-toggle:checked ~ .page-content > * li,
+#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) span {
+    font-size: 1.5em;
+}
+
+/* Sección encabezados grandes */
+#big-mode-toggle:checked ~ .page-content > * .section-header,
+#big-mode-toggle:checked ~ .page-content > * h2.section-heading {
+    font-size: 2.4em;
+    line-height: 1.3;
+}
+
+/* Botones normales (excluyendo el chatbot) */
+#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) .btn,
+#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) button {
+    font-size: 1.2em;
+    padding: 18px 30px;
+}
+
+/* Navbar y footer (sin negar chatbot-toggle) */
+#big-mode-toggle:checked ~ .page-content > * .navbar,
+#big-mode-toggle:checked ~ .page-content > * footer {
+    font-size: 1.15em;
+}
+
+
+#big-mode-toggle:checked ~ .page-content h3 {
+    font-size: 1.6em !important;
+}
+
+
+#big-mode-toggle:checked ~ .page-content h4 {
+    font-size: 1.45em !important;
+}
+
+.page-content {
+    width: 100%;
+    display: block;
+}
+
+
+
+/* Hacer que el label dentro del dropdown se vea igual que un <a> */
+.dropdown-menu label{
+    display: block;            /* igual que <a> */
+    padding: 3px 20px;         /* igual que Bootstrap */
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #9e9e9e;               /* color del link normal */
+    white-space: nowrap;
+    cursor: pointer;           /* cambia el cursor como un enlace */
+    text-decoration: none;     /* quitar subrayado */
+}
+
+/* Hover igual que los enlaces del menú */
+.dropdown-menu label:hover,
+.dropdown-menu label:focus {
+    color: #505050;
+    text-decoration: none;
+}
+
+
+/* Navbar, botones, textos rojos */
+#daltone-toggle:checked ~ .header-content-inner,
+#daltone-toggle:checked ~ .page-content .btn-primary,
+#daltone-toggle:checked ~ .page-content .btn,
+#daltone-toggle:checked ~ .page-content .btn btn-lg
+#daltone-toggle:checked ~ .page-content .precio,
+#daltone-toggle:checked ~ .page-content .page-footer .contact {
+    color: #ffffff !important;
+    background-color: #56B4E9 !important;
+}
+
+#daltone-toggle:checked ~ .navbar-default .navbar-header .navbar-brand {
+    background-color: #0072B2 !important;
+}
+
+
+/* Hover también cambia */
+#daltone-toggle:checked ~ .page-content .btn-primary:hover,
+
+#daltone-toggle:checked ~ .page-content .btn btn-default btn-lg{
+    color: #fff !important;
+    background-color: #0072B2 !important;
+}
+
+#daltone-toggle:checked ~ .page-footer {
+    color: #fff !important;
+    background-color: #0072B2 !important;
+}
+
+
+#daltone-toggle:checked ~.is-invalid {
+    border: 2px solid #b720de !important;
+}
+
+#daltone-toggle:checked ~.obligatorio{
+
+    display: none;
+    color: #cd44f0;
+}
+
+#daltone-toggle:checked ~.navbar-default .navbar-header .navbar-brand{
+    color: #0072B2!important;
+    background-color: transparent;
+}
+
+#daltone-toggle:checked ~.open > .dropdown-toggle.btn-primary, .navbar-default .nav>li.active{
+    color: #0072B2!important;
+    background-color: transparent;
+}
+
+
+
