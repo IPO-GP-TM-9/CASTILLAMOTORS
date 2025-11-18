@@ -604,4 +604,20 @@ img::-moz-selection {
     display: block;
 }
 
+.eliminar-item {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1;
+    height: 28px;
+    border-radius: 5px;
+    margin-left: auto;
+    background-color: #A92727;
+}
 
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px; /* espacio entre precio y textarea */
+
+}

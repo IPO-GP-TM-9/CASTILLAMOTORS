@@ -1,13 +1,21 @@
 $(document).ready(function () {
+
   $("#btnConfirmar").on("click", function (e) {
     e.preventDefault();
 
     let valido = true;
 
-    $("input[required], select[required]").each(function () {
+    // Selecciona inputs, selects y textareas con required
+    $("input[required], select[required], textarea[required]").each(function () {
+
       const $field = $(this);
       const value = ($field.val() || "").toString().trim();
-      const $error = $field.closest(".form-group").find(".error");
+      let $error = $field.closest(".form-group").find(".error");
+
+      // Para los textareas dentro de tus servicios no hay .form-group padre
+      if ($error.length === 0) {
+        $error = $field.siblings(".error");
+      }
 
       if (value === "") {
         $error.show();

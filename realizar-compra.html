@@ -65,7 +65,11 @@
                 <!-- COCHE 1 -->
                 <div >
                     <h4><strong>Peugeot 5008 GT (2021)</strong></h4>
+                    <div class="item-header">
                     45.000€ | Modelo 1 | Color<br>
+                    <button type="button" class="btn btn-primary btn-danger btn-small eliminar-item" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
+                    </div>
+
                     <div class="form-control" >Descripción</div>
                 </div>
 
@@ -185,6 +189,23 @@
       <div class="modal-footer flex-container">
         <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
         <a href="compra-confirmada.html" class="btn btn-primary btn-lg " >Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="deleteModalLabel">Eliminar coche</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar el coche seleccionado? Esta acción no se podrá deshacer
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a class="btn btn-primary btn-lg " data-dismiss="modal">Confirmar</a>
       </div>
     </div>
   </div>
