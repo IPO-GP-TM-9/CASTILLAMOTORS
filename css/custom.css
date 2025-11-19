@@ -432,15 +432,23 @@ img::-moz-selection {
     background-color: yellowgreen;
 }
 
-.volveratras{
-    background-color: #282832
+/* 1. Tu contenedor (está perfecto como lo tenías) */
+.volveratras {
 
 }
+
+/* 2. ¡AQUÍ ESTÁ LA MAGIA!
+   Esta regla es súper específica y le gana a Bootstrap
+*/
+
 
 .precio{
     color: #A92727;
 }
 
+#enlace-ayuda{
+    color: #77181E;
+}
 /*
  * Estilos para el botón del Chatbot
  */
@@ -489,4 +497,119 @@ img::-moz-selection {
     margin-top: 0;
     color: #c9302c;
     font-weight: bold;
+}
+
+/* --- Estilos para Video Interactivo --- */
+
+/* 1. El "Escenario" (Contenedor Principal) */
+.video-container {
+    /* Esto le dice al navegador: "Cualquier elemento 'absoluto'
+       dentro de mí debe posicionarse relative a mis bordes". */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 2. Los Controles (Barra inferior) */
+.controles {
+    /* Esto "levanta" la barra de controles del flujo normal... */
+    position: absolute;
+
+    /* ...y la "pega" en la parte inferior del .video-container */
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    z-index: 5; /* Se asegura de que esté por encima del video */
+}
+
+/* 3. Las Opciones Interactivas (Popup central) */
+.opciones {
+    /* Esto también "levanta" el div de opciones... */
+    position: absolute;
+
+    /* ...y lo "pega" 50% desde arriba y 50% desde la izquierda... */
+    top: 50%;
+    left: 50%;
+
+    /* ...y este truco lo centra perfectamente! */
+    transform: translate(-50%, -50%);
+
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* Le damos un z-index más alto para que aparezca
+                    encima de la barra de controles si es necesario */
+}
+
+/* --- ESTILOS PARA LA AYUDA FLOTANTE --- */
+
+/* Caja de Ayuda: Compacta pero Accesible */
+#caja-ayuda-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;           /* Ancho contenido, no excesivo */
+    background-color: #fff;
+    border: 3px solid #333; /* Borde oscuro para contraste */
+    border-radius: 10px;     /* Bordes redondeados suaves */
+    padding: 20px;
+    z-index: 9999;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4); /* Sombra para que "flote" */
+    font-family: sans-serif;
+}
+
+/* Título */
+#caja-ayuda-flotante strong {
+    display: block;
+    font-size: 22px;      /* Tamaño claro */
+    color: #c0392b;       /* Color destacado */
+    margin-bottom: 10px;
+}
+
+/* Texto del cuerpo */
+#caja-ayuda-flotante p {
+    font-size: 19px;      /* Buen tamaño de lectura (estándar accesible) */
+    line-height: 1.5;     /* Buena separación entre líneas */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Botón de Cerrar (La X) */
+#cerrar-ayuda {
+    font-size: 24px;      /* Grande, pero no gigante */
+    color: #777;
+    float: right;
+    cursor: pointer;
+    padding: 0 0 10px 10px; /* Espacio extra para facilitar el clic */
+}
+#cerrar-ayuda:hover {
+    color: #000;
+}
+
+/* Contenedor del botón */
+.caja-botones {
+    text-align: right;    /* Alineado a la derecha */
+}
+
+/* --- ESTILO DEL BOTÓN SIGUIENTE --- */
+#btn-siguiente-ayuda {
+    font-size: 18px;          /* Letra del botón más grande */
+    font-weight: bold;
+    padding: 10px 25px;       /* Botón más "gordo" y fácil de clicar */
+
+    /* CAMBIO DE COLOR (Azul Oscuro "Navy") */
+    background-color: #a92727;
+    color: #ffffff;           /* Texto blanco */
+    border: 2px solid #a92727;
+    border-radius: 5px;
+    transition: background 0.3s; /* Efecto suave al pasar el ratón */
+}
+
+/* Efecto al pasar el ratón por encima del botón */
+#btn-siguiente-ayuda:hover {
+    background-color: #ac2925; /* Se oscurece un poco al tocarlo */
+    cursor: pointer;
 }
