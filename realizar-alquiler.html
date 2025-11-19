@@ -10,6 +10,12 @@
     <link href="css/custom.css" rel="stylesheet">
 </head>
 <body class="comprar">
+
+    <div class="big-mode-container">
+    <input type="checkbox" id="big-mode-toggle" hidden>
+    <label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>
+    <div class="page-content">
+
     <!-- NAVBAR -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -59,7 +65,10 @@
                  <!-- COCHE 1 -->
                 <div >
                     <h4><strong>Peugeot 5008 GT (2021)</strong></h4>
-                    €85 / Día | Modelo 1<br>
+                    <div class="item-header">
+                        €85 / Día | Modelo 1<br>
+                        <button type="button" class="btn btn-primary btn-danger btn-small eliminar-item" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
+                    </div>
                     <div class="form-control" >Descripción</div>
                 </div>
 
@@ -88,37 +97,52 @@
                         <h3>Datos Personales</h3>
                         <div class="form-group">
                             <label>Nombre *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="nombre" name="nombre" required >
+                            <div class="help-block error obligatorio" >
+                                Por favor, introduce tu nombre.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Apellidos *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="apellidos" name="apellido" required >
+                            <div class="help-block error obligatorio" >
+                                Por favor, introduce tus apellidos.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Dirección *</label>
-                            <input class="form-control" >
+                            <input class="form-control" id="direccion" name="direccion" required>
+                            <div class="help-block error obligatorio">
+                                Por favor, introduce tu dirección.
+                            </div>
                         </div>
 
                     </div>
 
                     <div class="col-md-6">
+                        <div class="form-group" >
                         <label><br><br><br>Método de pago *</label>
-                        <select class="form-control">
-                            <option>Seleccione...</option>
-                            <option>Google Pay</option>
-                            <option>Visa</option>
-                            <option>Paypal</option>
+                        <select class="form-control" id="metodoPago" name="metodoPago" required>
+                            <option  value="">Seleccione...</option>
+                            <option value="googlepay">Google Pay</option>
+                            <option value="visa">Visa</option>
+                            <option value="paypal">Paypal</option>
                         </select><br>
-
+                             <div class="help-block error obligatorio" >
+                            Por favor, selecciona un método de pago.
+                        </div>
+                        </div>
 
 
                     </div>
                 </div>
 
                 <!-- BOTONES -->
-                <div class="text-center">
-                   <br><a href="alq.html" class="btn btn-primary volveratras">Volver atrás</a>
-                    <a class="btn btn-primary btn-lg" href="alquiler-confirmado.html">Confirmar Alquiler</a>
+                <div class="flex-container">
+                   <a class="btn btn-primary volveratras"  data-toggle="modal" data-target="#cancelModal">Volver atrás</a>
+                    <button id="btnConfirmar" type="button" class="btn btn-primary btn-lg">
+                    Confirmar Alquiler
+                </button>
 
 
 
@@ -142,6 +166,57 @@
         </div>
     </footer>
 
+<div class="modal fade" id="cancelModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="cancelModalLabel">Volver Atrás</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas cancelar el alquiler? Los datos introducidos se perderán
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="alquilar.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Confirmar Alquiler</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que toda la información es correcta?
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a href="alquiler-confirmado.html" class="btn btn-primary btn-lg ">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="deleteModalLabel">Eliminar coche</h4>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar el coche seleccionado? Esta acción no se podrá deshacer
+      </div>
+      <div class="modal-footer flex-container">
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
+        <a class="btn btn-primary btn-lg " data-dismiss="modal">Confirmar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="js/jquery-1.11.3.min.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
@@ -149,5 +224,11 @@
     <script src="js/jquery.easing.min.js"></script>
 
     <script src="js/custom.js"></script>
+
+    <script src="js/validation.js"></script>
+
+
+        </div>
+    </div>
 </body>
 </html>

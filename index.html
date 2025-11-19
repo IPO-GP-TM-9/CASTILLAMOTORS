@@ -12,7 +12,6 @@ Although you can use them, for a more unique website, replace these images with 
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Castilla Motors</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -32,6 +31,25 @@ Although you can use them, for a more unique website, replace these images with 
 </head>
 
 <body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>CASTILLA MOTORS</h1>
+                <p>Los mejores coches en toda Castilla-La Mancha.</p>
+                <a href="#empieza" class="btn btn-primary btn-lg">Empieza Ya</a>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="big-mode-container">
+    <input type="checkbox" id="big-mode-toggle" hidden>
+    <input type="checkbox" id="daltone-toggle" hidden>
+    <!--<label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>-->
+    <div class="page-content">
+
 
     <!-- Navigation -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,6 +81,19 @@ Although you can use them, for a more unique website, replace these images with 
 							<li><a href="mantenimiento.html">Mantenimiento</a></li>
 						</ul>
 					</li>
+                    <li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuración <span class="caret"></span></a>
+						<ul class="dropdown-menu" aria-labelledby="about-us">
+                            <li>
+                                <label for="big-mode-toggle">
+                                    Cambiar tamaño de texto
+                                </label>
+                                <label for="daltone-toggle">
+                                    Modo daltónico
+                                </label>
+                            </li>
+                        </ul>
+					</li>
                     <li>
                         <a href="#contacto">Contacto</a>
                     </li>
@@ -71,17 +102,6 @@ Although you can use them, for a more unique website, replace these images with 
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav>
-
-	<!-- Header -->
-    <header>
-        <div class="header-content">
-            <div class="header-content-inner">
-                <h1>CASTILLA MOTORS</h1>
-                <p>Los mejores coches en toda Castilla-La Mancha.</p>
-                <a href="#empieza" class="btn btn-primary btn-lg">Empieza Ya</a>
-            </div>
-        </div>
-    </header>
 
 	<!-- Intro Section -->
     <section class="intro">
@@ -191,6 +211,9 @@ Although you can use them, for a more unique website, replace these images with 
     	<span class="glyphicon glyphicon-comment"></span>
     </a>
 
+
+    </div>
+</div>
 
 </body>
 

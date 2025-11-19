@@ -15,6 +15,12 @@
 </head>
 
 <body class="comprar">
+
+    <div class="big-mode-container">
+    <input type="checkbox" id="big-mode-toggle" hidden>
+    <label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>
+    <div class="page-content">
+
     <!-- NAVBAR -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -114,7 +120,8 @@
                         <div style="margin-top: 10px;">
                             <a href="video-comprar.html" class="btn btn-link" id="enlace-ayuda">¿Necesitas ayuda?</a>
                         </div>
-</div>
+                    </div>
+
 
                 </div>
             </div>
@@ -154,6 +161,25 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
     <script src="js/custom.js"></script>
+
+
+         </div>
+    </div>
+
+    <div class="modal fade" id="confirmModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Coche seleccionado con éxito</h4>
+      </div>
+      <div class="modal-footer flex-container">
+
+        <a class="btn btn-primary btn-lg " data-dismiss="modal" >OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </body>
 
