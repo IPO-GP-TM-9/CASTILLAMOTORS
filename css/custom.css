@@ -677,6 +677,23 @@ color: black;
     background-color: #77181E;
 }
 
+.inicio{
+    border-color: white;
+    color: white;
+    background-color: transparent;
+}
+
+.inicio:hover,
+.inicio:focus,
+.inicio.focus,
+.inicio:active,
+.inicio.active,
+.open > .dropdown-toggle.btn-primary {
+    border-color: white;
+    color: black;
+    background-color: white;
+}
+
 
 /* =========================================
    BOTÓN FLOTANTE A+ (modo texto grande)
@@ -881,6 +898,7 @@ color: black;
 #daltone-toggle:checked ~ .page-content .btn-primary,
 #daltone-toggle:checked ~ .page-content .btn btn-lg
 #daltone-toggle:checked ~ .page-content .precio,
+#daltone-toggle:checked ~ .page-content .chatbot,
 #daltone-toggle:checked ~ .page-content .page-footer .contact {
     color: #ffffff !important;
     background-color: #56B4E9 !important;
