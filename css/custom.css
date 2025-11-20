@@ -657,25 +657,29 @@ color: #c9302c;
 color: black;
 }
 
-.seleccionar{
-    border-color: #A92727;
-    color: #fff;
-    background-color: #A92727;
-    -webkit-transition: all .35s;
-    -moz-transition: all .35s;
-    transition: all .35s;
+/* NO activo + NO hover = rojo claro */
+.seleccionar {
+    background-color: #A92727 !important;
+    border-color: #A92727 !important;
+    color: white !important;
 }
 
-.seleccionar:hover,
-.seleccionar:focus,
-.seleccionar.focus,
-.seleccionar:active,
-.seleccionar.active,
-.open > .dropdown-toggle.btn-primary {
-    border-color: #77181E;
-    color: #fff;
-    background-color: #77181E;
+/* NO activo + hover = rojo oscuro */
+.seleccionar:hover {
+    background-color: #77181E !important;
+    border-color: #77181E !important;
+    color: white !important;
 }
+
+/* ACTIVO + NO hover = rojo oscuro */
+.seleccionar.active,
+.seleccionar:active,
+.open > .dropdown-toggle.seleccionar {
+    background-color: #77181E !important;
+    border-color: #77181E !important;
+    color: white !important;
+}
+
 
 .inicio{
     border-color: white;
@@ -689,9 +693,9 @@ color: black;
 .inicio:active,
 .inicio.active,
 .open > .dropdown-toggle.btn-primary {
-    border-color: white;
+    border-color: #A92727;
     color: black;
-    background-color: white;
+    background-color: #A92727;
 }
 
 
@@ -902,10 +906,7 @@ color: black;
 #daltone-toggle:checked ~ .page-content .page-footer .contact {
     color: #ffffff !important;
     background-color: #56B4E9 !important;
-}
-
-#daltone-toggle:checked ~ .navbar-default .navbar-header .navbar-brand {
-    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
 }
 
 #daltone-toggle:checked ~ .page-content .btn-primary:hover,
@@ -945,6 +946,12 @@ color: black;
     color: #56B4E9;
 }
 
+#daltone-toggle:checked ~ .page-content .precio_coche{
+    margin-top: 0;
+    color: #56B4E9;
+    font-weight: bold;
+}
+
 #daltone-toggle:checked ~ .page-content .navbar-default .navbar-header .navbar-brand:hover,
 #daltone-toggle:checked ~ .page-content .navbar-default .navbar-header .navbar-brand:focus {
     color: #56B4E9;
@@ -970,6 +977,30 @@ color: black;
 
 #daltone-toggle:checked ~ .page-content .lead {
     color: #0072B2;
+}
+
+
+/* NO activo + NO hover = azul claro */
+#daltone-toggle:checked ~ .page-content .seleccionar {
+    background-color: #56B4E9 !important;
+    border-color: #56B4E9 !important;
+    color: white !important;
+}
+
+/* NO activo + hover = azul oscuro */
+#daltone-toggle:checked ~ .page-content .seleccionar:hover {
+    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
+    color: white !important;
+}
+
+/* ACTIVO + NO hover = azul oscuro */
+#daltone-toggle:checked ~ .page-content .seleccionar.active,
+#daltone-toggle:checked ~ .page-content .seleccionar:active,
+#daltone-toggle:checked ~ .page-content .open > .dropdown-toggle.seleccionar {
+    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
+    color: white !important;
 }
 
 
