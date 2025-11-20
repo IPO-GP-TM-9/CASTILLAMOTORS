@@ -69,7 +69,7 @@ $(document).ready(function() {
                 audio: "audio/audio4.mp3"
             },
             {
-                texto: "Si decide añadirlo para la compra, debe pinchar en el botón de seleccionar a su derecha.",
+                texto: "Si decide añadirlo para la compra, debe pinchar en el botón de seleccionar a la derecha del modelo 3D.",
                 audio: "audio/audio5.mp3",
                 esperarAccion: true,
                 selectorAccion: "#btn-seleccionar"
@@ -102,40 +102,44 @@ $(document).ready(function() {
         // NOTA: Asegúrate de crear los archivos de audio correspondientes o reutilizar los existentes
         const guiaFichaAlquiler = [
             {
-                texto: "A tu izquierda puedes ver el modelo 3D disponible para alquilar por días.",
-                audio: "audio/audio2.mp3" // Reutilizado o cambia a audio_alq_1.mp3
+                texto: "A tu izquierda puedes interactuar con el modelado 3D del coche que has seleccionado, para ver cada mínimo detalle.",
+                audio: "audio/audio2.mp3"
             },
             {
-                texto: "A la derecha verás el precio por día y las condiciones del alquiler.",
-                audio: "audio/audio3.mp3" // Reutilizado o cambia a audio_alq_2.mp3
+                texto: "A la derecha del modelo 3D tenemos las principales características del coche seleccionado.",
+                audio: "audio/audio3.mp3"
             },
             {
-                texto: "Si decides alquilar este vehículo, pulsa el botón de seleccionar a su derecha.",
-                audio: "audio/audio5.mp3",
+                texto: "También podemos leer una breve descripción del coche seleccionado, situada en la parte inferior.",
+                audio: "audio/audio4.mp3"
+            },
+            {
+                texto: "Si decide añadirlo para el alquiler, debe pinchar en el botón de seleccionar a la derecha del modelo 3D.",
+                audio: "audio/audio11.mp3",
                 esperarAccion: true,
-                selectorAccion: "#btn-seleccionar" // Asegúrate que en el HTML de alquiler el botón tenga este ID
+                selectorAccion: "#btn-seleccionar"
             },
             {
-                texto: "¡Perfecto! El coche se ha añadido a la reserva. Volvamos al catálogo de alquiler.",
-                audio: "audio/audio6.mp3"
+                texto: "Genial! Sigamos con el proceso de alquilar, volvemos al catalogo.",
+                audio: "audio/audio12.mp3"
             }
         ];
 
         const guiaCatalogoAlquiler = [
             {
-                texto: "Para finalizar la reserva de los vehículos, pinchamos en el botón de tramitar alquiler.",
-                audio: "audio/audio7.mp3"
+                texto: "Si desea realizar el alquiler de los coches seleccionados, pinchamos el botón de alquilar seleccionados.",
+                audio: "audio/audio13.mp3"
             }
         ];
 
         const guiaFormularioAlquiler = [
             {
-                texto: "Por favor, rellena el formulario con tus datos personales y la fecha de devolución.",
-                audio: "audio/audio8.mp3"
+                texto: "A continuación tienes que rellenar las fechas en que deseas el alquiler del vehículo y un formulario con los datos de nombre, apellidos, dirección y método de pago, para poder tener su información del alquiler.",
+                audio: "audio/audio14.mp3"
             },
             {
-                texto: "Pulsa en confirmar alquiler para finalizar la reserva.",
-                audio: "audio/audio9.mp3"
+                texto: "Podemos clicar en el botón de confirmar alquiler para que tus datos y el alquiler sean tramitados.",
+                audio: "audio/audio15.mp3"
             }
         ];
 
