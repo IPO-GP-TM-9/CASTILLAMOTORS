@@ -678,9 +678,9 @@ color: black;
 }
 
 .inicio{
-    border-color: black;
+    border-color: white;
     color: white;
-    background-color: black;
+    background-color: transparent;
 }
 
 .inicio:hover,
