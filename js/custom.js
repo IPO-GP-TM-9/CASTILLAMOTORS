@@ -2,7 +2,9 @@
 
 $(document).ready(function() {
 
-    // --- CONFIGURACIÓN BÁSICA ---
+    // ==========================================
+    // 1. CONFIGURACIÓN BÁSICA Y UTILIDADES
+    // ==========================================
     $('#siteNav').affix({ offset: { top: 100 } });
 
     function pausarMedia(media) {
@@ -21,146 +23,221 @@ $(document).ready(function() {
         }
     }
 
-    // --- AUDIO BIENVENIDA ---
+    // --- AUDIO BIENVENIDA (General) ---
     const audio0 = $('#audioBienvenida').get(0);
     if (audio0) {
         reproducirMedia(audio0);
         $('#btn-empezar-compra').on('click', function() { pausarMedia(audio0); });
     }
 
-    // --- LÓGICA INTELIGENTE DE AYUDA ---
+    // ==========================================
+    // 2. LÓGICA DE AYUDA INTELIGENTE
+    // ==========================================
     const urlParams = new URLSearchParams(window.location.search);
     const tieneAyuda = urlParams.get('ayuda') === 'true';
 
     if (tieneAyuda) {
-
-        // 1. GESTIÓN DE ENLACES (Mantiene la ayuda activa al cambiar de página)
-        // Si estamos en modo ayuda, añadimos "?ayuda=true" a los botones de navegación
-
-        // En la ficha del coche: Botón "Volver al Catálogo"
-        $('#btn-volver-catalogo').attr('href', 'comprar.html?ayuda=true');
-
-        // En el catálogo: Botón "Confirmar" del Modal
-        $('#btn-confirmar-modal').attr('href', 'realizar-compra.html?ayuda=true');
-
-
-        // 2. SELECCIÓN DE CONTENIDO SEGÚN PÁGINA
-        let pasosGuia = [];
         const urlActual = window.location.href;
 
-        // --- CASO A: FICHA DEL COCHE (Tus textos originales restaurados) ---
+        // --- A. GESTIÓN DE ENLACES (Mantiene la ayuda activa) ---
+        // Detectamos si estamos en la sección "alquilar" o "comprar" para dirigir los botones correctamente
+
+        if (urlActual.indexOf("alquilar") > -1) {
+            // Estamos en proceso de ALQUILER
+            $('#btn-volver-catalogo').attr('href', 'alquilar.html?ayuda=true');
+            $('#btn-confirmar-modal').attr('href', 'realizar-alquiler.html?ayuda=true');
+        } else {
+            // Estamos en proceso de COMPRA (Por defecto)
+            $('#btn-volver-catalogo').attr('href', 'comprar.html?ayuda=true');
+            $('#btn-confirmar-modal').attr('href', 'realizar-compra.html?ayuda=true');
+        }
+
+        // --- B. DEFINICIÓN DE PASOS (DATOS) ---
+
+        // >>> TUTORIALES DE COMPRA <<<
+        const guiaFichaCompra = [
+            {
+                texto: "A tu izquierda puedes interactuar con el modelado 3D del coche que has seleccionado, para ver cada mínimo detalle.",
+                audio: "audio/audio2.mp3"
+            },
+            {
+                texto: "A la derecha del modelo 3D tenemos las principales características del coche seleccionado.",
+                audio: "audio/audio3.mp3"
+            },
+            {
+                texto: "También podemos leer una breve descripción del coche seleccionado, situada en la parte inferior.",
+                audio: "audio/audio4.mp3"
+            },
+            {
+                texto: "Si decide añadirlo para la compra, debe pinchar en el botón de seleccionar a su derecha.",
+                audio: "audio/audio5.mp3",
+                esperarAccion: true,
+                selectorAccion: "#btn-seleccionar"
+            },
+            {
+                texto: "Genial! Sigamos con el proceso de comprar, volvemos al catalogo.",
+                audio: "audio/audio6.mp3"
+            }
+        ];
+
+        const guiaCatalogoCompra = [
+            {
+                texto: "Si desea realizar la compra de los coches seleccionados, pinchamos el botón de comprar seleccionados.",
+                audio: "audio/audio7.mp3"
+            }
+        ];
+
+        const guiaFormularioCompra = [
+            {
+                texto: "A continuación tienes que rellenar un formulario con los datos de nombre, apellidos, dirección y método de pago, para poder tener su información de la compra.",
+                audio: "audio/audio8.mp3"
+            },
+            {
+                texto: "Podemos clicar en el botón de confirmar compra para que tus datos y la compra sean tramitados.",
+                audio: "audio/audio9.mp3"
+            }
+        ];
+
+        // >>> TUTORIALES DE ALQUILER (Nuevos) <<<
+        // NOTA: Asegúrate de crear los archivos de audio correspondientes o reutilizar los existentes
+        const guiaFichaAlquiler = [
+            {
+                texto: "A tu izquierda puedes ver el modelo 3D disponible para alquilar por días.",
+                audio: "audio/audio2.mp3" // Reutilizado o cambia a audio_alq_1.mp3
+            },
+            {
+                texto: "A la derecha verás el precio por día y las condiciones del alquiler.",
+                audio: "audio/audio3.mp3" // Reutilizado o cambia a audio_alq_2.mp3
+            },
+            {
+                texto: "Si decides alquilar este vehículo, pulsa el botón de seleccionar a su derecha.",
+                audio: "audio/audio5.mp3",
+                esperarAccion: true,
+                selectorAccion: "#btn-seleccionar" // Asegúrate que en el HTML de alquiler el botón tenga este ID
+            },
+            {
+                texto: "¡Perfecto! El coche se ha añadido a la reserva. Volvamos al catálogo de alquiler.",
+                audio: "audio/audio6.mp3"
+            }
+        ];
+
+        const guiaCatalogoAlquiler = [
+            {
+                texto: "Para finalizar la reserva de los vehículos, pinchamos en el botón de tramitar alquiler.",
+                audio: "audio/audio7.mp3"
+            }
+        ];
+
+        const guiaFormularioAlquiler = [
+            {
+                texto: "Por favor, rellena el formulario con tus datos personales y la fecha de devolución.",
+                audio: "audio/audio8.mp3"
+            },
+            {
+                texto: "Pulsa en confirmar alquiler para finalizar la reserva.",
+                audio: "audio/audio9.mp3"
+            }
+        ];
+
+
+        // --- C. ENRUTADOR (ROUTER) ---
+        // Decide qué guía cargar según la URL actual
+
+        // 1. Rutas de COMPRA
         if (urlActual.indexOf("video-comprar.html") > -1 || urlActual.indexOf("comprar1.html") > -1) {
-            pasosGuia = [
-                {
-                    texto: "A tu izquierda puedes interactuar con el modelado 3D del coche que has seleccionado, para ver cada mínimo detalle.",
-                    audio: "audio/audio2.mp3"
-                },
-                {
-                    texto: "A la derecha del modelo 3D tenemos las principales características del coche seleccionado.",
-                    audio: "audio/audio3.mp3"
-                },
-                {
-                    texto: "También podemos leer una breve descripción del coche seleccionado, situada en la parte inferior.",
-                    audio: "audio/audio4.mp3"
-                },
-                {
-                    // Interacción: Clic en botón rojo "Seleccionar"
-                    texto: "Si decide añadirlo para la compra, debe pinchar en el botón de seleccionar a su derecha.",
-                    audio: "audio/audio5.mp3",
-                    esperarAccion: true,
-                    selectorAccion: "#btn-seleccionar"
-                },
-                {
-                    texto: "Genial! Sigamos con el proceso de comprar, volvemos al catalogo.",
-                    audio: "audio/audio6.mp3"
-                    // Aquí el usuario pulsará manualmente "Volver al catálogo"
-                }
-            ];
+            iniciarMotorTutorial(guiaFichaCompra);
         }
-
-        // --- CASO B: CATÁLOGO (comprar.html) ---
         else if (urlActual.indexOf("comprar.html") > -1) {
-            pasosGuia = [
-                {
-                    texto: "Si desea realizar la compra de los coches seleccionados , pinchamos el botón de comprar seleccionados.",
-                    audio: "audio/audio7.mp3"
-                }
-            ];
+            iniciarMotorTutorial(guiaCatalogoCompra);
         }
-
-        // --- CASO C: FORMULARIO (realizar-compra.html) ---
         else if (urlActual.indexOf("realizar-compra.html") > -1) {
-            pasosGuia = [
-                {
-                    texto: "A continuación tienes que rellenar un formulario con los datos de nombre, apellidos, dirección y método de pago , para poder tener su información de la compra.",
-                    audio: "audio/audio8.mp3"
-                },
-                {
-                    texto: "Podemos clicar en el botón de confirmar compra para que tus datos y la compra sean tramitados.",
-                    audio: "audio/audio9.mp3"
-                }
-            ];
+            iniciarMotorTutorial(guiaFormularioCompra);
+        }
+
+        // 2. Rutas de ALQUILER
+        else if (urlActual.indexOf("video-alquilar.html") > -1 || urlActual.indexOf("alquilar1.html") > -1) {
+            iniciarMotorTutorial(guiaFichaAlquiler);
+        }
+        else if (urlActual.indexOf("alquilar.html") > -1) {
+            iniciarMotorTutorial(guiaCatalogoAlquiler);
+        }
+        else if (urlActual.indexOf("realizar-alquiler.html") > -1) {
+            iniciarMotorTutorial(guiaFormularioAlquiler);
         }
 
 
-        // 3. MOTOR DE LA GUÍA (Lógica común)
-        if (pasosGuia.length === 0) return;
+        // --- D. MOTOR DEL TUTORIAL (Lógica) ---
+        function iniciarMotorTutorial(pasosGuia) {
+            if (!pasosGuia || pasosGuia.length === 0) return;
 
-        let pasoActualIndex = 0;
-        let audioGuiaActual = null;
+            let pasoActualIndex = 0;
+            let audioGuiaActual = null;
 
-        function cargarPaso(indice) {
-            if (audioGuiaActual !== null) {
-                audioGuiaActual.pause(); audioGuiaActual.currentTime = 0; audioGuiaActual = null;
-            }
-
-            const paso = pasosGuia[indice];
-            $('#contenido-ayuda').text(paso.texto);
-            audioGuiaActual = new Audio(paso.audio);
-            reproducirMedia(audioGuiaActual);
-
-            const btnSiguiente = $('#btn-siguiente-ayuda');
-            if (paso.selectorAccion) $(paso.selectorAccion).off('click.guia');
-
-            // Lógica de botones
-            if (paso.esperarAccion === true && paso.selectorAccion) {
-                btnSiguiente.hide(); // Ocultar botón azul
-
-                // Esperar clic externo
-                $(paso.selectorAccion).one('click.guia', function() {
-                    pasoActualIndex++;
-                    if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
-                });
-            } else if (indice >= pasosGuia.length - 1) {
-                btnSiguiente.hide();
-            } else {
-                btnSiguiente.show();
-            }
-        }
-
-        // HTML CAJA
-        $('body').append(`
-            <div id="caja-ayuda-flotante">
-                <span id="cerrar-ayuda" class="glyphicon glyphicon-remove"></span>
-                <strong>Guía Rápida</strong>
-                <p id="contenido-ayuda"></p>
-                <div class="caja-botones">
-                    <button id="btn-siguiente-ayuda" class="btn btn-info">Siguiente <span class="glyphicon glyphicon-chevron-right"></span></button>
+            // Inyectar HTML de la caja
+            $('body').append(`
+                <div id="caja-ayuda-flotante">
+                    <span id="cerrar-ayuda" class="glyphicon glyphicon-remove"></span>
+                    <strong>Guía Rápida</strong>
+                    <p id="contenido-ayuda"></p>
+                    <div class="caja-botones">
+                        <button id="btn-siguiente-ayuda" class="btn btn-info">Siguiente <span class="glyphicon glyphicon-chevron-right"></span></button>
+                    </div>
                 </div>
-            </div>
-        `);
+            `);
 
-        setTimeout(() => cargarPaso(0), 500);
+            function cargarPaso(indice) {
+                // Limpiar audio anterior
+                if (audioGuiaActual !== null) {
+                    audioGuiaActual.pause();
+                    audioGuiaActual.currentTime = 0;
+                    audioGuiaActual = null;
+                }
 
-        $('#btn-siguiente-ayuda').on('click', () => {
-            pasoActualIndex++;
-            if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
-        });
+                const paso = pasosGuia[indice];
+                $('#contenido-ayuda').text(paso.texto);
 
-        $('#cerrar-ayuda').on('click', () => {
-            $('#caja-ayuda-flotante').remove();
-            if (audioGuiaActual) audioGuiaActual.pause();
-            $(document).off('click.guia');
-        });
+                // Crear y reproducir nuevo audio
+                audioGuiaActual = new Audio(paso.audio);
+                reproducirMedia(audioGuiaActual);
+
+                const btnSiguiente = $('#btn-siguiente-ayuda');
+
+                // Limpiar eventos previos
+                if (paso.selectorAccion) $(paso.selectorAccion).off('click.guia');
+
+                // Lógica de avance (Botón vs Acción usuario)
+                if (paso.esperarAccion === true && paso.selectorAccion) {
+                    btnSiguiente.hide(); // Ocultamos botón "Siguiente"
+
+                    // Esperamos a que el usuario haga clic en el elemento indicado
+                    $(paso.selectorAccion).one('click.guia', function() {
+                        pasoActualIndex++;
+                        if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
+                    });
+                } else {
+                    // Mostrar u ocultar botón "Siguiente" según si es el final
+                    if (indice >= pasosGuia.length - 1) {
+                        btnSiguiente.hide();
+                    } else {
+                        btnSiguiente.show();
+                    }
+                }
+            }
+
+            // Iniciar primer paso con un pequeño retardo
+            setTimeout(() => cargarPaso(0), 500);
+
+            // Eventos de la caja flotante
+            $('#btn-siguiente-ayuda').on('click', () => {
+                pasoActualIndex++;
+                if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
+            });
+
+            $('#cerrar-ayuda').on('click', () => {
+                $('#caja-ayuda-flotante').remove();
+                if (audioGuiaActual) audioGuiaActual.pause();
+                $(document).off('click.guia');
+            });
+        }
     }
 });
