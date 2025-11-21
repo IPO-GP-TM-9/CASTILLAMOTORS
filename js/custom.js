@@ -31,6 +31,55 @@ $(document).ready(function() {
     }
 
     // ==========================================
+    // 1.5 MODO DALTÓNICO (CON CAMBIO DE LOGO)
+    // ==========================================
+    const $toggleDaltonico = $('#daltone-toggle');
+
+    // 1. Definimos el logo y las rutas de las imágenes
+    const $logoWeb = $('#logo-web');
+    const rutaLogoNormal = 'images/logo_horizontal.png';      // Tu logo rojo original
+    const rutaLogoDaltonico = 'images/logo_horizontal_dalt.png'; // NOMBRE DE TU LOGO AZUL (¡Créalo si no existe!)
+
+    // Función para activar
+    function activarDaltonismo() {
+        $('body').addClass('daltonico-mode');
+        // Cambiamos la imagen al logo azul
+        if ($logoWeb.length) {
+            $logoWeb.attr('src', rutaLogoDaltonico);
+        }
+    }
+
+    // Función para desactivar
+    function desactivarDaltonismo() {
+        $('body').removeClass('daltonico-mode');
+        // Restauramos la imagen al logo original
+        if ($logoWeb.length) {
+            $logoWeb.attr('src', rutaLogoNormal);
+        }
+    }
+
+    // A. Comprobar memoria al cargar la página
+    if (localStorage.getItem('modoDaltonico') === 'activado') {
+        activarDaltonismo();
+        if ($toggleDaltonico.length) {
+            $toggleDaltonico.prop('checked', true);
+        }
+    }
+
+    // B. Escuchar cambios en el interruptor
+    if ($toggleDaltonico.length) {
+        $toggleDaltonico.on('change', function() {
+            if (this.checked) {
+                activarDaltonismo();
+                localStorage.setItem('modoDaltonico', 'activado');
+            } else {
+                desactivarDaltonismo();
+                localStorage.setItem('modoDaltonico', 'desactivado');
+            }
+        });
+    }
+
+    // ==========================================
     // 2. LÓGICA DE AYUDA INTELIGENTE
     // ==========================================
     const urlParams = new URLSearchParams(window.location.search);

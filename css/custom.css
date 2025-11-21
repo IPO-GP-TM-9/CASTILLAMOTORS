@@ -1091,4 +1091,66 @@ body {
     color: white !important;
 }
 
+/* ==================================================
+   CORRECCIÓN INTEGRADA MODO DALTÓNICO - VERSIÓN FINAL
+   (Precios, Chatbot, Ayuda, Modales y Botón Empezar)
+   ================================================== */
+
+/* 1. TEXTOS LEGIBLES (Azul Oscuro #0072B2)
+   Afecta a: Precios, Enlace "¿Necesitas ayuda?" y Título "Guía Rápida" */
+body.daltonico-mode .precio,
+body.daltonico-mode .precio_coche,
+body.daltonico-mode .lead,
+body.daltonico-mode #enlace-ayuda,
+body.daltonico-mode #caja-ayuda-flotante strong,
+body.daltonico-mode #cerrar-ayuda {
+    color: #0072B2 !important;
+}
+
+/* 2. BOTONES PRINCIPALES (Fondo Azul Celeste #56B4E9)
+   Afecta a: Chatbot, Confirmar, Siguiente (Ayuda) y EMPEZAR A COMPRAR */
+body.daltonico-mode #chatbot-toggle,
+body.daltonico-mode .confirmar,
+body.daltonico-mode .pull-right .btn,
+body.daltonico-mode #btn-siguiente-ayuda,
+body.daltonico-mode #btn-empezar-compra {       /* <--- AÑADIDO AQUÍ */
+    background-color: #56B4E9 !important;
+    border-color: #56B4E9 !important;
+    color: #ffffff !important;
+}
+
+/* 3. HOVER DE BOTONES (Al pasar el ratón -> Azul Oscuro #0072B2) */
+body.daltonico-mode #chatbot-toggle:hover,
+body.daltonico-mode .confirmar:hover,
+body.daltonico-mode .pull-right .btn:hover,
+body.daltonico-mode #btn-siguiente-ayuda:hover,
+body.daltonico-mode #btn-siguiente-ayuda:focus,
+body.daltonico-mode #btn-empezar-compra:hover,  /* <--- AÑADIDO AQUÍ */
+body.daltonico-mode #btn-empezar-compra:focus {
+    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
+    color: #ffffff !important;
+}
+
+/* ==================================================
+   CORRECCIÓN ESTABILIDAD LOGO (RESPETA DIMENSIONES)
+   ================================================== */
+
+.navbar-brand img {
+    /* 1. Forzamos el ancho original que tenías en el HTML */
+    width: 150px !important;
+
+    /* 2. Dejamos que la altura se calcule sola para no deformar la imagen */
+    height: auto !important;
+
+    /* 3. Trucos para evitar que "baile" o se mueva de sitio */
+    display: inline-block !important;
+    vertical-align: middle !important; /* Lo centra verticalmente en la barra */
+    margin: 0 !important;
+    padding: 0 !important;
+
+    /* 4. Evita que se salga de la barra si la imagen azul tiene mucho espacio vacío */
+    max-height: 80px; /* Un límite seguro para la barra de navegación */
+    object-fit: contain;
+}
 
