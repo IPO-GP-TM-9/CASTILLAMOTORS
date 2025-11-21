@@ -46,10 +46,12 @@ $(document).ready(function() {
             // Estamos en proceso de ALQUILER
             $('#btn-volver-catalogo').attr('href', 'alquilar.html?ayuda=true');
             $('#btn-confirmar-modal').attr('href', 'realizar-alquiler.html?ayuda=true');
-        } else {
+        } else if(urlActual.indexOf("comprar") > -1) {
             // Estamos en proceso de COMPRA (Por defecto)
             $('#btn-volver-catalogo').attr('href', 'comprar.html?ayuda=true');
             $('#btn-confirmar-modal').attr('href', 'realizar-compra.html?ayuda=true');
+        } else {
+
         }
 
         // --- B. DEFINICIÓN DE PASOS (DATOS) ---
