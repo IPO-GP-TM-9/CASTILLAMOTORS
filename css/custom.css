@@ -813,51 +813,75 @@ body {
   transform: scale(1.05);
 }
 /* =========================================
-   MODO TEXTO GRANDE LIMPIO
+   MODO TEXTO GRANDE LIMPIO (BODY CLASS)
    ========================================= */
 
-/* Escalar todo salvo header y chatbot */
-#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) {
+/* 1. Textos generales y Layout */
+body.big-mode-active .page-content > :not(#chatbot-toggle) {
     font-size: 1.25em;
     line-height: 1.6;
 }
 
-/* Textos generales dentro de esas secciones */
-#big-mode-toggle:checked ~ .page-content > * p,
-#big-mode-toggle:checked ~ .page-content > * a,
-#big-mode-toggle:checked ~ .page-content > * li,
-#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) span {
-    font-size: 1.5em;
+body.big-mode-active p,
+body.big-mode-active a,
+body.big-mode-active li,
+body.big-mode-active span {
+    font-size: 1.1em;
 }
 
-/* Sección encabezados grandes */
-#big-mode-toggle:checked ~ .page-content > * .section-header,
-#big-mode-toggle:checked ~ .page-content > * h2.section-heading {
+/* 2. Encabezados */
+body.big-mode-active .section-header,
+body.big-mode-active h2.section-heading {
     font-size: 2.4em;
     line-height: 1.3;
 }
 
-/* Botones normales (excluyendo el chatbot) */
-#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) .btn,
-#big-mode-toggle:checked ~ .page-content > :not(#chatbot-toggle) button {
+body.big-mode-active h3 { font-size: 1.6em !important; }
+body.big-mode-active h4 { font-size: 1.45em !important; }
+
+/* 3. Botones y Navegación */
+body.big-mode-active .btn,
+body.big-mode-active button {
     font-size: 1.2em;
     padding: 18px 30px;
 }
 
-/* Navbar y footer */
-#big-mode-toggle:checked ~ .page-content > * .navbar,
-#big-mode-toggle:checked ~ .page-content > * footer {
+body.big-mode-active .navbar,
+body.big-mode-active footer {
     font-size: 1.15em;
 }
 
+/* =========================================
+   4. ESTILOS PARA CAJA FLOTANTE (JS)
+   ========================================= */
+/* Al tener la clase en el body, esto afecta a la caja en cuanto se crea */
 
-#big-mode-toggle:checked ~ .page-content h3 {
-    font-size: 1.6em !important;
+body.big-mode-active #caja-ayuda-flotante {
+    width: 450px !important;    /* Más ancha para que quepa el texto grande */
+    max-width: 95vw;            /* Seguridad para móviles */
+    padding: 25px !important;   /* Más espacio interior */
+    font-size: 1.3em !important; /* Fuente base de la caja */
 }
 
+body.big-mode-active #caja-ayuda-flotante strong {
+    font-size: 1.4em !important; /* Título de la guía más grande */
+    display: block;
+    margin-bottom: 15px;
+}
 
-#big-mode-toggle:checked ~ .page-content h4 {
-    font-size: 1.45em !important;
+body.big-mode-active #caja-ayuda-flotante p {
+    font-size: 1.1em !important;
+    line-height: 1.5;
+}
+
+body.big-mode-active #caja-ayuda-flotante button {
+    font-size: 1em !important; /* El botón dentro de la caja */
+    padding: 10px 20px !important;
+}
+
+body.big-mode-active #cerrar-ayuda {
+    font-size: 1.5em !important; /* La "X" de cerrar más grande */
+    padding: 10px;
 }
 
 .page-content {

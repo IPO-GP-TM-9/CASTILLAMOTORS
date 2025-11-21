@@ -1,6 +1,36 @@
-/* Contenido completo para js/custom.js */
-
 $(document).ready(function() {
+
+    // ==========================================
+    // 0. MODO TEXTO GRANDE (Persistente)
+    // ==========================================
+    const $toggleBigMode = $('#big-mode-toggle');
+    const storageKeyBigMode = 'bigTextMode';
+
+    // Función para activar/desactivar
+    function aplicarModoGrande(activo) {
+        if (activo) {
+            $('body').addClass('big-mode-active');
+            localStorage.setItem(storageKeyBigMode, 'true');
+        } else {
+            $('body').removeClass('big-mode-active');
+            localStorage.setItem(storageKeyBigMode, 'false');
+        }
+    }
+
+    // A. Comprobar memoria al cargar la página
+    if (localStorage.getItem(storageKeyBigMode) === 'true') {
+        aplicarModoGrande(true);
+        if ($toggleBigMode.length) {
+            $toggleBigMode.prop('checked', true);
+        }
+    }
+
+    // B. Escuchar cambios en el interruptor (checkbox)
+    if ($toggleBigMode.length) {
+        $toggleBigMode.on('change', function() {
+            aplicarModoGrande(this.checked);
+        });
+    }
 
     // ==========================================
     // 1. CONFIGURACIÓN BÁSICA Y UTILIDADES
@@ -37,13 +67,12 @@ $(document).ready(function() {
 
     // 1. Definimos el logo y las rutas de las imágenes
     const $logoWeb = $('#logo-web');
-    const rutaLogoNormal = 'images/logo_horizontal.png';      // Tu logo rojo original
-    const rutaLogoDaltonico = 'images/logo_horizontal_dalt.png'; // NOMBRE DE TU LOGO AZUL (¡Créalo si no existe!)
+    const rutaLogoNormal = 'images/logo_horizontal.png';       // Tu logo rojo original
+    const rutaLogoDaltonico = 'images/logo_horizontal_dalt.png'; // NOMBRE DE TU LOGO AZUL
 
     // Función para activar
     function activarDaltonismo() {
         $('body').addClass('daltonico-mode');
-        // Cambiamos la imagen al logo azul
         if ($logoWeb.length) {
             $logoWeb.attr('src', rutaLogoDaltonico);
         }
@@ -52,7 +81,6 @@ $(document).ready(function() {
     // Función para desactivar
     function desactivarDaltonismo() {
         $('body').removeClass('daltonico-mode');
-        // Restauramos la imagen al logo original
         if ($logoWeb.length) {
             $logoWeb.attr('src', rutaLogoNormal);
         }
@@ -89,14 +117,10 @@ $(document).ready(function() {
         const urlActual = window.location.href;
 
         // --- A. GESTIÓN DE ENLACES (Mantiene la ayuda activa) ---
-        // Detectamos si estamos en la sección "alquilar" o "comprar" para dirigir los botones correctamente
-
         if (urlActual.indexOf("alquilar") > -1) {
-            // Estamos en proceso de ALQUILER
             $('#btn-volver-catalogo').attr('href', 'alquilar.html?ayuda=true');
             $('#btn-confirmar-modal').attr('href', 'realizar-alquiler.html?ayuda=true');
         } else if(urlActual.indexOf("comprar") > -1) {
-            // Estamos en proceso de COMPRA (Por defecto)
             $('#btn-volver-catalogo').attr('href', 'comprar.html?ayuda=true');
             $('#btn-confirmar-modal').attr('href', 'realizar-compra.html?ayuda=true');
         } else {
@@ -104,7 +128,6 @@ $(document).ready(function() {
         }
 
         // --- B. DEFINICIÓN DE PASOS (DATOS) ---
-
         // >>> TUTORIALES DE COMPRA <<<
         const guiaFichaCompra = [
             {
@@ -149,8 +172,7 @@ $(document).ready(function() {
             }
         ];
 
-        // >>> TUTORIALES DE ALQUILER (Nuevos) <<<
-        // NOTA: Asegúrate de crear los archivos de audio correspondientes o reutilizar los existentes
+        // >>> TUTORIALES DE ALQUILER <<<
         const guiaFichaAlquiler = [
             {
                 texto: "A tu izquierda puedes interactuar con el modelado 3D del coche que has seleccionado, para ver cada mínimo detalle.",
@@ -219,11 +241,7 @@ $(document).ready(function() {
             }
         ];
 
-
         // --- C. ENRUTADOR (ROUTER) ---
-        // Decide qué guía cargar según la URL actual
-
-        // 1. Rutas de COMPRA
         if (urlActual.indexOf("video-comprar.html") > -1 || urlActual.indexOf("comprar1.html") > -1) {
             iniciarMotorTutorial(guiaFichaCompra);
         }
@@ -233,8 +251,6 @@ $(document).ready(function() {
         else if (urlActual.indexOf("realizar-compra.html") > -1) {
             iniciarMotorTutorial(guiaFormularioCompra);
         }
-
-        // 2. Rutas de ALQUILER
         else if (urlActual.indexOf("video-alquilar.html") > -1 || urlActual.indexOf("alquilar1.html") > -1) {
             iniciarMotorTutorial(guiaFichaAlquiler);
         }
@@ -251,7 +267,6 @@ $(document).ready(function() {
             iniciarMotorTutorial(guiaFormularioMantenimiento);
         }
 
-
         // --- D. MOTOR DEL TUTORIAL (Lógica) ---
         function iniciarMotorTutorial(pasosGuia) {
             if (!pasosGuia || pasosGuia.length === 0) return;
@@ -259,7 +274,7 @@ $(document).ready(function() {
             let pasoActualIndex = 0;
             let audioGuiaActual = null;
 
-            // Inyectar HTML de la caja
+            // Inyectar HTML de la caja (JS la crea dinámicamente)
             $('body').append(`
                 <div id="caja-ayuda-flotante">
                     <span id="cerrar-ayuda" class="glyphicon glyphicon-remove"></span>
@@ -272,7 +287,6 @@ $(document).ready(function() {
             `);
 
             function cargarPaso(indice) {
-                // Limpiar audio anterior
                 if (audioGuiaActual !== null) {
                     audioGuiaActual.pause();
                     audioGuiaActual.currentTime = 0;
@@ -282,26 +296,20 @@ $(document).ready(function() {
                 const paso = pasosGuia[indice];
                 $('#contenido-ayuda').text(paso.texto);
 
-                // Crear y reproducir nuevo audio
                 audioGuiaActual = new Audio(paso.audio);
                 reproducirMedia(audioGuiaActual);
 
                 const btnSiguiente = $('#btn-siguiente-ayuda');
 
-                // Limpiar eventos previos
                 if (paso.selectorAccion) $(paso.selectorAccion).off('click.guia');
 
-                // Lógica de avance (Botón vs Acción usuario)
                 if (paso.esperarAccion === true && paso.selectorAccion) {
-                    btnSiguiente.hide(); // Ocultamos botón "Siguiente"
-
-                    // Esperamos a que el usuario haga clic en el elemento indicado
+                    btnSiguiente.hide();
                     $(paso.selectorAccion).one('click.guia', function() {
                         pasoActualIndex++;
                         if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
                     });
                 } else {
-                    // Mostrar u ocultar botón "Siguiente" según si es el final
                     if (indice >= pasosGuia.length - 1) {
                         btnSiguiente.hide();
                     } else {
@@ -310,10 +318,8 @@ $(document).ready(function() {
                 }
             }
 
-            // Iniciar primer paso con un pequeño retardo
             setTimeout(() => cargarPaso(0), 500);
 
-            // Eventos de la caja flotante
             $('#btn-siguiente-ayuda').on('click', () => {
                 pasoActualIndex++;
                 if (pasoActualIndex < pasosGuia.length) cargarPaso(pasoActualIndex);
