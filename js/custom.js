@@ -51,7 +51,7 @@ $(document).ready(function() {
             $('#btn-volver-catalogo').attr('href', 'comprar.html?ayuda=true');
             $('#btn-confirmar-modal').attr('href', 'realizar-compra.html?ayuda=true');
         } else {
-
+            $('#btn-confirmar-modal').attr('href', 'formu-mant.html?ayuda=true');
         }
 
         // --- B. DEFINICIÓN DE PASOS (DATOS) ---
@@ -145,6 +145,31 @@ $(document).ready(function() {
             }
         ];
 
+        const guiaMantenimiento = [
+            {
+                texto: "En esta primera pantalla, podemos ver los mantenimientos disponibles que puede contratar.",
+                audio: "audio/audio16.mp3"
+            },
+            {
+                texto: "Si desea realizar algún mantenimiento, selecciona el cuadrado a la izquierda de seleccionar.",
+                audio: "audio/audio17.mp3"
+            }
+        ];
+        const guiaFormularioMantenimiento = [
+            {
+                texto: "A continuación tienes que rellenar el apartado de comentario en cada mantenimiento seleccionado.",
+                audio: "audio/audio18.mp3"
+            },
+            {
+                texto: "Ahora tienes que rellenar un formulario con los datos de nombre, apellidos, dirección y método de pago obligatorios y el teléfono como opcional, para poder tener su información del mantenimiento.",
+                audio: "audio/audio18.mp3"
+            },
+            {
+                texto: "Por último podemos clicar en el botón de confirmar reserva para que tus datos y el mantenimiento sean tramitados.",
+                audio: "audio/audio19.mp3"
+            }
+        ];
+
 
         // --- C. ENRUTADOR (ROUTER) ---
         // Decide qué guía cargar según la URL actual
@@ -169,6 +194,12 @@ $(document).ready(function() {
         }
         else if (urlActual.indexOf("realizar-alquiler.html") > -1) {
             iniciarMotorTutorial(guiaFormularioAlquiler);
+        }
+        else if (urlActual.indexOf("mantenimiento.html") > -1){
+            iniciarMotorTutorial(guiaMantenimiento);
+        }
+        else if(urlActual.indexOf("formu-mant.html") > -1){
+            iniciarMotorTutorial(guiaFormularioMantenimiento);
         }
 
 
