@@ -32,7 +32,6 @@ Although you can use them, for a more unique website, replace these images with 
 
 <body>
 
-
     <!-- Header -->
     <header>
         <div class="header-content">
@@ -49,8 +48,30 @@ Although you can use them, for a more unique website, replace these images with 
     <input type="checkbox" id="big-mode-toggle" hidden>
     <input type="checkbox" id="daltone-toggle" hidden>
 
+
     <!--<label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>-->
     <div class="page-content">
+
+<div id="google_translate_element"></div>
+
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {pageLanguage: 'es', includedLanguages: 'en,fr,de,es'},
+      'google_translate_element'
+    );
+  }
+
+  function traducir(lang) {
+    var combo = document.querySelector(".goog-te-combo");
+    if (combo) {
+      combo.value = lang;
+      combo.dispatchEvent(new Event("change"));
+    }
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
     <!-- Navigation -->
@@ -84,18 +105,26 @@ Although you can use them, for a more unique website, replace these images with 
 						</ul>
 					</li>
                     <li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuración <span class="caret"></span></a>
-						<ul class="dropdown-menu" aria-labelledby="about-us">
-                            <li>
-                                <label for="big-mode-toggle">
-                                    Cambiar tamaño de texto
-                                </label>
-                                <label for="daltone-toggle">
-                                    Modo daltónico
-                                </label>
-                            </li>
-                        </ul>
-					</li>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    Configuración <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="about-us">
+    <li>
+      <label for="big-mode-toggle">Cambiar tamaño de texto</label>
+      <label for="daltone-toggle">Modo daltónico</label>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="#" onclick="traducir('en')">Traducir al inglés</a>
+    </li>
+    <li>
+      <a href="#" onclick="traducir('fr')">Traducir al francés</a>
+    </li>
+    <li>
+      <a href="#" onclick="traducir('de')">Traducir al alemán</a>
+    </li>
+  </ul>
+</li>
                     <li>
                         <a href="#contacto">Contacto</a>
                     </li>
@@ -216,7 +245,6 @@ Although you can use them, for a more unique website, replace these images with 
 
     </div>
 </div>
-
 </body>
 
 </html>
