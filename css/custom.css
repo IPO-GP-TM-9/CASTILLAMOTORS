@@ -1117,7 +1117,7 @@ body.big-mode-active #cerrar-ayuda {
 
 /* ==================================================
    CORRECCIÓN INTEGRADA MODO DALTÓNICO - VERSIÓN FINAL
-   (Precios, Chatbot, Ayuda, Modales y Botón Empezar)
+   (Precios, Chatbot, Ayuda, Modales, Eliminar y Footer Vídeos)
    ================================================== */
 
 /* 1. TEXTOS LEGIBLES (Azul Oscuro #0072B2)
@@ -1127,18 +1127,21 @@ body.daltonico-mode .precio_coche,
 body.daltonico-mode .lead,
 body.daltonico-mode #enlace-ayuda,
 body.daltonico-mode #caja-ayuda-flotante strong,
-body.daltonico-mode #cerrar-ayuda {
+body.daltonico-mode #cerrar-ayuda,
+body.daltonico-mode .navbar-default .nav > li.open > a,   /* FIX: Menú abierto (Servicios) */
+body.daltonico-mode .navbar-default .nav > li.active > a { /* FIX: Menú activo (Servicios) */
     color: #0072B2 !important;
 }
 
 /* 2. BOTONES PRINCIPALES (Fondo Azul Celeste #56B4E9)
-   Afecta a: Chatbot, Confirmar, Siguiente (Ayuda) y EMPEZAR A COMPRAR */
+   Afecta a: Chatbot, Confirmar, Siguiente, Empezar, OK Modal y ELIMINAR */
 body.daltonico-mode #chatbot-toggle,
 body.daltonico-mode .confirmar,
 body.daltonico-mode .pull-right .btn,
 body.daltonico-mode #btn-siguiente-ayuda,
 body.daltonico-mode #btn-empezar-compra,
-body.daltonico-mode .modal-footer .btn {        /* <--- AÑADIDO: Botón OK del Modal */
+body.daltonico-mode .modal-footer .btn,
+body.daltonico-mode .eliminar-item {           /* FIX: Botón Eliminar */
     background-color: #56B4E9 !important;
     border-color: #56B4E9 !important;
     color: #ffffff !important;
@@ -1152,11 +1155,20 @@ body.daltonico-mode #btn-siguiente-ayuda:hover,
 body.daltonico-mode #btn-siguiente-ayuda:focus,
 body.daltonico-mode #btn-empezar-compra:hover,
 body.daltonico-mode #btn-empezar-compra:focus,
-body.daltonico-mode .modal-footer .btn:hover,    /* <--- AÑADIDO: Hover Botón OK del Modal */
-body.daltonico-mode .modal-footer .btn:focus {
+body.daltonico-mode .modal-footer .btn:hover,
+body.daltonico-mode .modal-footer .btn:focus,
+body.daltonico-mode .eliminar-item:hover {     /* FIX: Hover Botón Eliminar */
     background-color: #0072B2 !important;
     border-color: #0072B2 !important;
     color: #ffffff !important;
+}
+
+/* 4. FOOTER Y CONTACTO (Fondo Azul Oscuro #0072B2)
+   FIX: Reforzado para que funcione en todas las páginas */
+body.daltonico-mode .page-footer .contact,
+body.daltonico-mode .contact {
+    background-color: #0072B2 !important;
+    color: #fff !important;
 }
 
 /* ==================================================
