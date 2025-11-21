@@ -233,11 +233,11 @@ $(document).ready(function() {
             },
             {
                 texto: "Ahora tienes que rellenar un formulario con los datos de nombre, apellidos, dirección y método de pago obligatorios y el teléfono como opcional, para poder tener su información del mantenimiento.",
-                audio: "audio/audio18.mp3"
+                audio: "audio/audio19.mp3"
             },
             {
                 texto: "Por último podemos clicar en el botón de confirmar reserva para que tus datos y el mantenimiento sean tramitados.",
-                audio: "audio/audio19.mp3"
+                audio: "audio/audio20.mp3"
             }
         ];
 

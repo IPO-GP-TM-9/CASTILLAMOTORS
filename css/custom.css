@@ -610,7 +610,7 @@ img::-moz-selection {
 
 /* --- ESTILO DEL BOTÓN SIGUIENTE --- */
 #btn-siguiente-ayuda {
-    font-size: 18px;          /* Letra del botón más grande */
+    font-size: 18px;           /* Letra del botón más grande */
     font-weight: bold;
     padding: 10px 25px;       /* Botón más "gordo" y fácil de clicar */
 
@@ -995,7 +995,7 @@ body.big-mode-active #cerrar-ayuda {
     clear: both;
     font-weight: 420;
     line-height: 1.42857143;
-    color: #2c2c2c;               /* color del link normal */
+    color: #2c2c2c;                /* color del link normal */
     white-space: nowrap;
     cursor: pointer;           /* cambia el cursor como un enlace */
     text-decoration: none;     /* quitar subrayado */
@@ -1083,7 +1083,7 @@ body.big-mode-active #cerrar-ayuda {
 #daltone-toggle:checked ~ .page-content .btn.btn-default.btn-lg:hover,
 #daltone-toggle:checked ~ .page-content .btn.btn-default.btn-lg:focus {
     background-color: #0072B2 !important; /* azul claro accesible */
-    border-color: #0072B2 !important;     /* azul fuerte */
+    border-color: #0072B2 !important;      /* azul fuerte */
     color: #fff !important;               /* texto blanco */
 }
 
@@ -1137,7 +1137,8 @@ body.daltonico-mode #chatbot-toggle,
 body.daltonico-mode .confirmar,
 body.daltonico-mode .pull-right .btn,
 body.daltonico-mode #btn-siguiente-ayuda,
-body.daltonico-mode #btn-empezar-compra {       /* <--- AÑADIDO AQUÍ */
+body.daltonico-mode #btn-empezar-compra,
+body.daltonico-mode .modal-footer .btn {        /* <--- AÑADIDO: Botón OK del Modal */
     background-color: #56B4E9 !important;
     border-color: #56B4E9 !important;
     color: #ffffff !important;
@@ -1149,8 +1150,10 @@ body.daltonico-mode .confirmar:hover,
 body.daltonico-mode .pull-right .btn:hover,
 body.daltonico-mode #btn-siguiente-ayuda:hover,
 body.daltonico-mode #btn-siguiente-ayuda:focus,
-body.daltonico-mode #btn-empezar-compra:hover,  /* <--- AÑADIDO AQUÍ */
-body.daltonico-mode #btn-empezar-compra:focus {
+body.daltonico-mode #btn-empezar-compra:hover,
+body.daltonico-mode #btn-empezar-compra:focus,
+body.daltonico-mode .modal-footer .btn:hover,    /* <--- AÑADIDO: Hover Botón OK del Modal */
+body.daltonico-mode .modal-footer .btn:focus {
     background-color: #0072B2 !important;
     border-color: #0072B2 !important;
     color: #ffffff !important;
@@ -1177,4 +1180,3 @@ body.daltonico-mode #btn-empezar-compra:focus {
     max-height: 80px; /* Un límite seguro para la barra de navegación */
     object-fit: contain;
 }
-
