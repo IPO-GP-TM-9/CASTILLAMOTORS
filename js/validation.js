@@ -19,11 +19,11 @@ $(document).ready(function () {
 
       if (value === "") {
         $error.show();
-        $field.css("border-color", "red");
+        $field.addClass("campo-error");      // ← AÑADIDO
         valido = false;
       } else {
         $error.hide();
-        $field.css("border-color", "");
+        $field.removeClass("campo-error");   // ← AÑADIDO
       }
     });
 

@@ -1192,3 +1192,14 @@ body.daltonico-mode .contact {
     max-height: 80px; /* Un límite seguro para la barra de navegación */
     object-fit: contain;
 }
+
+
+.campo-error {
+    border: 2px solid red !important;
+
+}
+
+.daltonico-mode .campo-error {
+    border-color: #0072B2 !important; /* azul accesible */
+
+}
