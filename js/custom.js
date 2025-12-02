@@ -1,5 +1,48 @@
 $(document).ready(function() {
+    // ==========================================
+    // PARTE NUEVA: GENERAR CATÁLOGO (10 COCHES)
+    // ==========================================
+    // Esto se ejecuta primero para crear el HTML necesario
 
+    const catalogoCoches = [
+        { marca: "Peugeot", modelo: "5008", desc: "2.0 BlueHDi 180 CV, 10000 km.", precio: "45.900", img: "images/peugeot-5008.jpg" },
+        { marca: "Toyota", modelo: "Corolla", desc: "Híbrido 140H, 5000 km.", precio: "28.500", img: "images/corolla.webp" },
+        { marca: "Ford", modelo: "Focus", desc: "1.0 EcoBoost, 45000 km.", precio: "18.200", img: "images/focus.webp" },
+        { marca: "Audi", modelo: "A3", desc: "Sportback 35 TFSI, 60000 km.", precio: "24.900", img: "images/audia3.webp" },
+        { marca: "BMW", modelo: "Serie 1", desc: "118i M Sport, 15000 km.", precio: "32.000", img: "images/bmwserie1.jpg" },
+        { marca: "Lexus", modelo: "RX500h F Sport", desc: "5.0 V8 371 CV, 80000 km.", precio: "70.500", img: "images/lexus.jpg" }
+    ];
+
+    const $grid = $('#grid-coches');
+    if ($grid.length) {
+        $grid.empty(); // Limpiar mensaje de carga
+        catalogoCoches.forEach((coche, index) => {
+            // CAMBIOS:
+            // 1. Panel height fijado a 420px para que todas las cajas sean iguales.
+            // 2. Imagen height fijado a 200px con object-fit cover.
+            // 3. Eliminado botón seleccionar.
+            const html = `
+                <div class="col-sm-6 col-md-4" style="margin-bottom:30px;">
+                    <div class="panel panel-default text-center" style="height: 420px; overflow: hidden; position: relative;">
+                        <div class="panel-heading" style="height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <h3 style="margin:0; font-size: 18px;">${coche.marca} ${coche.modelo}</h3>
+                        </div>
+                        <div class="panel-body" style="padding:0;">
+                            <div class="img-container" style="height: 200px; width: 100%; overflow: hidden; background: #eee;">
+                                <img src="${coche.img}" alt="${coche.marca}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 15px;">
+                                <p style="height: 40px; overflow: hidden;">${coche.desc}</p>
+                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precio}€**</p>
+                                <a href="detalle.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $grid.append(html);
+        });
+    }
     // ==========================================
     // 0. MODO TEXTO GRANDE (Persistente)
     // ==========================================
