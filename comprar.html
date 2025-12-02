@@ -17,10 +17,10 @@
     </head>
 
 <body class="comprar">
-
+    <div id="virtual-cursor"></div>
     <div class="big-mode-container">
-    <input type="checkbox" id="big-mode-toggle" hidden>
-   <input type="checkbox" id="daltone-toggle" hidden>
+    <input type="checkbox" id="big-mode-toggle" hidden tabindex="-1">
+   <input type="checkbox" id="daltone-toggle" hidden tabindex="-1">
     <div class="page-content">
 
 <div id="google_translate_element"></div>
@@ -56,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.html" >
                 	<img id="logo-web" src="images/logo_horizontal.png" width="150">
                 </a>
             </div>
@@ -203,6 +203,7 @@
     	<span class="glyphicon glyphicon-comment"></span>
     </a>
 
+    <script src="js/mando.js"></script>
 <div class="modal fade" id="confirmModal" >
   <div class="modal-dialog">
     <div class="modal-content">

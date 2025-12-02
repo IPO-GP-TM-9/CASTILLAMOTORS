@@ -1203,3 +1203,212 @@ body.daltonico-mode .contact {
     border-color: #0072B2 !important; /* azul accesible */
 
 }
+
+.button:focus, .a:focus, .input:focus {
+    outline: 4px solid #ff0055; /* Borde grueso y colorido */      /* El botón crece un poco */
+    background-color: yellow;   /* Cambia de color */
+    transition: 0.2s;           /* Animación suave */
+}
+
+
+ /* CURSOR VIRTUAL */
+    #virtual-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;           /* Hace el círculo perfecto */
+  border: 2px solid #dd2222;    /* Borde rojo fuerte */
+  background: rgba(220, 38, 38, 0.4); /* Rojo semitransparente */
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+#virtual-cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #dd2222;          /* Centro rojo sólido */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+/* =========================================
+   INTEGRACIÓN GAMEPAD (HOVER + FOCUS)
+   ========================================= */
+
+/* 1. Quitar el recuadro azul feo por defecto */
+button:focus, a:focus, input:focus, select:focus, textarea:focus {
+    outline: none;
+}
+
+/* 2. Enlaces generales (verde bosque al enfocar) */
+a.gamepad-hover, a:focus {
+    color: #77181E !important; /* Mismo que tu a:hover */
+    text-decoration: none;
+}
+
+/* 3. Botones Primary (Rojo oscuro al enfocar) */
+.btn-primary.gamepad-hover, .btn-primary:focus {
+    background-color: #77181E !important;
+    border-color: #77181E !important;
+    color: #fff !important;
+}
+
+/* 4. Botones Default (Gris al enfocar) */
+.btn-default.gamepad-hover, .btn-default:focus {
+    background-color: #eee !important;
+    border-color: #eee !important;
+    color: #222 !important;
+}
+
+/* 5. Items de Promo (Borde blanco y zoom) */
+.promo-item.gamepad-hover, .promo-item:focus {
+    background-size: 110%;
+    border: 10px solid rgba(255,255,255,0.3);
+    line-height: 160px;
+    /* Importante: tabindex debe estar en el HTML del div para que el foco funcione */
+}
+
+/* 6. Botón "Seleccionar" (Rojo/Azul oscuro según modo) */
+.seleccionar.gamepad-hover, .seleccionar:focus {
+    background-color: #77181E ;
+    border-color: #77181E;
+    color: white !important;
+}
+
+/* 7. Chatbot Toggle (Rojo más oscuro y zoom) */
+#chatbot-toggle.gamepad-hover, #chatbot-toggle:focus {
+    background-color: #c9302c !important;
+    border-color: #ac2925 !important;
+    color: #ffffff !important;
+    transform: scale(1.1);
+}
+
+/* 8. Soporte para Modo Daltónico (Azul) */
+body.daltonico-mode .btn-primary.gamepad-hover,
+body.daltonico-mode .btn-primary:focus,
+body.daltonico-mode .seleccionar.gamepad-hover,
+body.daltonico-mode .seleccionar:focus {
+    background-color: #0072B2!important;
+    border-color: #0072B2 !important;
+    color: #fff !important;
+}
+
+/* --- BARRA DE NAVEGACIÓN: SOLUCIÓN FINAL --- */
+
+/* Forzamos el estilo a CUALQUIER enlace que esté dentro de la barra */
+.navbar-default .nav > li > a:focus,
+.navbar-default .nav > li > a.gamepad-hover {
+
+
+    /* 2. Fondo semitransparente para que se note mucho más */
+    background-color: rgba(255, 0, 0, 0.05) !important;
+
+    /* 3. Bordes redondeados para que quede elegante */
+    border-radius: 5px !important;
+
+    /* 4. Aseguramos que no haya otros bordes molestando */
+    outline: none !important;
+    border: none !important;
+
+    /* 5. Evitamos cambios de tamaño */
+    transform: none !important;
+
+
+}
+
+/* --- REGLA UNIVERSAL PARA MENU + LOGO --- */
+
+/* Enlaces del menú (li > a) Y TAMBIÉN el logo (.navbar-brand) */
+.navbar-default .nav > li > a:focus,
+.navbar-default .nav > li > a.gamepad-hover,
+.navbar-default .navbar-brand:focus,       /* <--- AÑADIDO: Para el logo con teclado/cruceta */
+.navbar-default .navbar-brand.gamepad-hover /* <--- AÑADIDO: Para el logo con cursor mando */
+{
+    /* El mismo estilo que ya funcionaba */
+
+    background-color: rgba(255, 0, 0, 0.05) !important;
+    border-radius: 5px !important;
+    outline: none !important;
+    border: none !important;
+    transform: none !important;
+}
+
+/* =========================================
+   SOPORTE DALTÓNICO PARA NAVBAR Y LOGO
+   ========================================= */
+
+/* Cuando el body tiene la clase .daltonico-mode... */
+body.daltonico-mode .navbar-default .nav > li > a:focus,
+body.daltonico-mode .navbar-default .nav > li > a.gamepad-hover,
+body.daltonico-mode .navbar-default .navbar-brand:focus,
+body.daltonico-mode .navbar-default .navbar-brand.gamepad-hover {
+
+    /* Cambiamos el recuadro rojo por AZUL (#0072B2 o el que uses) */
+
+
+    /* Fondo azul muy suave */
+    background-color: rgba(0, 114, 178, 0.1) !important;
+
+    /* Texto azul */
+
+}
+
+/* También cambiamos el cursor virtual a azul si quieres coherencia total */
+body.daltonico-mode #virtual-cursor {
+    border-color: #0072B2 !important;
+    background: rgba(0, 114, 178, 0.4) !important;
+}
+body.daltonico-mode #virtual-cursor::after {
+    background: #0072B2 !important;
+}
+
+body.daltonico-mode a.gamepad-hover,
+body.daltonico-mode a:focus {
+    color: #0072B2 !important;
+    text-decoration: none;
+}
+
+/* --- ESTILOS PARA LABELS DEL MENÚ (Configuración) --- */
+
+/* Quitamos el borde negro y ponemos el texto rojo al enfocar */
+.dropdown-menu label:focus,
+.dropdown-menu label.gamepad-hover {
+    outline: none !important;       /* Adiós borde negro */
+    color: #77181E!important;      /* Texto rojo marca */
+    background-color: #f5f5f5;      /* Un fondo gris suave (opcional, queda mejor) */
+    text-decoration: none;
+}
+
+/* SOPORTE MODO DALTÓNICO (para que estos también cambien a azul) */
+body.daltonico-mode .dropdown-menu label:focus,
+body.daltonico-mode .dropdown-menu label.gamepad-hover {
+    color: #0072B2 !important;      /* Texto azul */
+    background-color: rgba(0, 114, 178, 0.1);
+}
+
+/* 8. Soporte para Modo Daltónico (Azul más oscuro al enfocar) */
+/* 8. VERSIÓN FUERZA BRUTA - Soporte Daltónico Oscuro */
+
+/* --- SOPORTE MODO DALTÓNICO (FUERZA MÁXIMA) --- */
+
+/* --- MODO DALTÓNICO: Hover del mando --- */
+body.daltonico-mode .seleccionar.gamepad-hover,
+body.daltonico-mode .seleccionar:focus,
+body.daltonico-mode .btn-primary.gamepad-hover,
+body.daltonico-mode .btn-primary:focus,
+body.daltonico-mode #chatbot-toggle.gamepad-hover,
+body.daltonico-mode #chatbot-toggle:focus {
+    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
+    color: white !important;
+}
+
+
