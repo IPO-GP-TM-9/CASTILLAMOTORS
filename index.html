@@ -138,7 +138,7 @@ Although you can use them, for a more unique website, replace these images with 
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2 class="section-heading">|Bienvenido!</h2>
+                    <h2 class="section-heading">¡Bienvenido!</h2>
                     <p class="text-light">Bienvenido a Castilla Motors, donde la confianza y la calidad van de la mano. Descubre nuestra amplia gama de vehículos nuevos y de ocasión, con las mejores condiciones del mercado.</p>
                 </div>
             </div>
@@ -205,6 +205,21 @@ Although you can use them, for a more unique website, replace these images with 
                     <video id="video" autoplay playsinline class= "btncenter" style="width:100%;max-width:480px;border:1px solid #ccc;"></video>
 
                     <!-- incluye el script (qrcode se cargará automáticamente si hace falta) -->
+                    <br>
+                    <!--formulario de matrícula y acción -->
+                  <p class="center">O introduce una matrícula</p>
+                  <div class="center" style="margin-top:20px;">
+                    <input type="text" id="matricula" placeholder="1111AAA"
+                           style="padding:8px;border:1px solid #ccc;border-radius:4px;">
+
+                    <select id="accion" style="padding:8px;border:1px solid #ccc;border-radius:4px;margin-left:8px;">
+                      <option value="comprar">Comprar</option>
+                      <option value="alquilar">Alquilar</option>
+                    </select>
+
+                    <button id="btnIr" class="btn btn-primary btn-lg" style="margin-left:8px;">Ir</button>
+                  </div>
+
                     <script src="/js/qr-camera.js"></script>
                     <script>
                       // asocia botones (llamadas simples)
@@ -213,8 +228,19 @@ Although you can use them, for a more unique website, replace these images with 
 
                       // opcional: mostrar QR automáticamente al cargar
                       // document.addEventListener('DOMContentLoaded', () => QRCamera.showCurrentPageQr());
-                    </script>
+                      // redirección según matrícula y acción
+                      document.getElementById('btnIr').addEventListener('click', function() {
+                        const matricula = document.getElementById('matricula').value.trim();
+                        const accion = document.getElementById('accion').value;
+                        if(matricula) {
+                          const url = matricula + accion + ".html";
+                          window.location.href = url;
+                        } else {
+                          alert("Por favor, introduce una matrícula.");
+                        }
+                      });
 
+                    </script>
     </section>
     
 	<!-- Footer -->

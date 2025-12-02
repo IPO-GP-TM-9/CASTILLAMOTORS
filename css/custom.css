@@ -791,6 +791,15 @@ body {
     justify-content: center;
 }
 
+input[type="text"], select {
+  color: #000;              /* texto negro */
+  background-color: #fff;   /* fondo blanco */
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+
 .btncenter {
   display: block;
   margin: 0 auto; /* centra horizontalmente */
