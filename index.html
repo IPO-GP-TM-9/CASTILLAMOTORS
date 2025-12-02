@@ -179,6 +179,7 @@ Although you can use them, for a more unique website, replace these images with 
         </div>
     </section>
 
+    <!-- Content 3 -->
     <section class="content">
         <div class="container">
             <div class="row">
@@ -195,10 +196,26 @@ Although you can use them, for a more unique website, replace these images with 
         </div>
     </section>
 
+	<!-- Content 4 -->
+    <section class="content content-2">
+                    <h2 class="center">¿Ya sabes lo que buscas?</h2>
+                	<p class="center">Activa la cámara y escanea un código QR</p>
+                    <button id="btnCam" class="btn btn-default btn-lg btncenter" >Activar cámara</button>
+                    <br>
+                    <video id="video" autoplay playsinline class= "btncenter" style="width:100%;max-width:480px;border:1px solid #ccc;"></video>
 
+                    <!-- incluye el script (qrcode se cargará automáticamente si hace falta) -->
+                    <script src="/js/qr-camera.js"></script>
+                    <script>
+                      // asocia botones (llamadas simples)
+                      QRCamera.attachCameraToButton('btnCam', 'video', undefined, true, true);
+                      QRCamera.attachQrToButton('btnQr', 220);
 
-	<!-- Content 3 -->
+                      // opcional: mostrar QR automáticamente al cargar
+                      // document.addEventListener('DOMContentLoaded', () => QRCamera.showCurrentPageQr());
+                    </script>
 
+    </section>
     
 	<!-- Footer -->
     <footer class="page-footer">
