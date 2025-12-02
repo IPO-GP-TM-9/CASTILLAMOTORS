@@ -786,6 +786,38 @@ body {
   top: 0px !important; /* evita el desplazamiento hacia abajo */
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+input[type="text"], select {
+  color: #000;              /* texto negro */
+  background-color: #fff;   /* fondo blanco */
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+
+.btncenter {
+  display: block;
+  margin: 0 auto; /* centra horizontalmente */
+}
+
+@media (min-width: 480px) {
+  /* si quieres centrar también verticalmente como overlay */
+  .qr-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    z-index: 9999;
+  }
+  .qr-overlay .qr-center { margin: 0; } /* cuando esté dentro del overlay */
+}
 
 /* =========================================
    BOTÓN FLOTANTE A+ (modo texto grande)

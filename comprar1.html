@@ -187,6 +187,22 @@
                 </div>
             </div>
 
+            <br><br>
+            <h3 class="section-heading center">Código QR</h3>
+            <p class="center" >¡Guárdalo para volver a este coche!</p>
+
+            <div id="qrcode" class="center"></div>
+            <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+            <script>
+              // QR de la página actual (URL completa)
+              new QRCode(document.getElementById('qrcode'), {
+                text: window.location.href,
+                width: 200,
+                height: 200
+              });
+            </script>
+
+
         </div>
     </section>
     <!-- FOOTER -->
