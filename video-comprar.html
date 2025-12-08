@@ -158,5 +158,29 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
-    <script src="js/custom.js"></script></body>
+    <script src="js/custom.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            // 1. Buscamos en la memoria del navegador el último coche visto
+            var idGuardado = localStorage.getItem('cocheActivo');
+
+            console.log("ID recuperado de memoria para el botón: " + idGuardado);
+
+            // 2. Si no hay nada guardado (null), usamos el ID 0 por defecto para que no falle
+            if (idGuardado === null) {
+                idGuardado = 0;
+            }
+
+            // 3. Modificamos el botón rojo para que apunte a ese ID
+            var $btn = $('#btn-empezar-compra');
+
+            // Resultado: comprar1.html?id=2&ayuda=true
+            var nuevoLink = "comprar1.html?id=" + idGuardado + "&ayuda=true";
+
+            $btn.attr('href', nuevoLink);
+        });
+    </script>
+
+</body>
 </html>

@@ -108,48 +108,88 @@ $(document).ready(function() {
 
     // LOGICA DE FICHA DE DETALLE (comprar1.html)
     // ==========================================
-    if ($('#detalle-titulo').length) {
+   if ($('#detalle-titulo').length) {
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+    const urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    const modoAyuda = urlParams.get('ayuda');
 
-        if (id !== null && catalogoCoches[id]) {
-            const coche = catalogoCoches[id];
-
-            // Rellenar textos
-            $('#detalle-titulo').text(coche.marca + ' ' + coche.modelo);
-            $('#detalle-subtitulo').text(coche.desc);
-            $('#detalle-precio').text(coche.precio + '€');
-
-            // Descripción corta lateral
-            $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}. Disponible en Castilla Motors.`);
-
-            // AQUÍ INYECTAMOS LA DESCRIPCIÓN EXTENSA EN EL FONDO DE LA PÁGINA
-            if (coche.desc_extensa) {
-                $('#descripcion-extensa-texto').html(coche.desc_extensa);
-            } else {
-                $('#descripcion-extensa-texto').html('<p>Información detallada no disponible para este modelo.</p>');
-            }
-
-            // Lógica 3D vs Imagen
-            // Si el coche tiene un link en 'modelo3d', mostramos el iframe
-            if (coche.modelo_3d && coche.modelo_3d.length > 5) {
-                $('#iframe-3d').attr('src', coche.modelo_3d);
-                $('#contenedor-3d').show(); // Mostrar 3D
-                $('#contenedor-img').hide(); // Ocultar foto estática
-            } else {
-                // Si no tiene 3D, mostramos la foto normal
-                $('#detalle-imagen').attr('src', coche.img);
-                $('#contenedor-3d').hide();
-                $('#contenedor-img').show();
-            }
-
+    // === PARTE MÁGICA DE MEMORIA ===
+    // Si la URL trae un ID, lo guardamos en la memoria del navegador.
+    if (id !== null) {
+        localStorage.setItem('cocheActivo', id);
+        console.log("Coche guardado en memoria: " + id);
+    }
+    // Si NO trae ID (porque venimos de ayuda rota), intentamos recuperarlo de la memoria.
+    else if (modoAyuda === 'true') {
+        const idMemorizado = localStorage.getItem('cocheActivo');
+        if (idMemorizado !== null) {
+            id = idMemorizado; // ¡Recuperado!
+            console.log("Coche recuperado de memoria: " + id);
         } else {
-            $('#detalle-titulo').text("Vehículo no encontrado");
-            $('#contenedor-img').hide();
-            $('#contenedor-3d').hide();
+            id = 0; // Si no hay nada en memoria, ponemos el primero por defecto.
         }
     }
+    // ================================
+
+    if (id !== null && catalogoCoches[id]) {
+        const coche = catalogoCoches[id];
+
+        $('#detalle-titulo').text(coche.marca + ' ' + coche.modelo);
+        $('#detalle-subtitulo').text(coche.desc);
+        $('#detalle-precio').text(coche.precio + '€');
+        $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}.`);
+
+        if (coche.desc_extensa) {
+            $('#descripcion-extensa-texto').html(coche.desc_extensa);
+        } else {
+            $('#descripcion-extensa-texto').html('<p>Información detallada no disponible.</p>');
+        }
+
+        if (coche.modelo_3d && coche.modelo_3d.length > 5) {
+            $('#iframe-3d').attr('src', coche.modelo_3d);
+            $('#contenedor-3d').show();
+            $('#contenedor-img').hide();
+        } else {
+            $('#detalle-imagen').attr('src', coche.img);
+            $('#contenedor-3d').hide();
+            $('#contenedor-img').show();
+        }
+    } else {
+        $('#detalle-titulo').text("Vehículo no encontrado");
+    }
+}
+
+    // Este bloque asegura que si estás viendo el coche ID=2,
+// el enlace a "ayuda.html" se convierta en "ayuda.html?id=2"
+$(document).ready(function() {
+    const paramsGlobal = new URLSearchParams(window.location.search);
+    const idActualGlobal = paramsGlobal.get('id');
+
+    // Si la página actual tiene un ID en la URL...
+    if (idActualGlobal !== null) {
+
+        // Buscamos cualquier enlace (<a>) cuyo href contenga la palabra "ayuda"
+        $('a[href*="ayuda"]').each(function() {
+            var hrefOriginal = $(this).attr('href');
+
+            // Solo lo modificamos si no tiene ya un 'id='
+            if (hrefOriginal.indexOf('id=') === -1) {
+                // Comprobamos si hay que usar ? o &
+                var separador = hrefOriginal.indexOf('?') !== -1 ? '&' : '?';
+
+                // Creamos el nuevo enlace
+                var nuevoLink = hrefOriginal + separador + 'id=' + idActualGlobal;
+
+                // Lo aplicamos al HTML
+                $(this).attr('href', nuevoLink);
+
+                // (Opcional) Mensaje en consola para comprobar que funciona
+                console.log("Link de ayuda actualizado: " + nuevoLink);
+            }
+        });
+    }
+});
     // ==========================================
     // 0. MODO TEXTO GRANDE (Persistente)
     // ==========================================
