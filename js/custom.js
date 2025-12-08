@@ -5,12 +5,74 @@ $(document).ready(function() {
     // Esto se ejecuta primero para crear el HTML necesario
 
     const catalogoCoches = [
-        { marca: "Peugeot", modelo: "5008", desc: "2.0 BlueHDi 180 CV, 10000 km.", precio: "45.900", img: "images/peugeot-5008.jpg" },
-        { marca: "Toyota", modelo: "Corolla", desc: "Híbrido 140H, 5000 km.", precio: "28.500", img: "images/corolla.webp" },
-        { marca: "Ford", modelo: "Focus", desc: "1.0 EcoBoost, 45000 km.", precio: "18.200", img: "images/focus.webp" },
-        { marca: "Audi", modelo: "A3", desc: "Sportback 35 TFSI, 60000 km.", precio: "24.900", img: "images/audia3.webp" },
-        { marca: "BMW", modelo: "Serie 1", desc: "118i M Sport, 15000 km.", precio: "32.000", img: "images/bmwserie1.jpg" },
-        { marca: "Lexus", modelo: "RX500h F Sport", desc: "5.0 V8 371 CV, 80000 km.", precio: "70.500", img: "images/lexus.jpg" }
+        {
+            marca: "Peugeot",
+            modelo: "5008",
+            desc: "2.0 BlueHDi 180 CV, 10000 km.",
+            precio: "45.900",
+            img: "images/peugeot-5008.jpg",
+            modelo_3d: "https://sketchfab.com/models/7aa26f63a1b641f889a6e03a8f557a82/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El Peugeot 5008 GT 2.0 BlueHDi 180 EAT8 (2021) es el tope de gama diésel, un SUV de 7 plazas enfocado en el rendimiento y los viajes largos. Equipaba el potente motor 2.0 BlueHDi de 180 CV y 400 Nm de par, gestionado por la suave caja de cambios automática EAT8 de 8 velocidades.</p>
+                <p>El acabado "GT" lo distingue con una estética deportiva (techo bitono, faros Full LED, llantas de 19") y un interior lujoso con tapicería de Alcantara® y pantalla de 10 pulgadas.</p>`
+        },
+        {
+            marca: "Toyota",
+            modelo: "Fortuner",
+            desc: "2.8D 204CV 4x4, 2021, 15.000 km.",
+            precio: "42.900",
+            img: "images/fortuner.webp",
+            modelo_3d: "https://sketchfab.com/models/7c6a3dc9a04f45658d1289cfd20accd7/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El Toyota Fortuner 2021 es un verdadero todoterreno construido sobre un chasis de largueros, diseñado para soportar las condiciones más exigentes sin sacrificar el confort familiar. Este modelo cuenta con el renovado motor 2.8 litros turbodiésel que entrega 204 CV y 500 Nm de par, ideal para remolcar y conducción off-road.</p>
+                <p>En su interior, ofrece capacidad para 7 pasajeros con asientos de cuero, sistema de infoentretenimiento compatible con Apple CarPlay/Android Auto y un robusto sistema de tracción 4x4 con reductora y bloqueo de diferencial trasero.</p>`
+        },
+        {
+            marca: "Mercedes-Benz",
+            modelo: "CLS AMG",
+            desc: "CLS 53 AMG 4MATIC+, 435CV, 2022.",
+            precio: "85.000",
+            img: "images/mercedes.webp",
+            modelo_3d: "https://sketchfab.com/models/1202e3dd546e4f668003277b47c4a3cc/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El Mercedes-Benz CLS AMG 2022 combina la elegancia atemporal de un coupé de cuatro puertas con el rendimiento puro de AMG. Bajo el capó ruge un motor de 6 cilindros en línea con 435 CV, apoyado por un sistema híbrido suave EQ Boost.</p>
+                <p>Su tracción total variable 4MATIC+ y la suspensión neumática AMG RIDE CONTROL+ garantizan un dinamismo excepcional. El interior es un escaparate tecnológico con el sistema MBUX y acabados en fibra de carbono y cuero Nappa.</p>`
+        },
+        // --- NUEVO MODELO: BMW Alpina B7 ---
+        {
+            marca: "BMW",
+            modelo: "Alpina B7",
+            desc: "4.4 V8 Bi-Turbo 608CV, 2020.",
+            precio: "110.000",
+            img: "images/alpina_b7.jpg",
+            modelo_3d: "https://sketchfab.com/models/1af98a380e974fc28451bd037c35747c/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El BMW Alpina B7 es la definición de exclusividad y potencia. Basado en la Serie 7, esta limusina de alto rendimiento es capaz de alcanzar los 330 km/h gracias a su motor V8 Bi-Turbo optimizado por Alpina para entregar 608 CV.</p>
+                <p>A diferencia de un M7, el B7 se centra en un confort de marcha supremo a velocidades de superdeportivo. Destacan sus llantas clásicas Alpina de 20 radios, el sistema de escape deportivo de acero inoxidable y un interior con los cueros más finos del mercado.</p>`
+        },
+        // --- NUEVO MODELO: Audi Q2 S-Line ---
+        {
+            marca: "Audi",
+            modelo: "Q2 S-Line",
+            desc: "35 TFSI 150CV S-Tronic, 2021.",
+            precio: "28.900",
+            img: "images/audi_q2.webp",
+            modelo_3d: "https://sketchfab.com/models/6b96ae2dd4274ebd9fe070d4a014c1ce/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El Audi Q2 S-Line 2021 es el SUV urbano premium por excelencia, con un diseño geométrico y musculoso que destaca en la ciudad. Esta unidad monta el eficiente motor 1.5 TFSI de 150 CV con tecnología de desconexión de cilindros para un consumo óptimo.</p>
+                <p>El paquete S-Line aporta parachoques deportivos, llantas de aleación específicas y una suspensión deportiva. En el interior, cuenta con el Audi Virtual Cockpit, asientos deportivos y un sistema de infoentretenimiento totalmente conectado.</p>`
+        },
+        {
+            marca: "Lexus",
+            modelo: "RX500h F Sport",
+            desc: "5.0 V8 371 CV, 80000 km.",
+            precio: "70.500",
+            img: "images/lexus.jpg",
+            modelo_3d: "https://sketchfab.com/models/94948d1396764708bf1aafb8e7393788/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
+            desc_extensa: `
+                <p>El Lexus RX500h F Sport es la máxima expresión de lujo y tecnología híbrida de alto rendimiento. Combina un motor turbo con motores eléctricos para ofrecer una potencia combinada y una tracción total DIRECT4.</p>
+                <p>El acabado F Sport añade detalles exclusivos, dirección en el eje trasero y un sistema de sonido Mark Levinson de alta fidelidad, todo envuelto en un habitáculo de artesanía Takumi.</p>`
+        }
     ];
 
     const $grid = $('#grid-coches');
@@ -34,7 +96,7 @@ $(document).ready(function() {
                             <div style="padding: 15px;">
                                 <p style="height: 40px; overflow: hidden;">${coche.desc}</p>
                                 <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precio}€**</p>
-                                <a href="detalle.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
+                                <a href="comprar1.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
                             </div>
                         </div>
                     </div>
@@ -42,6 +104,51 @@ $(document).ready(function() {
             `;
             $grid.append(html);
         });
+    }
+
+    // LOGICA DE FICHA DE DETALLE (comprar1.html)
+    // ==========================================
+    if ($('#detalle-titulo').length) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id !== null && catalogoCoches[id]) {
+            const coche = catalogoCoches[id];
+
+            // Rellenar textos
+            $('#detalle-titulo').text(coche.marca + ' ' + coche.modelo);
+            $('#detalle-subtitulo').text(coche.desc);
+            $('#detalle-precio').text(coche.precio + '€');
+
+            // Descripción corta lateral
+            $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}. Disponible en Castilla Motors.`);
+
+            // AQUÍ INYECTAMOS LA DESCRIPCIÓN EXTENSA EN EL FONDO DE LA PÁGINA
+            if (coche.desc_extensa) {
+                $('#descripcion-extensa-texto').html(coche.desc_extensa);
+            } else {
+                $('#descripcion-extensa-texto').html('<p>Información detallada no disponible para este modelo.</p>');
+            }
+
+            // Lógica 3D vs Imagen
+            // Si el coche tiene un link en 'modelo3d', mostramos el iframe
+            if (coche.modelo_3d && coche.modelo_3d.length > 5) {
+                $('#iframe-3d').attr('src', coche.modelo_3d);
+                $('#contenedor-3d').show(); // Mostrar 3D
+                $('#contenedor-img').hide(); // Ocultar foto estática
+            } else {
+                // Si no tiene 3D, mostramos la foto normal
+                $('#detalle-imagen').attr('src', coche.img);
+                $('#contenedor-3d').hide();
+                $('#contenedor-img').show();
+            }
+
+        } else {
+            $('#detalle-titulo').text("Vehículo no encontrado");
+            $('#contenedor-img').hide();
+            $('#contenedor-3d').hide();
+        }
     }
     // ==========================================
     // 0. MODO TEXTO GRANDE (Persistente)

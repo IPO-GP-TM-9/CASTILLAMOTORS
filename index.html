@@ -2,7 +2,7 @@
 <!-- Template by Quackit.com -->
 <!-- Images by various sources under the Creative Commons CC0 license and/or the Creative Commons Zero license. 
 Although you can use them, for a more unique website, replace these images with your own. -->
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -12,9 +12,6 @@ Although you can use them, for a more unique website, replace these images with 
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Castilla Motors</title>
-
-
-
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -31,12 +28,6 @@ Although you can use them, for a more unique website, replace these images with 
 
     <!-- Custom Fonts from Google -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    
-
-
-
-
-
 
 </head>
 
@@ -233,8 +224,9 @@ Although you can use them, for a more unique website, replace these images with 
                     <script src="/js/qr-camera.js"></script>
                     <script>
                       // asocia botones (llamadas simples)
-                      QRCamera.attachCameraToButton('btnCam', 'video', undefined, true, true);
-                      QRCamera.attachQrToButton('btnQr', 220);
+                      if(typeof QRCamera !== 'undefined') {
+                          QRCamera.attachCameraToButton('btnCam', 'video', undefined, true, true);
+                      }
 
                       // opcional: mostrar QR automáticamente al cargar
                       // document.addEventListener('DOMContentLoaded', () => QRCamera.showCurrentPageQr());
@@ -283,17 +275,17 @@ Although you can use them, for a more unique website, replace these images with 
     <!-- Plugin JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
     
-    <!-- Custom Javascript -->
-    <script src="js/custom.js"></script>
-
-    <script src="js/custom.js"></script>
-
+    <!-- Custom Javascript (Solo una vez) -->
     <script src="js/custom.js"></script>
 
     <a href="#" id="chatbot-toggle" class="btn chatbot">
     	<span class="glyphicon glyphicon-comment"></span>
     </a>
-        <script src="js/mando.js"></script>
+
+    <script src="js/mando.js"></script>
+
+    <!-- IMPORTANTE: El script del holograma debe ir aquí y con type="module" -->
+    <script type="module" src="js/hologram.js"></script>
 
     </div>
 </div>
