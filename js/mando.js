@@ -1,5 +1,5 @@
 // --- CONFIGURACIÓN ---
-const CURSOR_SPEED = 12;
+const CURSOR_SPEED = 15;
 const SCROLL_SPEED = 15;
 const DEADZONE = 0.1;
 // Selector de todo lo que se puede pulsar en tu web
