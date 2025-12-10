@@ -4,12 +4,22 @@ $(document).ready(function() {
     // ==========================================
     // Esto se ejecuta primero para crear el HTML necesario
 
+    const esAlquilar = window.location.pathname.includes("alquilar");
+    const esComprar  = window.location.pathname.includes("comprar");
+
+    function getIndexPorMatricula(matricula) {
+        return catalogoCoches.findIndex(coche => coche.matricula === matricula);
+    }
+
+    window.getIndexPorMatricula = getIndexPorMatricula;
+
     const catalogoCoches = [
         {
             marca: "Peugeot",
             modelo: "5008",
             desc: "2.0 BlueHDi 180 CV, 10000 km.",
             precio: "45.900",
+            matricula: "1234ABC",
             img: "images/peugeot-5008.jpg",
             modelo_3d: "https://sketchfab.com/models/7aa26f63a1b641f889a6e03a8f557a82/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -21,6 +31,7 @@ $(document).ready(function() {
             modelo: "Fortuner",
             desc: "2.8D 204CV 4x4, 2021, 15.000 km.",
             precio: "42.900",
+            matricula: "1243ABC",
             img: "images/fortuner.webp",
             modelo_3d: "https://sketchfab.com/models/7c6a3dc9a04f45658d1289cfd20accd7/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -32,6 +43,7 @@ $(document).ready(function() {
             modelo: "CLS AMG",
             desc: "CLS 53 AMG 4MATIC+, 435CV, 2022.",
             precio: "85.000",
+            matricula: "4321CBA",
             img: "images/mercedes.webp",
             modelo_3d: "https://sketchfab.com/models/1202e3dd546e4f668003277b47c4a3cc/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -44,6 +56,7 @@ $(document).ready(function() {
             modelo: "Alpina B7",
             desc: "4.4 V8 Bi-Turbo 608CV, 2020.",
             precio: "110.000",
+            matricula: "9312ABC",
             img: "images/alpina_b7.jpg",
             modelo_3d: "https://sketchfab.com/models/1af98a380e974fc28451bd037c35747c/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -56,6 +69,7 @@ $(document).ready(function() {
             modelo: "Q2 S-Line",
             desc: "35 TFSI 150CV S-Tronic, 2021.",
             precio: "28.900",
+            matricula: "1111NFS",
             img: "images/audi_q2.webp",
             modelo_3d: "https://sketchfab.com/models/6b96ae2dd4274ebd9fe070d4a014c1ce/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -67,6 +81,7 @@ $(document).ready(function() {
             modelo: "RX500h F Sport",
             desc: "5.0 V8 371 CV, 80000 km.",
             precio: "70.500",
+            matricula: "3432DNT",
             img: "images/lexus.jpg",
             modelo_3d: "https://sketchfab.com/models/94948d1396764708bf1aafb8e7393788/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
             desc_extensa: `
@@ -83,7 +98,11 @@ $(document).ready(function() {
             // 1. Panel height fijado a 420px para que todas las cajas sean iguales.
             // 2. Imagen height fijado a 200px con object-fit cover.
             // 3. Eliminado botón seleccionar.
-            const html = `
+
+            let html = "";
+
+            if (esComprar){
+            html = `
                 <div class="col-sm-6 col-md-4" style="margin-bottom:30px;">
                     <div class="panel panel-default text-center" style="height: 420px; overflow: hidden; position: relative;">
                         <div class="panel-heading" style="height: 60px; display: flex; align-items: center; justify-content: center;">
@@ -102,8 +121,33 @@ $(document).ready(function() {
                     </div>
                 </div>
             `;
+            }
+            if (esAlquilar){
+            html = `
+                <div class="col-sm-6 col-md-4" style="margin-bottom:30px;">
+                    <div class="panel panel-default text-center" style="height: 420px; overflow: hidden; position: relative;">
+                        <div class="panel-heading" style="height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <h3 style="margin:0; font-size: 18px;">${coche.marca} ${coche.modelo}</h3>
+                        </div>
+                        <div class="panel-body" style="padding:0;">
+                            <div class="img-container" style="height: 200px; width: 100%; overflow: hidden; background: #eee;">
+                                <img src="${coche.img}" alt="${coche.marca}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 15px;">
+                                <p style="height: 40px; overflow: hidden;">${coche.desc}</p>
+                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precio}€**</p>
+                                <a href="alquilar1.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+            if (html !== "") {
             $grid.append(html);
+        }
         });
+
     }
 
     // LOGICA DE FICHA DE DETALLE (comprar1.html)
@@ -138,7 +182,8 @@ $(document).ready(function() {
         $('#detalle-titulo').text(coche.marca + ' ' + coche.modelo);
         $('#detalle-subtitulo').text(coche.desc);
         $('#detalle-precio').text(coche.precio + '€');
-        $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}.`);
+        $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}`);
+        $('#detalle-matricula').text(`Matrícula: ${coche.matricula}`);
 
         if (coche.desc_extensa) {
             $('#descripcion-extensa-texto').html(coche.desc_extensa);

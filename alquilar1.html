@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Peugeot 5008 2021 - Castilla Motors</title>
+    <title>Detalle del Vehículo - Castilla Motors</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
@@ -15,13 +15,14 @@
 </head>
 
 <body class="alquilar">
+
     <div id="virtual-cursor"></div>
     <div class="big-mode-container">
     <input type="checkbox" id="big-mode-toggle" hidden>
     <input type="checkbox" id="daltone-toggle" hidden>
     <div class="page-content">
 
-        <div id="google_translate_element"></div>
+    <div id="google_translate_element"></div>
 
 
 <script type="text/javascript">
@@ -101,88 +102,81 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav>
-        <!-- INTRO -->
-    <section class="intro">
+    <!-- INTRO -->
+    <section class="intro" style="padding-top: 100px; padding-bottom: 50px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h1 class="section-heading">Peugeot 5008 2021</h1>
-                    <p class="text-light">2.0 BlueHDi 180 CV, KM 0.</p>
+                    <h1 class="section-heading" id="detalle-titulo">Cargando vehículo...</h1>
+                    <p class="text-light" id="detalle-subtitulo">Por favor espere</p>
                 </div>
             </div>
         </div>
     </section>
-        <!-- CONTENIDO -->
-
+    <!-- CONTENIDO -->
     <section class="content">
         <div class="container">
 
-            <div class="row" >
+            <div class="row">
                 <div class="col-lg-12">
-                    <a href="alquilar.html" id="btn-volver-catalogo" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver al Catálogo</a>
+                    <a href="alquilar.html" class="btn btn-default" id="btn-volver-catalogo"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver al Catálogo</a>
                 </div>
             </div>
-
+            <!-- COCHE 3D -->
             <div class="row">
-                 <!-- COCHE 3D -->
                 <div class="col-md-8">
+
                     <div class="embed-responsive embed-responsive-16by9" style="height: 500px; margin-bottom: 20px;">
 
-                        <iframe title src="https://sketchfab.com/models/7aa26f63a1b641f889a6e03a8f557a82/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0"
-                                allow="autoplay; fullscreen; xr-spatial-tracking"
-                                xr-spatial-tracking
-                                execution-while-out-of-viewport
-                                execution-while-not-rendered
-                                web-share
-                                allowfullscreen
-                                mozallowfullscreen="true"
-                                webkitallowfullscreen="true"
-                                class="embed-responsive-item">
-                        </iframe>
+                        <div id="contenedor-3d" class="modelo-3d-container">
+                            <iframe id="iframe-3d" title="Modelo 3D" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                        </div>
                     </div>
                 </div>
-                    <!-- INFO -->
-
+                <!-- INFO -->
                 <div class="col-md-4">
-                    <h2 class="section-heading precio_coche">85€ / Día</h2>
+                    <div class="text-center">
+                        <h2 class="precio-grande" id="detalle-precio">0€</h2>
+                    </div>
 
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>Especificaciones Clave</h4>
-                        </div>
+                        <div class="panel-heading"><h4>Especificaciones</h4></div>
                         <div class="panel-body">
+                            <p id="detalle-desc-larga">Descripción detallada...</p>
+                            <hr>
+                            <p id="detalle-matricula">Matrícula...</p>
+                            <hr>
                             <ul class="list-unstyled">
-                                <li><strong>Motor:</strong> 2.0 BlueHDi </li>
-                                <li><strong>Potencia:</strong> 180 CV</li>
-                                <li><strong>Año:</strong> 2021</li>
-                                <li><strong>Transmisión:</strong> Automática</li>
-                                <li><strong>Combustible:</strong> Diésel</li>
-                                <li><strong>Matrícula:</strong> 1234ABC</li>
+                                <li><strong>Entrega:</strong> Inmediata</li>
+                                <li><strong>Garantía:</strong> 12 Meses</li>
                             </ul>
                         </div>
                     </div>
-
+                    <!-- BOTONES -->
                     <div class="text-center">
-                      <div class="btn-group" data-toggle="buttons">
-
-                        <label class="btn btn-default btn-lg btn-primary" id="btn-seleccionar" data-toggle="modal" data-target="#confirmModal">
-                          <input type="checkbox"> 🛒 Seleccionar
-                        </label>
-                      </div>
-                      <div style="margin-top: 10px;">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label id="btn-seleccionar" class="btn btn-default btn-lg seleccionar" data-toggle="modal" data-target="#confirmModal">
+                                <input type="checkbox"> 🛒 Seleccionar
+                            </label>
+                        </div>
+                        <div style="margin-top: 10px;">
                             <a href="video-alquilar.html" class="btn btn-link" id="enlace-ayuda">¿Necesitas ayuda?</a>
-                      </div>
+                        </div>
                     </div>
+
 
                 </div>
             </div>
-                    <hr>
+
+            <hr>
             <!-- DESCRIPCIÓN -->
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="section-heading">Descripción del Vehículo</h3>
-                    <p>El Peugeot 5008 GT 2.0 BlueHDi 180 EAT8 (2021) era el tope de gama diésel, un SUV de 7 plazas enfocado en el rendimiento y los viajes largos. Equipaba el potente motor 2.0 BlueHDi de 180 CV y 400 Nm de par, gestionado por la suave caja de cambios automática EAT8 de 8 velocidades.</p>
-                    <p>El acabado "GT" lo distinguía con una estética deportiva (techo bitono, faros Full LED, llantas de 18" o 19") y un interior lujoso, que incluía tapicería de Alcantara®, la pantalla central de 10 pulgadas y el paquete avanzado de ayudas a la conducción (Control de Crucero Adaptativo Stop & Go).</p>
+                    <!-- AQUÍ ESTÁ EL CAMBIO: Un contenedor vacío con ID para que JS lo rellene -->
+                    <div id="descripcion-extensa-texto">
+                        <p class="text-muted">Cargando descripción detallada...</p>
+                    </div>
                 </div>
             </div>
 
@@ -202,12 +196,9 @@
             </script>
 
 
-
-
         </div>
     </section>
     <!-- FOOTER -->
-
     <footer class="page-footer">
 
         <div class="contact" id="contacto">
@@ -232,15 +223,17 @@
     <script src="js/custom.js"></script>
     <script src="js/mando.js"></script>
 
-     </div>
-</div>
-<div class="modal fade" id="confirmModal" >
+         </div>
+    </div>
+
+    <div class="modal fade" id="confirmModal" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="confirmModalLabel">Coche seleccionado con éxito</h4>
       </div>
       <div class="modal-footer flex-container">
+
         <a class="btn btn-primary btn-lg " data-dismiss="modal" >OK</a>
       </div>
     </div>
