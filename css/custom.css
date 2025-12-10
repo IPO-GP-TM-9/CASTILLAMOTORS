@@ -1256,6 +1256,7 @@ body.daltonico-mode .contact {
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
+        transform: translate(-50%, -50%);
   transition: opacity 0.2s, background 0.2s;
 }
 #virtual-cursor::after {
@@ -1332,6 +1333,16 @@ body.daltonico-mode .seleccionar:focus {
     border-color: #0072B2 !important;
     color: #fff !important;
 }
+
+/* 6. Botón "Seleccionar" (Rojo/Azul oscuro según modo) */
+.seleccionar.gamepad-hover,
+.seleccionar:focus {
+    background-color: #77181E !important;
+    border-color: #77181E !important;
+    color: white !important;
+}
+
+
 
 /* --- BARRA DE NAVEGACIÓN: SOLUCIÓN FINAL --- */
 
@@ -1442,5 +1453,36 @@ body.daltonico-mode #chatbot-toggle:focus {
     border-color: #0072B2 !important;
     color: white !important;
 }
+
+
+body.daltonico-mode .seleccionar.gamepad-hover,
+body.daltonico-mode .seleccionar:focus,
+body.daltonico-mode .btn-primary.gamepad-hover,
+body.daltonico-mode .btn-primary:focus,
+body.daltonico-mode .modal-footer .btn.gamepad-hover,
+body.daltonico-mode .modal-footer .btn:focus {
+    background-color: #0072B2 !important;
+    border-color: #0072B2 !important;
+    color: #ffffff !important;
+}
+
+#metodoPago-custom .select-options li {
+  font-size: 18px;      /* texto más grande */
+  padding: 10px 16px;   /* más alto y ancho */
+  line-height: 1.5;     /* separa líneas si el texto es largo */
+}
+
+/* Opcional: resaltar mejor al pasar el mando/ratón */
+#metodoPago-custom .select-options li.gamepad-hover,
+#metodoPago-custom .select-options li:hover {
+  background-color: #f2f2f2;
+}
+#metodoPago-custom .select-trigger {
+  border: 1px solid #ccc;      /* borde alrededor */
+  border-radius: 4px;          /* opcional, redondeado */
+  background-color: #fff;      /* fondo blanco limpio */
+}
+
+/* Cuando el body tenga la clase 'gamepad-mode', oculta el cursor en TODO */
 
 

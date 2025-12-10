@@ -3,7 +3,7 @@ const CURSOR_SPEED = 15;
 const SCROLL_SPEED = 15;
 const DEADZONE = 0.1;
 // Selector de todo lo que se puede pulsar en tu web
-const INTERACTIVE_SELECTOR = 'button, a, input, select, textarea, .promo-item, [tabindex]:not([tabindex="-1"]), label';
+const INTERACTIVE_SELECTOR = 'button, a, input, select, textarea, .promo-item, [tabindex]:not([tabindex="-1"]), label,li,select,form-control';
 
 // --- ESTADO ---
 let savedX = sessionStorage.getItem('cursorX');
@@ -220,6 +220,34 @@ function performClick() {
   if (!elementUnderCursor) return;
   const clickable = elementUnderCursor.closest(INTERACTIVE_SELECTOR);
 
+
+  if (!clickable) return;
+
+  // Caso especial: SELECT -> forzar apertura
+  if (clickable.tagName === 'SELECT') {
+    clickable.focus();
+
+    // Intento 1: enviar un evento de teclado (abre en muchos navegadores)
+    const ev = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      code: 'ArrowDown',
+      keyCode: 40,
+      which: 40,
+      bubbles: true
+    });
+    clickable.dispatchEvent(ev);
+
+    // Fallback: pequeño truco de blur+focus que a veces fuerza el desplegable
+    setTimeout(() => {
+      clickable.blur();
+      clickable.focus();
+    }, 10);
+
+    return;
+  }
+
+
+
   if (clickable) {
     clickable.focus();
     clickable.click();
@@ -240,51 +268,69 @@ function performClick() {
 function moveFocus(direction) {
   clearHover();
 
-  // 1. DETECTAR SI HAY UN MODAL ABIERTO
-  // Buscamos un modal de Bootstrap que esté visible (display: block)
+  const MAX_DIST = 3000;
+
+  // 1) DETECTAR MODAL ABIERTO
   const openModal = Array.from(document.querySelectorAll('.modal')).find(m => {
-      return window.getComputedStyle(m).display === 'block';
+    return window.getComputedStyle(m).display === 'block';
   });
 
-  let scopeElement = document; // Por defecto buscamos en toda la página
-
+  let scopeElement = document;
   if (openModal) {
-      // ¡HAY UN MODAL! Limitamos la búsqueda SOLO a dentro del modal
-      scopeElement = openModal;
+    scopeElement = openModal;
 
-      // Si el foco actual NO está dentro del modal, forzamos que entre
-      if (!openModal.contains(document.activeElement)) {
-          const firstBtn = openModal.querySelector('.btn, button, a');
-          if (firstBtn) {
-              firstBtn.focus();
-              updateCursorPositionToElement(firstBtn);
-              return;
-          }
+    // Si el foco actual NO está dentro del modal, entrar por el primer botón/enlace
+    if (!openModal.contains(document.activeElement)) {
+      const firstBtn = openModal.querySelector(
+        '.btn, button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (firstBtn) {
+        firstBtn.focus();
+        updateCursorPositionToElement(firstBtn);
+        return;
       }
+    }
   }
 
-  // 2. LÓGICA DE NAVEGACIÓN (Adaptada al scope)
+  // 2) SI NO HAY FOCO, ENFOCAR EL PRIMER ELEMENTO VISIBLE
   if (!document.activeElement || document.activeElement === document.body) {
-    // Buscar dentro del scope (modal o documento entero)
     const allItems = scopeElement.querySelectorAll(INTERACTIVE_SELECTOR);
     for (let el of allItems) {
-        if (el.offsetWidth > 0 && el.offsetHeight > 0 && el.tabIndex !== -1) {
-            el.focus();
-            updateCursorPositionToElement(el);
-            return;
-        }
+      if (el.offsetWidth > 0 && el.offsetHeight > 0 && el.tabIndex !== -1) {
+        el.focus();
+        updateCursorPositionToElement(el);
+        return;
+      }
     }
     return;
   }
 
   const current = document.activeElement;
+
+  // 2.5) CASO ESPECIAL: BOTONES DEL MODAL (CANCELAR / CONFIRMAR)
+  const cancelar = openModal ? openModal.querySelector('.volveratras') : null;
+  const confirmar = openModal ? openModal.querySelector('#btn-confirmar-modal') : null;
+
+  if (openModal && cancelar && confirmar) {
+    if (current === cancelar && direction === 'right') {
+      confirmar.focus();
+      updateCursorPositionToElement(confirmar);
+      return;
+    }
+    if (current === confirmar && direction === 'left') {
+      cancelar.focus();
+      updateCursorPositionToElement(cancelar);
+      return;
+    }
+  }
+
   const rectCurrent = current.getBoundingClientRect();
   const centerCurrent = {
-      x: rectCurrent.left + rectCurrent.width / 2,
-      y: rectCurrent.top + rectCurrent.height / 2
+    x: rectCurrent.left + rectCurrent.width / 2,
+    y: rectCurrent.top + rectCurrent.height / 2
   };
 
-  // 3. BUSCAR CANDIDATOS SOLO DENTRO DEL SCOPE (Modal o Todo)
+  // 3) NAVEGACIÓN ESPACIAL GENÉRICA
   const candidates = Array.from(scopeElement.querySelectorAll(INTERACTIVE_SELECTOR));
 
   let bestCandidate = null;
@@ -292,26 +338,46 @@ function moveFocus(direction) {
 
   candidates.forEach(el => {
     if (el === current) return;
-    if (el.offsetWidth === 0 && el.offsetHeight === 0) return;
-
-    // Importante: Si hay modal, ignoramos cualquier cosa fuera de él (doble seguridad)
+    if (el.offsetWidth === 0 || el.offsetHeight === 0) return;
+    if (el.tabIndex === -1) return;
     if (openModal && !openModal.contains(el)) return;
 
     const rect = el.getBoundingClientRect();
-    const center = { x: rect.left + rect.width/2, y: rect.top + rect.height/2 };
+    const center = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+
     const dx = center.x - centerCurrent.x;
     const dy = center.y - centerCurrent.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist === 0 || dist > MAX_DIST) return;
 
     let valid = false;
-    switch(direction) {
-      case 'right': valid = dx > 0 && Math.abs(dy) < Math.abs(dx) * 1.5; break;
-      case 'left':  valid = dx < 0 && Math.abs(dy) < Math.abs(dx) * 1.5; break;
-      case 'down':  valid = dy > 0 && Math.abs(dx) < Math.abs(dy) * 1.5; break;
-      case 'up':    valid = dy < 0 && Math.abs(dx) < Math.abs(dy) * 1.5; break;
+
+    switch (direction) {
+      case 'right':
+        // A la derecha y razonablemente alineado en vertical
+        valid = dx > 0 && Math.abs(dy) < rectCurrent.height * 2;
+        break;
+      case 'left':
+        valid = dx < 0 && Math.abs(dy) < rectCurrent.height * 2;
+        break;
+      case 'down':
+        // Por debajo y algo alineado en horizontal
+        valid = dy > 0;
+        break;
+      case 'up':
+        valid = dy < 0 ;
+        break;
     }
 
-    if (valid && dist < minDist) { minDist = dist; bestCandidate = el; }
+    if (!valid) return;
+
+    if (dist < minDist) {
+      minDist = dist;
+      bestCandidate = el;
+    }
   });
 
   if (bestCandidate) {
@@ -320,3 +386,25 @@ function moveFocus(direction) {
   }
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+  const daltoneToggle = document.getElementById('daltone-toggle');
+  if (!daltoneToggle) return;
+
+  // Aplicar estado guardado (opcional, si quieres recordar el modo)
+  const savedDaltonico = sessionStorage.getItem('daltonicoMode') === 'true';
+  if (savedDaltonico) {
+    daltoneToggle.checked = true;
+    document.body.classList.add('daltonico-mode');
+  }
+
+  daltoneToggle.addEventListener('change', () => {
+    if (daltoneToggle.checked) {
+      document.body.classList.add('daltonico-mode');
+      sessionStorage.setItem('daltonicoMode', 'true');
+    } else {
+      document.body.classList.remove('daltonico-mode');
+      sessionStorage.setItem('daltonicoMode', 'false');
+    }
+  });
+});

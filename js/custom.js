@@ -525,3 +525,55 @@ $(document).ready(function() {
 });
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const realSelect   = document.getElementById('metodoPago');
+  const customSelect = document.getElementById('metodoPago-custom');
+  if (!realSelect || !customSelect) return;
+
+  const trigger = customSelect.querySelector('.select-trigger');
+  const label   = customSelect.querySelector('.select-label');
+  const list    = customSelect.querySelector('.select-options');
+
+  let open = false;
+
+  function toggleDropdown(force) {
+    open = (force !== undefined) ? force : !open;
+    list.style.display = open ? 'block' : 'none';
+  }
+
+  // Abrir/cerrar con click (ratón o mando)
+  trigger.addEventListener('click', () => {
+    toggleDropdown();
+  });
+
+  // Seleccionar opción
+  list.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      const value = li.getAttribute('data-value') || '';
+      const text  = li.textContent.trim();
+
+      // Actualiza select real
+      realSelect.value = value;
+      // Actualiza etiqueta visible
+      label.textContent = text;
+      // Cierra lista
+      toggleDropdown(false);
+    });
+  });
+
+  // Cerrar si haces click fuera
+  document.addEventListener('click', (e) => {
+    if (!customSelect.contains(e.target)) {
+      toggleDropdown(false);
+    }
+  });
+});
+
+
+$('#confirmModal').on('shown.bs.modal', function () {
+  const cancelar = this.querySelector('.volveratras');
+  if (cancelar) {
+    cancelar.focus();
+    updateCursorPositionToElement(cancelar);
+  }
+});
