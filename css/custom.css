@@ -1741,6 +1741,36 @@ body.chatbot-open a#chatbot-toggle.btn.chatbot {
     }
 }
 
+.fila-matricula {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 600px;
+    margin: 20px auto 0 auto; /* auto centra horizontalmente */
+    min-height: 50px;
+}
+
+.mat-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 50px;
+    flex: 1 1 250px;   /* ancho flexible */
+    min-width: 250px;
+}
+
+.botonera {
+    display: flex;
+    gap: 10px;
+    flex: 0 0 auto;     /* evita que se parta en dos */
+}
+
+.botonera button {
+    flex: 1 1 auto;
+}
+
+
 /* =========================================
    MODO TEXTO GRANDE PARA TODO EL CHATBOT
    ========================================= */
