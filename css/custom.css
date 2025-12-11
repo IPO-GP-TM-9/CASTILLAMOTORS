@@ -462,45 +462,7 @@ img::-moz-selection {
 #enlace-ayuda{
     color: #77181E;
 }
-/*
- * Estilos para el botón del Chatbot
- */
-#chatbot-toggle {
-  position: fixed;       /* Fijo en la pantalla */
-  bottom: 25px;          /* A 25px del borde inferior */
-  right: 25px;           /* A 25px del borde DERECHO */
-  z-index: 1000;         /* Por encima de todo */
 
-  /* Tamaño (más grande) */
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;    /* Circular */
-  font-size: 34px;       /* Icono más grande */
-
-  /* Centrado del icono */
-  padding: 18px 0;
-  text-align: center;
-  line-height: 1.4;      /* Ajuste de línea */
-
-  /* Sombra para que destaque */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
-  /* Estilo rojo (como tu botón "Empieza Ya") */
-  color: #ffffff;
-  background-color: #a92727; /* Un rojo similar al de tu captura */
-  border-color: #a92727;
-
-  /* Transición suave */
-  transition: all 0.2s ease-in-out;
-}
-
-/* Efecto al pasar el ratón por encima */
-#chatbot-toggle:hover {
-  color: #ffffff;
-  background-color: #c9302c; /* Un rojo más oscuro */
-  border-color: #ac2925;
-  transform: scale(1.05); /* Ligeramente más grande */
-}
 
 .cantidad{
     width: 80px;
@@ -1444,3 +1406,486 @@ body.daltonico-mode #chatbot-toggle:focus {
 }
 
 
+/* =========================================
+   MEJORAS PARA EL CHATBOT CON HOLOGRAMA 3D
+   ========================================= */
+
+/* Botón rojo más visible */
+#chatbot-toggle {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    background-color: #e74c3c !important; /* Rojo brillante */
+    color: white !important;
+    border: none !important;
+    font-size: 32px !important;
+    cursor: pointer !important;
+    z-index: 10000 !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#chatbot-toggle:hover {
+    background-color: #c0392b !important; /* Rojo más oscuro al hover */
+    transform: scale(1.1) !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5) !important;
+}
+
+/* =========================================
+   ESTILOS DEL CHATBOT - VERSIÓN MEJORADA
+   ========================================= */
+
+/* Botón rojo - Se oculta cuando el chat está abierto */
+/* =========================================
+   ESTILOS DEL CHATBOT - COLORES ROJOS POR DEFECTO
+   ========================================= */
+
+/* Botón rojo - Se oculta cuando el chat está abierto */
+a#chatbot-toggle.btn.chatbot {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 10000 !important;
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Ocultar botón cuando el chat está abierto */
+body.chatbot-open a#chatbot-toggle.btn.chatbot {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Contenedor del chatbot con bordes ROJOS (color original Castilla Motors) */
+#chatbot-container {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    width: 380px !important;
+    height: 550px !important;
+    background: white !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+    z-index: 10001 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border: 3px solid #A92727 !important; /* ROJO Castilla Motors */
+}
+
+.chatbot-closed {
+    display: none !important;
+    opacity: 0 !important;
+    transform: translateY(100px) !important;
+    pointer-events: none !important;
+}
+
+.chatbot-open {
+    display: flex !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: all !important;
+    animation: slideUp 0.3s ease !important;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header del chatbot con ROJO */
+.chatbot-header {
+    background: linear-gradient(135deg, #A92727, #c0392b) !important; /* ROJO Castilla Motors */
+    color: white !important;
+    padding: 15px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 3px solid #77181E !important;
+}
+
+.chatbot-header h4 {
+    margin: 0 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+.close-chat {
+    background: rgba(255,255,255,0.2) !important;
+    border: 2px solid white !important;
+    color: white !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+}
+
+.close-chat:hover {
+    background: white !important;
+    color: #A92727 !important; /* ROJO Castilla Motors */
+    transform: rotate(90deg) !important;
+}
+
+/* Área de mensajes */
+.chat-messages {
+    flex: 1 !important;
+    padding: 20px !important;
+    overflow-y: auto !important;
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+
+.message {
+    margin-bottom: 15px !important;
+    max-width: 85% !important;
+    animation: messageAppear 0.3s ease-out !important;
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message p {
+    padding: 12px 18px !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+}
+
+.message.user {
+    float: right !important;
+}
+
+.message.user p {
+    background: linear-gradient(135deg, #A92727, #c0392b) !important; /* ROJO Castilla Motors */
+    color: white !important;
+    border: 2px solid #77181E !important;
+    box-shadow: 2px 2px 10px rgba(169, 39, 39, 0.3) !important;
+}
+
+.message.bot {
+    float: left !important;
+}
+
+.message.bot p {
+    background: white !important;
+    color: #333 !important;
+    border: 2px solid #A92727 !important; /* ROJO Castilla Motors */
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+/* Contenedor del holograma con borde rojo */
+.holograma-container {
+    height: 200px !important;
+    background: linear-gradient(135deg, #0a0a2a, #1a1a40) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-top: 3px solid #A92727 !important; /* ROJO Castilla Motors */
+    border-bottom: 3px solid #A92727 !important; /* ROJO Castilla Motors */
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.holograma-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(169, 39, 39, 0.1) 1px,
+        rgba(169, 39, 39, 0.1) 2px
+    );
+    pointer-events: none;
+}
+
+.holograma-fallback {
+    font-size: 60px !important;
+    color: #A92727 !important; /* ROJO Castilla Motors */
+    opacity: 0.8 !important;
+    animation: pulse 2s infinite !important;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Input del chat con borde rojo */
+.chat-input {
+    padding: 15px 20px !important;
+    background: white !important;
+    display: flex !important;
+    gap: 10px !important;
+    border-top: 3px solid #f0f0f0 !important;
+}
+
+.chat-input input {
+    flex: 1 !important;
+    padding: 12px 18px !important;
+    border: 2px solid #ddd !important;
+    border-radius: 25px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: all 0.3s ease !important;
+    background: #f8f9fa !important;
+}
+
+.chat-input input:focus {
+    border-color: #A92727 !important; /* ROJO Castilla Motors */
+    background: white !important;
+    box-shadow: 0 0 0 3px rgba(169, 39, 39, 0.2) !important;
+}
+
+.chat-input button {
+    background: linear-gradient(135deg, #A92727, #c0392b) !important; /* ROJO Castilla Motors */
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 25px !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid #77181E !important;
+}
+
+.chat-input button:hover {
+    background: linear-gradient(135deg, #77181E, #A92727) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(169, 39, 39, 0.4) !important;
+}
+
+.chat-input button:active {
+    transform: translateY(0) !important;
+}
+
+/* Indicador de "escribiendo" con rojo */
+.typing-dots {
+    display: flex !important;
+    gap: 6px !important;
+    padding: 10px 15px !important;
+    background: white !important;
+    border-radius: 20px !important;
+    border: 2px solid #A92727 !important; /* ROJO Castilla Motors */
+    width: fit-content !important;
+}
+
+.typing-dots span {
+    width: 10px !important;
+    height: 10px !important;
+    background: #A92727 !important; /* ROJO Castilla Motors */
+    border-radius: 50% !important;
+    animation: typing 1.4s infinite !important;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s !important;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s !important;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.6;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-6px);
+    }
+}
+
+/* =========================================
+   MODO TEXTO GRANDE PARA TODO EL CHATBOT
+   ========================================= */
+
+body.big-mode-active #chatbot-container {
+    width: 420px !important;
+    height: 600px !important;
+    font-size: 1.25em !important;
+}
+
+body.big-mode-active .chatbot-header h4 {
+    font-size: 1.4em !important;
+    padding: 18px 20px !important;
+}
+
+body.big-mode-active .message p {
+    font-size: 1.1em !important;
+    padding: 14px 20px !important;
+}
+
+body.big-mode-active .chat-input input {
+    font-size: 1.1em !important;
+    padding: 14px 20px !important;
+}
+
+body.big-mode-active .chat-input button {
+    font-size: 1.1em !important;
+    padding: 14px 28px !important;
+}
+
+body.big-mode-active .typing-dots span {
+    width: 12px !important;
+    height: 12px !important;
+}
+
+body.big-mode-active .holograma-container {
+    height: 220px !important;
+}
+
+/* =========================================
+   MODO DALTÓNICO PARA EL CHATBOT (SOLO ACTIVO CUANDO HAY CLASE daltonico-mode)
+   ========================================= */
+
+body.daltonico-mode #chatbot-container {
+    border-color: #0072B2 !important;
+}
+
+body.daltonico-mode .chatbot-header {
+    background: linear-gradient(135deg, #0072B2, #56B4E9) !important;
+    border-bottom-color: #005a99 !important;
+}
+
+body.daltonico-mode .message.user p {
+    background: linear-gradient(135deg, #0072B2, #56B4E9) !important;
+    border-color: #005a99 !important;
+}
+
+body.daltonico-mode .message.bot p {
+    border-color: #0072B2 !important;
+}
+
+body.daltonico-mode .holograma-container {
+    border-color: #0072B2 !important;
+}
+
+body.daltonico-mode .holograma-fallback {
+    color: #0072B2 !important;
+}
+
+body.daltonico-mode .chat-input input:focus {
+    border-color: #0072B2 !important;
+    box-shadow: 0 0 0 3px rgba(0, 114, 178, 0.2) !important;
+}
+
+body.daltonico-mode .chat-input button {
+    background: linear-gradient(135deg, #0072B2, #56B4E9) !important;
+    border-color: #005a99 !important;
+}
+
+body.daltonico-mode .chat-input button:hover {
+    background: linear-gradient(135deg, #005a99, #0072B2) !important;
+}
+
+body.daltonico-mode .typing-dots {
+    border-color: #0072B2 !important;
+}
+
+body.daltonico-mode .typing-dots span {
+    background: #0072B2 !important;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+    #chatbot-container {
+        width: 90vw !important;
+        height: 70vh !important;
+        right: 5vw !important;
+        bottom: 80px !important;
+        left: 5vw !important;
+    }
+
+    body.big-mode-active #chatbot-container {
+        width: 95vw !important;
+        height: 75vh !important;
+    }
+
+    a#chatbot-toggle.btn.chatbot {
+        bottom: 20px !important;
+        right: 20px !important;
+    }
+}
+
+/* Scrollbar personalizado para el chat */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #A92727; /* ROJO Castilla Motors */
+    border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #77181E;
+}
+
+body.daltonico-mode .chat-messages::-webkit-scrollbar-thumb {
+    background: #0072B2;
+}
+
+body.daltonico-mode .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #005a99;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
