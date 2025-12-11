@@ -221,8 +221,8 @@ Although you can use them, for a more unique website, replace these images with 
 
                     <button id="btnIr" class="btn btn-primary btn-lg" style="margin-left:8px;">Ir</button>
                   </div>
-
                     <script src="/js/qr-camera.js"></script>
+                    <script src="/js/custom.js"></script>
                     <script>
                       // asocia botones (llamadas simples)
                       if(typeof QRCamera !== 'undefined') {
@@ -232,16 +232,40 @@ Although you can use them, for a more unique website, replace these images with 
                       // opcional: mostrar QR automáticamente al cargar
                       // document.addEventListener('DOMContentLoaded', () => QRCamera.showCurrentPageQr());
                       // redirección según matrícula y acción
-                      document.getElementById('btnIr').addEventListener('click', function() {
-                        const matricula = document.getElementById('matricula').value.trim();
-                        const accion = document.getElementById('accion').value;
-                        if(matricula) {
-                          const url = matricula + accion + ".html";
-                          window.location.href = url;
-                        } else {
-                          alert("Por favor, introduce una matrícula.");
-                        }
-                      });
+                     document.getElementById('btnIr').addEventListener('click', function() {
+                    const matricula = document.getElementById('matricula').value.trim();
+                    console.log(matricula);
+                    const accion = document.getElementById('accion').value;
+
+                    // 1) Validación básica
+                    if (!matricula) {
+                        document.getElementById('confirmModalBody2').innerHTML =
+                            `Por favor, introduce una matrícula</strong>.`;
+
+                        // Mostrar modal (Bootstrap)
+                        $('#nomatricula').modal('show');
+                        return;
+                    }
+
+                    // 2) Buscar índice
+                    const index = getIndexPorMatricula(matricula);
+
+                    // 3) Si no existe, mostrar modal y salir
+                    if (index === -1) {
+                        document.getElementById('confirmModalBody').innerHTML =
+                            `No se ha encontrado ningún vehículo con la matrícula <strong>${matricula}</strong>.`;
+
+                        // Mostrar modal (Bootstrap)
+                        $('#matriculanoencontrada').modal('show');
+                        return;
+                    }
+
+                    // 4) Si existe, redirigir
+                    const url = `${accion}1.html?id=${index}`;
+                    console.log("Redirigiendo a:", url);
+                    window.location.href = url;
+                });
+
 
                     </script>
     </section>
@@ -289,6 +313,42 @@ Although you can use them, for a more unique website, replace these images with 
 
     </div>
 </div>
+
+    <!-- Modal: matrícula no encontrada -->
+<div id="matriculanoencontrada" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel">Matrícula no encontrada</h4>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalBody">La matrícula no se ha encontrado.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary volveratras btn-small" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Modal: matrícula vacia -->
+<div id="nomatricula" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmModalLabel1">Campo vacío</h4>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalBody2">Por favor, escriba una matrícula.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary volveratras btn-small" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 
 </html>

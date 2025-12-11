@@ -169,18 +169,38 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group" >
-                        <label><br><br><br>Método de pago *</label>
-                        <select class="form-control" id="metodoPago" name="metodoPago" required>
-                            <option  value="">Seleccione...</option>
+                        <div class="form-group" style="margin-top: 55px;">
+                          <label>Método de pago *</label>
+
+                          <!-- SELECT REAL (para formularios / accesibilidad) -->
+                          <select class="form-control" id="metodoPago" name="metodoPago" required style="display:none;">
+                            <option value="">Seleccione...</option>
                             <option value="googlepay">Google Pay</option>
                             <option value="visa">Visa</option>
-                            <option value="paypal">Paypal</option>
-                        </select><br>
-                             <div class="help-block error obligatorio" >
+			    <option value="paypal">Paypal</option>
+
+                          </select>
+
+                          <!-- SELECT CUSTOM (el que verá el usuario y el mando) -->
+                          <div class="custom-select" id="metodoPago-custom">
+                            <button type="button" class="btn btn-default btn-block select-trigger">
+                              <span class="select-label">Seleccione...</span>
+                              <span class="caret" style="float:right; margin-top:8px;"></span>
+                            </button>
+                            <ul class="select-options" style="display:none; list-style:none; padding:0; margin:10px 0 0; border:1px solid #ccc; background:#fff;">
+                              <li data-value="" tabindex="0">Seleccione...</li>
+                              <li data-value="googlepay" tabindex="0">Google Pay</li>
+                              <li data-value="visa" tabindex="0">Visa</li>
+                    		<li data-value="paypal" tabindex="0">Paypal</li>
+                            </ul>
+                          </div>
+
+                          <br>
+                          <div class="help-block error obligatorio">
                             Por favor, selecciona un método de pago.
+                          </div>
                         </div>
-                        </div>
+
 
 
                     </div>
@@ -225,8 +245,8 @@
         ¿Estás seguro de que deseas cancelar el alquiler? Los datos introducidos se perderán
       </div>
       <div class="modal-footer flex-container">
-        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
-        <a href="alquilar.html" class="btn btn-primary btn-lg ">Confirmar</a>
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" tabindex="0" >Cancelar</a>
+        <a href="alquilar.html" class="btn btn-primary btn-lg " tabindex="0">Confirmar</a>
       </div>
     </div>
   </div>
@@ -242,8 +262,8 @@
         ¿Estás seguro de que toda la información es correcta?
       </div>
       <div class="modal-footer flex-container">
-        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
-        <a href="alquiler-confirmado.html" class="btn btn-primary btn-lg ">Confirmar</a>
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" tabindex="0">Cancelar</a>
+        <a href="alquiler-confirmado.html" class="btn btn-primary btn-lg " tabindex="0">Confirmar</a>
       </div>
     </div>
   </div>
@@ -259,8 +279,8 @@
         ¿Estás seguro de que deseas eliminar el coche seleccionado? Esta acción no se podrá deshacer
       </div>
       <div class="modal-footer flex-container">
-        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" >Cancelar</a>
-        <a class="btn btn-primary btn-lg " data-dismiss="modal">Confirmar</a>
+        <a class="btn btn-primary volveratras btn-small " data-dismiss="modal" tabindex="0">Cancelar</a>
+        <a class="btn btn-primary btn-lg " data-dismiss="modal" tabindex="0">Confirmar</a>
       </div>
     </div>
   </div>
