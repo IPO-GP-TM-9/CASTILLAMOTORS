@@ -421,13 +421,12 @@ class Avatar3DThreeJS {
     slightHeadMovement() {
         if (!this.avatar) return;
 
-        // Rotación leve y natural
-        const originalRotation = this.avatar.rotation.y;
-        const randomRotation = (Math.random() - 0.5) * 0.1; // ±0.05 radianes
+        // Rotación leve y natural, alrededor del centro
+        const targetRotation = (Math.random() - 0.5) * 0.1; // ±0.05 radianes
 
         this.animateValue(
-            originalRotation,
-            originalRotation + randomRotation,
+            this.avatar.rotation.y,
+            targetRotation,
             1000,
             (value) => { this.avatar.rotation.y = value; }
         );
@@ -455,7 +454,7 @@ class Avatar3DThreeJS {
         animate();
     }
 
-    startSpeaking(duration) {
+    startSpeaking(duration = null) {
         if (!this.isReady || this.isTalking) return;
 
         this.isTalking = true;
@@ -472,25 +471,27 @@ class Avatar3DThreeJS {
             this.animateMouthSpeaking(duration);
         } else {
             // Si no hay morph, al menos rotar cabeza
-            this.animateHeadNodding(duration);
+            if (duration) {
+                this.animateHeadNodding(duration);
+            }
         }
     }
 
-    animateMouthSpeaking(duration) {
+    animateMouthSpeaking(duration = null) {
         const startTime = Date.now();
-        const endTime = startTime + duration;
+        const endTime = duration ? startTime + duration : null;
 
         const animate = () => {
             if (!this.isTalking) return;
 
-            const now = Date.now();
-            if (now >= endTime) {
+            // Si hay duración definida y se cumplió, detener
+            if (endTime && Date.now() >= endTime) {
                 this.stopSpeaking();
                 return;
             }
 
             // Patrón de habla natural (ondas múltiples)
-            const elapsed = (now - startTime) / 1000;
+            const elapsed = (Date.now() - startTime) / 1000;
             const wave1 = Math.sin(elapsed * 8) * 0.1;
             const wave2 = Math.sin(elapsed * 15) * 0.05;
             const random = (Math.random() - 0.5) * 0.02;
@@ -498,13 +499,15 @@ class Avatar3DThreeJS {
             let mouthValue = wave1 + wave2 + random + 0.15;
             mouthValue = Math.max(0.1, Math.min(mouthValue, this.talkIntensity));
 
-            this.mouthMorph.mesh.morphTargetInfluences[this.mouthMorph.index] = mouthValue;
+            if (this.mouthMorph && this.mouthMorph.mesh) {
+                this.mouthMorph.mesh.morphTargetInfluences[this.mouthMorph.index] = mouthValue;
+            }
 
             requestAnimationFrame(animate);
-        };
+    };
 
-        animate();
-    }
+    this.talkAnimation = requestAnimationFrame(animate);
+}
 
     animateHeadNodding(duration) {
         if (!this.avatar) return;
@@ -533,8 +536,14 @@ class Avatar3DThreeJS {
         this.isTalking = false;
         console.log('⏹️ Avatar dejando de hablar...');
 
+        // Cancelar animación actual
+        if (this.talkAnimation) {
+            cancelAnimationFrame(this.talkAnimation);
+            this.talkAnimation = null;
+        }
+
         // Resetear morph de boca
-        if (this.mouthMorph) {
+        if (this.mouthMorph && this.mouthMorph.mesh) {
             this.mouthMorph.mesh.morphTargetInfluences[this.mouthMorph.index] = 0;
         }
 
@@ -917,11 +926,6 @@ class ChatbotHolograma {
 
         console.log('📤 Enviando mensaje:', userMessage);
 
-        if (this.avatar3D) {
-            // Animación de asentimiento
-            this.avatar3D.startSpeaking(1000);
-        }
-
         this.addMessage(userMessage, 'user');
         input.value = '';
 
@@ -1012,35 +1016,80 @@ class ChatbotHolograma {
         this.isTalking = true;
         console.log('🗣️ Hablando:', texto);
 
-        const duracionEstimada = texto.length * 80;
-
+        // Iniciar animación del avatar inmediatamente
         if (this.avatar3D) {
-            this.avatar3D.startSpeaking(duracionEstimada);
+            this.avatar3D.startSpeaking();
         }
 
         if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(texto);
+            // Detener cualquier síntesis previa
+            speechSynthesis.cancel();
 
+            const utterance = new SpeechSynthesisUtterance(texto);
             this.configurarVozMasculina(utterance);
 
+            // Variables para seguimiento
+            let startTime = Date.now();
+            let isSpeaking = true;
+
             utterance.onstart = () => {
-                console.log('🔊 Iniciando voz...');
+                console.log('🔊 Voz iniciada');
+                startTime = Date.now();
             };
 
             utterance.onend = () => {
                 console.log('✅ Voz completada');
+                isSpeaking = false;
                 this.detenerHabla();
             };
 
             utterance.onerror = (e) => {
                 console.error('❌ Error en voz:', e);
+                isSpeaking = false;
                 this.detenerHabla();
             };
 
+            utterance.onboundary = (event) => {
+                // Si hay pausas largas, reiniciar temporizador
+                if (event.name === 'word' || event.name === 'sentence') {
+                    startTime = Date.now();
+                }
+            };
+
+            // Verificación de seguridad: si pasa mucho tiempo sin eventos
+            const safetyCheck = setInterval(() => {
+                if (!isSpeaking) {
+                    clearInterval(safetyCheck);
+                    return;
+                }
+
+                const elapsed = Date.now() - startTime;
+                // Si pasan 30 segundos sin eventos, detener
+                if (elapsed > 30000) {
+                    console.warn('⚠️ Timeout de seguridad activado');
+                    speechSynthesis.cancel();
+                    this.detenerHabla();
+                    clearInterval(safetyCheck);
+                }
+            }, 1000);
+
             speechSynthesis.speak(utterance);
 
+            // Limpiar intervalos cuando se detenga
+            utterance.addEventListener('end', () => {
+                clearInterval(safetyCheck);
+            });
+
         } else {
-            setTimeout(() => this.detenerHabla(), duracionEstimada);
+            // Fallback sin síntesis de voz
+            const duracionEstimada = texto.length * 80;
+            if (this.avatar3D) {
+                this.avatar3D.startSpeaking(duracionEstimada);
+            }
+
+            setTimeout(() => {
+                this.detenerHabla();
+            }, duracionEstimada);
         }
     }
 
