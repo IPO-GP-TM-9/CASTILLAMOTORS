@@ -210,17 +210,19 @@ Although you can use them, for a more unique website, replace these images with 
                     <br>
                     <!--formulario de matrícula y acción -->
                   <p class="center">O introduce una matrícula</p>
-                  <div class="center" style="margin-top:20px;">
-                    <input type="text" id="matricula" placeholder="1111AAA"
-                           style="padding:8px;border:1px solid #ccc;border-radius:4px;">
 
-                    <select id="accion" style="padding:8px;border:1px solid #ccc;border-radius:4px;margin-left:8px;">
-                      <option value="comprar">Comprar</option>
-                      <option value="alquilar">Alquilar</option>
-                    </select>
+                    <div class="fila-matricula center" style="margin-top:20px;">
 
-                    <button id="btnIr" class="btn btn-primary btn-lg" style="margin-left:8px;">Ir</button>
-                  </div>
+                        <input type="text" id="matricula" placeholder="1111AAA"
+                               class="mat-input">
+
+                        <div class="botonera">
+                            <button id="btnIrcomprar" class="btn btn-primary btn-lg">Comprar</button>
+                            <button id="btnIralquilar" class="btn btn-primary btn-lg">Alquilar</button>
+                        </div>
+
+                    </div>
+
                     <script src="/js/qr-camera.js"></script>
                     <script src="/js/custom.js"></script>
                     <script>
@@ -232,10 +234,45 @@ Although you can use them, for a more unique website, replace these images with 
                       // opcional: mostrar QR automáticamente al cargar
                       // document.addEventListener('DOMContentLoaded', () => QRCamera.showCurrentPageQr());
                       // redirección según matrícula y acción
-                     document.getElementById('btnIr').addEventListener('click', function() {
+                    document.getElementById('btnIrcomprar').addEventListener('click', function() {
+                    const accion = "comprar"
                     const matricula = document.getElementById('matricula').value.trim();
                     console.log(matricula);
-                    const accion = document.getElementById('accion').value;
+
+                    // 1) Validación básica
+                    if (!matricula) {
+                        document.getElementById('confirmModalBody2').innerHTML =
+                            `Por favor, introduce una matrícula</strong>.`;
+
+                        // Mostrar modal (Bootstrap)
+                        $('#nomatricula').modal('show');
+                        return;
+                    }
+
+                    // 2) Buscar índice
+                    const index = getIndexPorMatricula(matricula);
+
+                    // 3) Si no existe, mostrar modal y salir
+                    if (index === -1) {
+                        document.getElementById('confirmModalBody').innerHTML =
+                            `No se ha encontrado ningún vehículo con la matrícula <strong>${matricula}</strong>.`;
+
+                        // Mostrar modal (Bootstrap)
+                        $('#matriculanoencontrada').modal('show');
+                        return;
+                    }
+
+                    // 4) Si existe, redirigir
+                    const url = `${accion}1.html?id=${index}`;
+                    console.log("Redirigiendo a:", url);
+                    window.location.href = url;
+                });
+
+
+                        document.getElementById('btnIralquilar').addEventListener('click', function() {
+                    const accion = "alquilar"
+                    const matricula = document.getElementById('matricula').value.trim();
+                    console.log(matricula);
 
                     // 1) Validación básica
                     if (!matricula) {
