@@ -1493,17 +1493,20 @@ body.daltonico-mode .modal-footer .btn:focus {
    ========================================= */
 
 /* Botón rojo - Se oculta cuando el chat está abierto */
-a#chatbot-toggle.btn.chatbot {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    z-index: 10000 !important;
-    position: fixed !important;
-    bottom: 25px !important;
-    right: 25px !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
+.chatbot-btn {
+    position: fixed;   /* Fijo en la pantalla */
+    bottom: 20px;      /* A 20px del borde inferior */
+    right: 20px;       /* A 20px del borde derecho */
+    width: 60px;
+    height: 60px;
+    background-color: #ff4d4d;
+    border-radius: 50%; /* Circular */
+    display: flex;
+    justify-content: center; /* Centrado horizontal del icono */
+    align-items: center;     /* Centrado vertical del icono */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 1000;           /* Que esté encima de todo */
 }
 
 /* Ocultar botón cuando el chat está abierto */

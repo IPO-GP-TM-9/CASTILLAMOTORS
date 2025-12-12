@@ -429,6 +429,61 @@ function logMsg(text) {
   logEl.appendChild(line);
 }
 
+// --- FUNCIONES DE TOAST ---
+function showToast(message, duration = 3000) {
+  // Crear contenedor de toast si no existe
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.style.position = 'fixed';
+    container.style.bottom = '20px';
+    container.style.left = '20px';
+    container.style.zIndex = '9999';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '10px';
+    document.body.appendChild(container);
+  }
+
+  // Crear toast
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.background = 'rgba(0,0,0,0.8)';
+  toast.style.color = '#fff';
+  toast.style.padding = '10px 15px';
+  toast.style.borderRadius = '8px';
+  toast.style.fontFamily = 'sans-serif';
+  toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+  toast.style.opacity = '0';
+  toast.style.transition = 'opacity 0.3s ease';
+
+  container.appendChild(toast);
+
+  // Aparecer
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+  });
+
+  // Desaparecer
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => container.removeChild(toast), 300);
+  }, duration);
+}
+
+// --- DETECCIÓN GAMEPAD CON TOAST ---
+window.addEventListener('gamepadconnected', (e) => {
+  logMsg(`Gamepad conectado`);
+  showToast(`✅ Mando conectado`);
+  requestAnimationFrame(gameLoop);
+});
+
+window.addEventListener('gamepaddisconnected', (e) => {
+  logMsg(`Gamepad desconectado`);
+  showToast(`❌ Mando desconectado`);
+});
+
 
 
 
