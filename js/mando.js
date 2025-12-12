@@ -268,79 +268,85 @@ function performClick() {
 function moveFocus(direction) {
   clearHover();
 
-  const MAX_DIST = 3000;
+  // --- 1. ESTADO DEL CHATBOT ---
+  const chatbotContainer = document.getElementById('chatbot-container');
+  // Verifica si tiene la clase que lo hace visible
+  const isChatbotOpen = chatbotContainer && chatbotContainer.classList.contains('chatbot-open');
 
-  // 1) DETECTAR MODAL ABIERTO
+  // --- 2. LÓGICA DE "CÁRCEL" (Si está abierto, no te deja salir) ---
+  if (isChatbotOpen) {
+    // Buscamos solo los elementos dentro del chat
+    const focusableInChat = Array.from(chatbotContainer.querySelectorAll(
+      'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null); // Solo los visibles
+
+    if (focusableInChat.length === 0) return;
+
+    const currentIndex = focusableInChat.indexOf(document.activeElement);
+    let nextIndex = 0;
+
+    // Si ya estamos dentro, calculamos el siguiente
+    if (currentIndex !== -1) {
+      if (direction === 'down' || direction === 'right') {
+        nextIndex = (currentIndex + 1) % focusableInChat.length;
+      } else if (direction === 'up' || direction === 'left') {
+        nextIndex = (currentIndex - 1 + focusableInChat.length) % focusableInChat.length;
+      } else {
+        return;
+      }
+    }
+    // Si no estábamos dentro, vamos al primero (index 0)
+
+    const target = focusableInChat[nextIndex];
+    if (target) {
+      target.focus();
+      updateCursorPositionToElement(target);
+    }
+    return; // TERMINA AQUÍ PARA EL CHAT ABIERTO
+  }
+
+  // --- 3. LÓGICA WEB NORMAL (Si el chat está cerrado) ---
+
+  // Detectar modales normales (no chat)
   const openModal = Array.from(document.querySelectorAll('.modal')).find(m => {
     return window.getComputedStyle(m).display === 'block';
   });
 
-  let scopeElement = document;
-  if (openModal) {
-    scopeElement = openModal;
+  let scopeElement = openModal || document;
 
-    // Si el foco actual NO está dentro del modal, entrar por el primer botón/enlace
-    if (!openModal.contains(document.activeElement)) {
-      const firstBtn = openModal.querySelector(
-        '.btn, button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (firstBtn) {
-        firstBtn.focus();
-        updateCursorPositionToElement(firstBtn);
-        return;
-      }
-    }
-  }
-
-  // 2) SI NO HAY FOCO, ENFOCAR EL PRIMER ELEMENTO VISIBLE
+  // Recuperación de foco si se pierde
   if (!document.activeElement || document.activeElement === document.body) {
-    const allItems = scopeElement.querySelectorAll(INTERACTIVE_SELECTOR);
-    for (let el of allItems) {
-      if (el.offsetWidth > 0 && el.offsetHeight > 0 && el.tabIndex !== -1) {
-        el.focus();
-        updateCursorPositionToElement(el);
-        return;
-      }
+    const first = scopeElement.querySelector(INTERACTIVE_SELECTOR);
+    if (first) {
+        first.focus();
+        updateCursorPositionToElement(first);
     }
     return;
   }
 
   const current = document.activeElement;
-
-  // 2.5) CASO ESPECIAL: BOTONES DEL MODAL (CANCELAR / CONFIRMAR)
-  const cancelar = openModal ? openModal.querySelector('.volveratras') : null;
-  const confirmar = openModal ? openModal.querySelector('#btn-confirmar-modal') : null;
-
-  if (openModal && cancelar && confirmar) {
-    if (current === cancelar && direction === 'right') {
-      confirmar.focus();
-      updateCursorPositionToElement(confirmar);
-      return;
-    }
-    if (current === confirmar && direction === 'left') {
-      cancelar.focus();
-      updateCursorPositionToElement(cancelar);
-      return;
-    }
-  }
-
   const rectCurrent = current.getBoundingClientRect();
   const centerCurrent = {
     x: rectCurrent.left + rectCurrent.width / 2,
     y: rectCurrent.top + rectCurrent.height / 2
   };
 
-  // 3) NAVEGACIÓN ESPACIAL GENÉRICA
   const candidates = Array.from(scopeElement.querySelectorAll(INTERACTIVE_SELECTOR));
-
   let bestCandidate = null;
   let minDist = Infinity;
+  const MAX_DIST = 3000;
 
   candidates.forEach(el => {
     if (el === current) return;
+
+    // --- ESTA ES LA LÍNEA MÁGICA QUE ARREGLA TU PROBLEMA ---
+    // Si el elemento es parte del chatbot Y el chatbot NO está abierto -> IGNORARLO
+    if (chatbotContainer && chatbotContainer.contains(el) && !isChatbotOpen) return;
+    // -------------------------------------------------------
+
     if (el.offsetWidth === 0 || el.offsetHeight === 0) return;
     if (el.tabIndex === -1) return;
-    if (openModal && !openModal.contains(el)) return;
+    if (scopeElement !== document && !scopeElement.contains(el)) return;
 
     const rect = el.getBoundingClientRect();
     const center = {
@@ -351,30 +357,19 @@ function moveFocus(direction) {
     const dx = center.x - centerCurrent.x;
     const dy = center.y - centerCurrent.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
+
     if (dist === 0 || dist > MAX_DIST) return;
 
     let valid = false;
-
+    // Lógica geométrica estándar
     switch (direction) {
-      case 'right':
-        // A la derecha y razonablemente alineado en vertical
-        valid = dx > 0 && Math.abs(dy) < rectCurrent.height * 2;
-        break;
-      case 'left':
-        valid = dx < 0 && Math.abs(dy) < rectCurrent.height * 2;
-        break;
-      case 'down':
-        // Por debajo y algo alineado en horizontal
-        valid = dy > 0;
-        break;
-      case 'up':
-        valid = dy < 0 ;
-        break;
+      case 'right': valid = dx > 0 && Math.abs(dy) < rectCurrent.height * 2.5; break;
+      case 'left':  valid = dx < 0 && Math.abs(dy) < rectCurrent.height * 2.5; break;
+      case 'down':  valid = dy > 0 && Math.abs(dx) < rectCurrent.width * 2.5; break;
+      case 'up':    valid = dy < 0 && Math.abs(dx) < rectCurrent.width * 2.5; break;
     }
 
-    if (!valid) return;
-
-    if (dist < minDist) {
+    if (valid && dist < minDist) {
       minDist = dist;
       bestCandidate = el;
     }
@@ -385,6 +380,7 @@ function moveFocus(direction) {
     updateCursorPositionToElement(bestCandidate);
   }
 }
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -408,3 +404,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function logMsg(text) {
+  const logEl = document.getElementById('msg-log');
+  if (!logEl) return;
+
+  const line = document.createElement('div');
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+  logEl.appendChild(line);
+}
+
+window.addEventListener('gamepadconnected', (e) => {
+  const gp = e.gamepad;
+  logMsg(`Mando conectado (index ${gp.index}): ${gp.id}`);
+  // Si tu bucle solo arranca aquí, perfecto:
+  requestAnimationFrame(gameLoop);
+}, false);
+
+window.addEventListener('gamepaddisconnected', (e) => {
+  const gp = e.gamepad;
+  logMsg(`Mando desconectado (index ${gp.index}): ${gp.id}`);
+}, false);
