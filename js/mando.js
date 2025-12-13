@@ -269,6 +269,8 @@ function moveFocus(direction) {
   clearHover();
 
   const MAX_DIST = 3000;
+const chat = document.getElementById('chatbot-container');
+const chatClosed = chat && chat.classList.contains('chatbot-closed');
 
   // 1) DETECTAR MODAL ABIERTO
   const openModal = Array.from(document.querySelectorAll('.modal')).find(m => {
@@ -295,13 +297,18 @@ function moveFocus(direction) {
   // 2) SI NO HAY FOCO, ENFOCAR EL PRIMER ELEMENTO VISIBLE
   if (!document.activeElement || document.activeElement === document.body) {
     const allItems = scopeElement.querySelectorAll(INTERACTIVE_SELECTOR);
-    for (let el of allItems) {
-      if (el.offsetWidth > 0 && el.offsetHeight > 0 && el.tabIndex !== -1) {
-        el.focus();
-        updateCursorPositionToElement(el);
-        return;
-      }
-    }
+for (let el of allItems) {
+
+  // NUEVO: si el chat está cerrado, saltar todo lo de dentro del chatbot
+  if (chatClosed && el.closest('#chatbot-container')) continue;
+
+  if (el.offsetWidth > 0 && el.offsetHeight > 0 && el.tabIndex !== -1) {
+    el.focus();
+    updateCursorPositionToElement(el);
+    return;
+  }
+}
+
     return;
   }
 
@@ -339,6 +346,7 @@ function moveFocus(direction) {
   candidates.forEach(el => {
     if (el === current) return;
     if (el.offsetWidth === 0 || el.offsetHeight === 0) return;
+    if (chatClosed && el.closest('#chatbot-container')) return;
     if (el.tabIndex === -1) return;
     if (openModal && !openModal.contains(el)) return;
 
@@ -387,6 +395,9 @@ function moveFocus(direction) {
 }
 
 
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const daltoneToggle = document.getElementById('daltone-toggle');
   if (!daltoneToggle) return;
@@ -408,3 +419,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function logMsg(text) {
+  const logEl = document.getElementById('msg-log');
+  if (!logEl) return;
+
+  const line = document.createElement('div');
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+  logEl.appendChild(line);
+}
+
+// --- FUNCIONES DE TOAST ---
+function showToast(message, duration = 3000) {
+  // Crear contenedor de toast si no existe
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.style.position = 'fixed';
+    container.style.bottom = '20px';
+    container.style.left = '20px';
+    container.style.zIndex = '9999';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '10px';
+    document.body.appendChild(container);
+  }
+
+  // Crear toast
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.background = 'rgba(0,0,0,0.8)';
+  toast.style.color = '#fff';
+  toast.style.padding = '10px 15px';
+  toast.style.borderRadius = '8px';
+  toast.style.fontFamily = 'sans-serif';
+  toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+  toast.style.opacity = '0';
+  toast.style.transition = 'opacity 0.3s ease';
+
+  container.appendChild(toast);
+
+  // Aparecer
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+  });
+
+  // Desaparecer
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => container.removeChild(toast), 300);
+  }, duration);
+}
+
+// --- DETECCIÓN GAMEPAD CON TOAST ---
+window.addEventListener('gamepadconnected', (e) => {
+  logMsg(`Gamepad conectado`);
+  showToast(`✅ Mando conectado`);
+  requestAnimationFrame(gameLoop);
+});
+
+window.addEventListener('gamepaddisconnected', (e) => {
+  logMsg(`Gamepad desconectado`);
+  showToast(`❌ Mando desconectado`);
+});
+
+
+
+
+
