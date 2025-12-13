@@ -29,6 +29,7 @@ Although you can use them, for a more unique website, replace these images with 
     <!-- Custom Fonts from Google -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
+
 </head>
 
 <body>
@@ -48,32 +49,6 @@ Although you can use them, for a more unique website, replace these images with 
     <div class="big-mode-container">
     <input type="checkbox" id="big-mode-toggle" hidden>
     <input type="checkbox" id="daltone-toggle" hidden>
-
-
-    <!--<label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>-->
-    <div class="page-content">
-
-<div id="google_translate_element"></div>
-
-
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement(
-      {pageLanguage: 'es', includedLanguages: 'en,fr,de,es'},
-      'google_translate_element'
-    );
-  }
-
-  function traducir(lang) {
-    var combo = document.querySelector(".goog-te-combo");
-    if (combo) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event("change"));
-    }
-  }
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 
     <!-- Navigation -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -208,16 +183,16 @@ Although you can use them, for a more unique website, replace these images with 
                     <!-- incluye el script (qrcode se cargará automáticamente si hace falta) -->
                     <br>
                     <!--formulario de matrícula y acción -->
-                  <p class="center"><br>O introduce una matrícula</p>
+                  <p class="center">O introduce una matrícula</p>
 
                     <div class="fila-matricula center" style="margin-top:20px;">
 
-                        <input type="text" id="matricula" placeholder="Cuatro números y tres letras, sin espacios"
+                        <input type="text" id="matricula" placeholder="1111AAA"
                                class="mat-input">
 
                         <div class="botonera">
-                            <button id="btnIrcomprar" class="btn btn-default btn-lg">comprarlo</button>
-                            <button id="btnIralquilar" class="btn btn-default btn-lg">alquilarlo</button>
+                            <button id="btnIrcomprar" class="btn btn-primary btn-lg">Comprar</button>
+                            <button id="btnIralquilar" class="btn btn-primary btn-lg">Alquilar</button>
                         </div>
 
                     </div>
@@ -345,10 +320,30 @@ Although you can use them, for a more unique website, replace these images with 
 
     <script src="js/mando.js"></script>
 
-    <script src="js/chatbot-holograma.js"></script>
+    <script src="js/prueba.js"></script>
+
+    <div id="google_translate_element"></div>
+
+        <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'es', includedLanguages: 'en,fr,de,es'},
+          'google_translate_element'
+        );
+      }
+
+      function traducir(lang) {
+        var combo = document.querySelector(".goog-te-combo");
+        if (combo) {
+          combo.value = lang;
+          combo.dispatchEvent(new Event("change"));
+        }
+      }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     </div>
-</div>
+
 
     <!-- Modal: matrícula no encontrada -->
 <div id="matriculanoencontrada" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -361,7 +356,7 @@ Although you can use them, for a more unique website, replace these images with 
         <p id="confirmModalBody">La matrícula no se ha encontrado.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary volveratras btncenter" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary volveratras btn-small" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -378,7 +373,7 @@ Although you can use them, for a more unique website, replace these images with 
         <p id="confirmModalBody2">Por favor, escriba una matrícula.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary volveratras btncenter" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary volveratras btn-small" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
