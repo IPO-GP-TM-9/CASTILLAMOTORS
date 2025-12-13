@@ -18,7 +18,8 @@ $(document).ready(function() {
             marca: "Peugeot",
             modelo: "5008",
             desc: "2.0 BlueHDi 180 CV, 10000 km.",
-            precio: "45.900",
+            preciocompra: "45.900",
+            precioalquiler: "50",
             matricula: "1234ABC",
             img: "images/peugeot-5008.jpg",
             modelo_3d: "https://sketchfab.com/models/7aa26f63a1b641f889a6e03a8f557a82/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -30,7 +31,8 @@ $(document).ready(function() {
             marca: "Toyota",
             modelo: "Fortuner",
             desc: "2.8D 204CV 4x4, 2021, 15.000 km.",
-            precio: "42.900",
+            preciocompra: "42.900",
+            precioalquiler: "45",
             matricula: "1243ABC",
             img: "images/fortuner.webp",
             modelo_3d: "https://sketchfab.com/models/7c6a3dc9a04f45658d1289cfd20accd7/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -42,7 +44,8 @@ $(document).ready(function() {
             marca: "Mercedes-Benz",
             modelo: "CLS AMG",
             desc: "CLS 53 AMG 4MATIC+, 435CV, 2022.",
-            precio: "85.000",
+            preciocompra: "85.000",
+            precioalquiler: "60",
             matricula: "4321CBA",
             img: "images/mercedes.webp",
             modelo_3d: "https://sketchfab.com/models/1202e3dd546e4f668003277b47c4a3cc/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -55,7 +58,8 @@ $(document).ready(function() {
             marca: "BMW",
             modelo: "Alpina B7",
             desc: "4.4 V8 Bi-Turbo 608CV, 2020.",
-            precio: "110.000",
+            preciocompra: "110.000",
+            precioalquiler: "90",
             matricula: "9312ABC",
             img: "images/alpina_b7.jpg",
             modelo_3d: "https://sketchfab.com/models/1af98a380e974fc28451bd037c35747c/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -68,7 +72,8 @@ $(document).ready(function() {
             marca: "Audi",
             modelo: "Q2 S-Line",
             desc: "35 TFSI 150CV S-Tronic, 2021.",
-            precio: "28.900",
+            preciocompra: "28.900",
+            precioalquiler: "30",
             matricula: "1111NFS",
             img: "images/audi_q2.webp",
             modelo_3d: "https://sketchfab.com/models/6b96ae2dd4274ebd9fe070d4a014c1ce/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -80,7 +85,8 @@ $(document).ready(function() {
             marca: "Lexus",
             modelo: "RX500h F Sport",
             desc: "5.0 V8 371 CV, 80000 km.",
-            precio: "70.500",
+            preciocompra: "70.500",
+            precioalquiler: "65",
             matricula: "3432DNT",
             img: "images/lexus.jpg",
             modelo_3d: "https://sketchfab.com/models/94948d1396764708bf1aafb8e7393788/embed?autostart=1&ui_controls=1&ui_infos=0&ui_annotations=0",
@@ -114,7 +120,7 @@ $(document).ready(function() {
                             </div>
                             <div style="padding: 15px;">
                                 <p style="height: 40px; overflow: hidden;">${coche.desc}</p>
-                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precio}€**</p>
+                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.preciocompra}€**</p>
                                 <a href="comprar1.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
                             </div>
                         </div>
@@ -135,7 +141,7 @@ $(document).ready(function() {
                             </div>
                             <div style="padding: 15px;">
                                 <p style="height: 40px; overflow: hidden;">${coche.desc}</p>
-                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precio}€**</p>
+                                <p class="lead precio-texto" style="margin-bottom: 10px;">**${coche.precioalquiler}€ / Día**</p>
                                 <a href="alquilar1.html?id=${index}" class="btn btn-primary">Ver Detalles</a>
                             </div>
                         </div>
@@ -181,7 +187,11 @@ $(document).ready(function() {
 
         $('#detalle-titulo').text(coche.marca + ' ' + coche.modelo);
         $('#detalle-subtitulo').text(coche.desc);
-        $('#detalle-precio').text(coche.precio + '€');
+        if (esAlquilar){
+            $('#detalle-precio').text(coche.precioalquiler + '€ / Día');
+        }
+        else
+            $('#detalle-precio').text(coche.preciocompra + '€');
         $('#detalle-desc-larga').text(`Este ${coche.marca} ${coche.modelo} es una oportunidad única. Equipado con ${coche.desc}`);
         $('#detalle-matricula').text(`Matrícula: ${coche.matricula}`);
 
