@@ -29,7 +29,7 @@ Although you can use them, for a more unique website, replace these images with 
     <!-- Custom Fonts from Google -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-</script>
+
 </head>
 
 <body>
@@ -49,32 +49,6 @@ Although you can use them, for a more unique website, replace these images with 
     <div class="big-mode-container">
     <input type="checkbox" id="big-mode-toggle" hidden>
     <input type="checkbox" id="daltone-toggle" hidden>
-
-
-    <!--<label for="big-mode-toggle" class="btn-big-mode" title="Modo texto grande">A+</label>-->
-    <div class="page-content">
-
-<div id="google_translate_element"></div>
-
-
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement(
-      {pageLanguage: 'es', includedLanguages: 'en,fr,de,es'},
-      'google_translate_element'
-    );
-  }
-
-  function traducir(lang) {
-    var combo = document.querySelector(".goog-te-combo");
-    if (combo) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event("change"));
-    }
-  }
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 
     <!-- Navigation -->
     <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -346,10 +320,30 @@ Although you can use them, for a more unique website, replace these images with 
 
     <script src="js/mando.js"></script>
 
-    <script src="js/chatbot-holograma.js"></script>
+    <script src="js/prueba.js"></script>
+
+    <div id="google_translate_element"></div>
+
+        <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'es', includedLanguages: 'en,fr,de,es'},
+          'google_translate_element'
+        );
+      }
+
+      function traducir(lang) {
+        var combo = document.querySelector(".goog-te-combo");
+        if (combo) {
+          combo.value = lang;
+          combo.dispatchEvent(new Event("change"));
+        }
+      }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     </div>
-</div>
+
 
     <!-- Modal: matrícula no encontrada -->
 <div id="matriculanoencontrada" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

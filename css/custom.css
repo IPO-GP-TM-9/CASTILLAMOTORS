@@ -28,12 +28,15 @@ header {
     min-height: auto;
     text-align: center;
     color: #fff;
+    /* AÑADE ESTA LÍNEA para que el fondo sea negro si el GIF parpadea */
+    background-color: #000;
     background-image: url('../images/inicio.gif');
     background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+    will-change: transform,opacity;
 }
 
 header .header-content {
@@ -56,6 +59,38 @@ header .header-content .header-content-inner p {
     font-weight: 300;
     color: rgba(255,255,255,.7);
 }
+
+/* Ocultar el iframe del banner inferior que a veces es blanco */
+.goog-te-banner-frame {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Aplicar la máxima opacidad/transparencia a cualquier elemento relacionado con la traducción */
+/* Esto incluye el elemento de traducción en el menú y cualquier capa inyectada */
+.goog-tooltip,
+.goog-tooltip * {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Asegura que el elemento principal del widget no cause problemas visuales */
+#google_translate_element {
+    /* Si lo tienes en la barra de navegación y quieres que se vea, omite estas 3 líneas */
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+}
+
+/* Si el parpadeo es causado por una animación de carga (spinner), ocúltala */
+.goog-te-spinner,
+.goog-te-spinner * {
+    background: transparent !important;
+}
+
 
 @media(min-width:768px) {
     header {
@@ -1919,3 +1954,4 @@ body.daltonico-mode .chat-messages::-webkit-scrollbar-thumb:hover {
   object-fit: cover;
   margin-right: 10px;
 }
+
