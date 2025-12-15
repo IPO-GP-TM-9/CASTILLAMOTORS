@@ -1115,12 +1115,29 @@ class ChatbotHolograma {
             });
         }
 
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('close-chat')) {
-                e.preventDefault();
-                this.closeChat();
+        const chatContainer = document.getElementById('chatbot-container');
+
+        if (chatContainer) {
+            // 💡 SOLUCIÓN: Buscar el botón de cerrar DENTRO del contenedor
+            const closeBtn = chatContainer.querySelector('.close-chat');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.closeChat();
+                });
+                console.log('✅ Event listener de cerrar añadido directamente al botón.');
+            } else {
+                // Fallback a la lógica de delegación que ya tenías (puede que necesite ser el primer elemento del código, pero esta es la mejor práctica)
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('close-chat')) {
+                        e.preventDefault();
+                        this.closeChat();
+                    }
+                });
+                console.warn('⚠️ Botón de cerrar no encontrado al configurar, usando delegación de documento.');
             }
-        });
+        }
 
         document.addEventListener('keypress', (e) => {
             if (e.target.id === 'user-input' && e.key === 'Enter') {

@@ -2003,4 +2003,7 @@ body.daltonico-mode .chat-messages::-webkit-scrollbar-thumb:hover {
   object-fit: cover;
   margin-right: 10px;
 }
-
+/* Nuevo CSS para añadir el color específico a los enlaces */
+.chat-messages .message.bot a {
+    color: #A92727 !important; /* Cian brillante */
+}

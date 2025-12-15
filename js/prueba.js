@@ -437,7 +437,17 @@ class Avatar3DThreeJS {
 
                     // Ajustar tamaño y posición
                     this.avatar.scale.set(2.2, 2.2, 2.2);
-                    this.avatar.position.set(0, -3.7, 0);
+
+                    let yPosition = -3.7; // Posición base (por defecto chico)
+
+                    // Ajuste condicional para el modelo de la chica (fr y de)
+                    if (this.currentLanguage === 'fr' || this.currentLanguage === 'de') {
+                        // Si la chica necesita estar más arriba (menos negativo)
+                        yPosition = -3.5;
+                    }
+
+                    this.avatar.position.set(0, yPosition, 0); // <--- USAR LA VARIABLE AJUSTADA
+
 
 
 
@@ -1115,12 +1125,29 @@ class ChatbotHolograma {
             });
         }
 
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('close-chat')) {
-                e.preventDefault();
-                this.closeChat();
+        const chatContainer = document.getElementById('chatbot-container');
+
+        if (chatContainer) {
+            // 💡 SOLUCIÓN: Buscar el botón de cerrar DENTRO del contenedor
+            const closeBtn = chatContainer.querySelector('.close-chat');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.closeChat();
+                });
+                console.log('✅ Event listener de cerrar añadido directamente al botón.');
+            } else {
+                // Fallback a la lógica de delegación que ya tenías (puede que necesite ser el primer elemento del código, pero esta es la mejor práctica)
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('close-chat')) {
+                        e.preventDefault();
+                        this.closeChat();
+                    }
+                });
+                console.warn('⚠️ Botón de cerrar no encontrado al configurar, usando delegación de documento.');
             }
-        });
+        }
 
         document.addEventListener('keypress', (e) => {
             if (e.target.id === 'user-input' && e.key === 'Enter') {
@@ -1637,6 +1664,10 @@ class ChatbotHolograma {
             response = `${textoNoEntendido} \n\n* ${opciones.join('\n* ')}`;
         }
 
+        let textToDisplay = response;
+        let textToSpeak = response;
+        let enlaceHTML='';
+
         // Lógica de enlace condicional para las secciones principales (¡AHORA CON HTML!)
         if (keywordMatch && respuestasIdioma.enlaces[keywordMatch]) {
             const linkHTML = respuestasIdioma.enlaces[keywordMatch];
@@ -1651,19 +1682,20 @@ class ChatbotHolograma {
             const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
 
             // El enlace final debe ejecutar el clickHandler antes de navegar.
-            const enlaceFinal = `\n\n<a href="${linkHTML}"
+            enlaceHTML = `\n\n<a href="${linkHTML}"
                 onclick="${clickHandler}"
                 style="font-weight: bold; text-decoration: underline;">
                 ${enlaceTexto}
             </a>`;
 
-            response += enlaceFinal;
+            textToDisplay += enlaceHTML;
+            textToSpeak= response + " " + enlaceTexto;
         }
 
         console.log(`📝 Respuesta generada en ${idiomaBase}:`, response);
 
-        this.addMessage(response, 'bot');
-        this.hablarTexto(response);
+        this.addMessage(textToDisplay, 'bot');
+        this.hablarTexto(textToSpeak);
     }
 }
 // ==================== INICIALIZACIÓN ====================
