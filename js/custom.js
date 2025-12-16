@@ -632,3 +632,13 @@ $('#confirmModal').on('shown.bs.modal', function () {
     updateCursorPositionToElement(cancelar);
   }
 });
+
+
+function volverEspanol() {
+  // Borra la cookie de Google Translate (para este dominio y ruta)
+  document.cookie = "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+  // A veces también conviene intentar con el dominio actual
+  document.cookie = "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + location.hostname;
+
+  location.reload();
+}
