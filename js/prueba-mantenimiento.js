@@ -437,6 +437,7 @@ class Avatar3DThreeJS {
 
                     // Ajustar tamaño y posición
                     this.avatar.scale.set(2.2, 2.2, 2.2);
+
                     let yPosition = -3.7; // Posición base (por defecto chico)
 
                     // Ajuste condicional para el modelo de la chica (fr y de)
@@ -446,6 +447,7 @@ class Avatar3DThreeJS {
                     }
 
                     this.avatar.position.set(0, yPosition, 0); // <--- USAR LA VARIABLE AJUSTADA
+
 
 
 
@@ -1485,287 +1487,248 @@ class ChatbotHolograma {
         let idiomaBase = idiomaActual.split('-')[0];
 
         // --- OBJETO DE RESPUESTAS CON LÓGICA DE FORMATO Y ENLACES ---
-        const respuestas = {
-            'es': {
-                // General y Contextual
-                default: "Estoy en la sección de compra. Para ayudarte, ¿buscas información específica sobre un modelo o sobre financiación?",
-                modeloInfo: (modelo, precio) => `El ${modelo} es uno de nuestros modelos destacados, con un precio de ${precio}. ¿Quieres ver los detalles completos del vehículo o hablar de financiación?`,
-                detalles: "Para ver las especificaciones técnicas, haz clic en el botón 'Ver Detalles' debajo del coche que te interese. Estoy aquí si tienes preguntas sobre financiación.",
-                financiacion: "Podemos calcular la financiación de cualquier vehículo. ¿Quieres consultar nuestros planes de préstamo o leasing? (Escribe 'préstamo' o 'leasing').",
+        // 🔥 ORDEN CORRECTO - COPIAR Y PEGAR
 
-                // Reorientación (Si pregunta por otras secciones)
-                alquilar: "Si quieres ver opciones de alquiler, te llevo a la sección de Alquiler.",
-                mantenimiento: "Si necesitas mantenimiento, te llevo a la sección de Mantenimiento.",
+let servicioSeleccionado = null;
+let checkboxSeleccionado = null;
 
-                // Mensajes Genéricos
-                precio: "Los precios se muestran debajo de cada vehículo. ¿Quieres consultar detalles o financiación de alguno de ellos?",
-                hola: "¡Hola! Bienvenido a la sección de Mejores Ofertas. ¿Puedo ayudarte a encontrar detalles, precio o financiación de alguno de nuestros modelos?",
-                horario: "Nuestro horario de atención es de lunes a viernes de 9:00 a 19:00 y sábados de 10:00 a 14:00. ¡Te esperamos!",
-                contacto: "Puedes contactarnos al +34 456 789 042 o por email a CastillaMotors@uclm.es.",
-                gracias: "¡De nada! Estoy aquí para ayudarte con tu compra. ¿Hay algo más?",
+function calcularTotal() {
+    let total = 0;
+    document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+        const precio = cb.closest('.panel-body')?.querySelector('.precio')?.textContent.match(/\d+/);
+        if (precio) total += parseInt(precio[0]);
+    });
+    const totalSpan = document.querySelector('h3 span');
+    if (totalSpan) totalSpan.textContent = total + '€';
+}
 
-                // Modelos de la imagen (Clave: [Nombre, Precio])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
+const respuestas = {
+    'es': {
+        default: "Estoy en la sección de Mantenimiento. ¿Necesitas diagnóstico, cita para revisión, cambio de aceite o información de servicios?",
+        diagnostico: "Para diagnóstico completo revisamos motor, frenos, suspensión, electrónica y neumáticos. Duración: 45-90 min. ¿Qué síntomas presenta tu vehículo?",
+        revision: "Revisión completa (2-3 horas) incluye: aceite/filtros, frenos, neumáticos, luces, batería, suspensión y diagnóstico OBD. Recomendada cada 15.000 km.",
+        aceite: "Cambio de aceite (30-45 min): Aceite sintético premium + filtros (aceite, aire, combustible). Cada 10.000 km o 6 meses.",
+        limpieza: "Limpieza integral (4-6 horas): Motor, interior completo, exterior, tapicería y detailing profesional. Ideal para mantener el valor.",
+        cita: "Para pedir cita necesitamos: modelo del vehículo, km actuales y servicio requerido. ¿Qué día prefieres? Lun-Vie 9:00-18:00.",
+        comprar: "Si quieres ver vehículos en venta, te llevo a la sección de Compra.",
+        alquilar: "Si buscas alquiler de vehículos, te llevo a la sección de Alquiler.",
+        precio: "Precios de mantenimiento:\n• Cambio aceite: desde 60€\n• Revisión completa: desde 180€\n• Limpieza integral: desde 50€\n¿Necesitas presupuesto detallado?",
+        hola: "¡Hola! Bienvenido al servicio de Mantenimiento Castilla Motors. ¿Qué servicio necesitas hoy?",
+        horario: "Horario Mantenimiento:\nLun-Vie: 9:00-18:00\nSáb: 9:00-14:00\nCitas online 24/7",
+        contacto: "Contacto Mantenimiento:\n📞 +34 456 789 042 (citas)\n✉️ CastillaMotors@uclm.es\nEmergencias: +34 456 789 043",
+        gracias: "¡Perfecto! Tu cita está confirmada. Te enviaremos recordatorio por WhatsApp. ¿Algo más?",
+        confirmarCita: "Perfecto! Cita para Cambio Aceite + Filtros confirmada.\n\n✅ Seleccionado automáticamente: ☑️ Cambio de Aceite\n\n📅 Siguiente paso: Dime modelo del coche y kilómetros actuales para finalizar reserva.",
+        confirmarRevision: "Perfecto! Cita para Revisión Completa confirmada.\n\n✅ Seleccionado automáticamente: ☑️ Revisión Completa\n\n📅 Siguiente paso: Dime modelo del coche y kilómetros actuales.",
+        confirmarLimpieza: "Perfecto! Cita para Limpieza Integral confirmada.\n\n✅ Seleccionado automáticamente: ☑️ Limpieza Integral\n\n📅 Siguiente paso: Dime modelo del coche y fecha preferida.",
+        siCita: (servicio) => `Genial! Reserva ${servicio} confirmada ✅\n\nDatos necesarios:\n• Marca/Modelo\n• Kilometraje actual\n• Fecha preferida (lun-vie 9-18h)\n\nEjemplo: "Peugeot 5008, 45.000 km, mañana 10:00"`,
+        pedirDatos: "¡Datos recibidos! Procesando tu cita...\n\n🔄 En 24h te confirmamos por WhatsApp/SMS:\n• Hora exacta\n• Preparativos\n• Recordatorio\n\n¿Todo correcto? (modelo/km correctos)",
+        noCita: "¿Qué otro servicio necesitas? Diagnóstico, Revisión, Frenos, etc.",
+        servicios: {
+            aceite: ['Cambio Aceite + Filtros', '30-45 min', '89€'],
+            revision: ['Revisión Completa', '2-3 horas', '199€'],
+            limpieza: ['Limpieza Integral', '4-6 horas', '299€']
+        },
+        enlacePregunta: "¿Quieres ir a la sección de [Seccion]?",
+        enlaces: { comprar: 'comprar.html', alquilar: 'alquilar.html' },
+        secciones: { comprar: 'Compra', alquilar: 'Alquilar' },
+        opciones: ["🔧 Diagnóstico (ej: 'mi coche hace ruido')", "⏱️ Tiempos (ej: 'cuanto dura revisión completa')", "📅 Cita (ej: 'quiero cita para aceite')", "💰 Presupuesto (ej: 'precio cambio frenos')", "🚗 Compra / 🔑 Alquiler (para salir)"],
+        textosNoEntendido: (userMessage) => `No entendí bien "${userMessage}". En Mantenimiento Castilla Motors puedo ayudarte con diagnóstico, citas y presupuestos:`
+    },
+    'en': {
+        default: "I'm in the Maintenance section. Do you need diagnostics, service appointment, oil change or service information?",
+        diagnostico: "For full diagnostics we check engine, brakes, suspension, electronics and tires. Duration: 45-90 min. What symptoms is your vehicle showing?",
+        revision: "Full service (2-3 hours) includes: oil/filters, brakes, tires, lights, battery, suspension and OBD diagnostics. Recommended every 15,000 km.",
+        aceite: "Oil change (30-45 min): Premium synthetic oil + filters (oil, air, fuel). Every 10,000 km or 6 months.",
+        limpieza: "Full detailing (4-6 hours): Engine, complete interior, exterior, upholstery and professional detailing. Perfect for maintaining value.",
+        cita: "To book appointment we need: vehicle model, current mileage and required service. What day do you prefer? Mon-Fri 9:00-18:00.",
+        comprar: "If you want to see vehicles for sale, I can take you to the Purchase section.",
+        alquilar: "If you're looking for vehicle rental, I can take you to the Rental section.",
+        precio: "Maintenance prices:\n• Oil change: from €89\n• Full service: from €199\n• Full detailing: from €299\nNeed detailed quote?",
+        hola: "Hello! Welcome to Castilla Motors Maintenance. What service do you need today?",
+        horario: "Maintenance Hours:\nMon-Fri: 9:00-18:00\nSat: 9:00-14:00\nOnline booking 24/7",
+        contacto: "Maintenance Contact:\n📞 +34 456 789 042 (appointments)\n✉️ CastillaMotors@uclm.es\nEmergencies: +34 456 789 043",
+        gracias: "Perfect! Your appointment is confirmed. We'll send WhatsApp reminder. Anything else?",
+        confirmarCita: "Perfect! Oil Change + Filters appointment confirmed.\n\n✅ Auto-selected: ☑️ Oil Change\n\n📅 Next step: Tell me car model and current mileage to finalize booking.",
+        confirmarRevision: "Perfect! Full Service appointment confirmed.\n\n✅ Auto-selected: ☑️ Full Service\n\n📅 Next step: Tell me car model and current mileage.",
+        confirmarLimpieza: "Perfect! Full Detailing appointment confirmed.\n\n✅ Auto-selected: ☑️ Full Detailing\n\n📅 Next step: Tell me car model and preferred date.",
+        siCita: (servicio) => `Great! ${servicio} booking confirmed ✅\n\nRequired info:\n• Make/Model\n• Current mileage\n• Preferred date (Mon-Fri 9-18h)\n\nExample: "Peugeot 5008, 45,000 km, tomorrow 10:00"`,
+        pedirDatos: "Data received! Processing your appointment...\n\n🔄 We'll confirm within 24h by WhatsApp/SMS:\n• Exact time\n• Preparations\n• Reminder\n\nIs everything correct? (model/km)",
+        noCita: "What other service do you need? Diagnostics, Service, Brakes, etc.",
+        servicios: {
+            aceite: ['Oil Change + Filters', '30-45 min', '€89'],
+            revision: ['Full Service', '2-3 hours', '€199'],
+            limpieza: ['Full Detailing', '4-6 hours', '€299']
+        },
+        enlacePregunta: "Do you want to go to the [Seccion] section?",
+        enlaces: { comprar: 'comprar.html', alquilar: 'alquilar.html' },
+        secciones: { comprar: 'Purchase', alquilar: 'Rental' },
+        opciones: ["🔧 Diagnostics (e.g.: 'my car makes noise')", "⏱️ Times (e.g.: 'how long is full service')", "📅 Appointment (e.g.: 'oil change appointment')", "💰 Quote (e.g.: 'brake pads price')", "🚗 Purchase / 🔑 Rental (to leave)"],
+        textosNoEntendido: (userMessage) => `Didn't understand "${userMessage}". In Castilla Motors Maintenance I can help with diagnostics, appointments and quotes:`
+    },
+    'fr': {
+        default: "Je suis dans la section Maintenance. Besoin de diagnostic, rendez-vous service, vidange ou infos services?",
+        diagnostico: "Diagnostic complet (45-90 min): moteur, freins, suspension, électronique, pneus. Quels symptômes présente votre véhicule?",
+        revision: "Révision complète (2-3h): huile/filtres, freins, pneus, lumières, batterie, suspension, diagnostic OBD. Tous les 15.000 km.",
+        aceite: "Vidange (30-45 min): huile synthétique premium + filtres. Tous les 10.000 km ou 6 mois.",
+        limpieza: "Nettoyage intégral (4-6h): moteur, intérieur complet, extérieur, sellerie, detailing pro.",
+        cita: "Pour rendez-vous: modèle véhicule, km actuels, service requis. Quel jour préférez-vous? Lun-Ven 9h-18h.",
+        comprar: "Pour voir des véhicules à vendre, je vous emmène à Achat.",
+        alquilar: "Pour location véhicule, je vous emmène à Location.",
+        precio: "Prix maintenance:\n• Vidange: dès 89€\n• Révision: dès 199€\n• Nettoyage: dès 299€",
+        hola: "Bonjour! Bienvenue Maintenance Castilla Motors. Quel service aujourd'hui?",
+        horario: "Horaires Maintenance:\nLun-Ven: 9h-18h\nSam: 9h-14h",
+        contacto: "Contact Maintenance:\n📞 +34 456 789 042\n✉️ CastillaMotors@uclm.es",
+        gracias: "Parfait! Votre rendez-vous est confirmé. Rappel WhatsApp. Autre chose?",
+        confirmarCita: "Parfait! Rendez-vous Vidange + Filtres confirmé.\n\n✅ Sélectionné automatiquement: ☑️ Vidange\n\n📅 Étape suivante: Donnez-moi modèle voiture et km actuels pour finaliser.",
+        confirmarRevision: "Parfait! Révision Complète confirmée.\n\n✅ Sélectionné automatiquement: ☑️ Révision Complète\n\n📅 Étape suivante: Donnez-moi modèle voiture et km actuels.",
+        confirmarLimpieza: "Parfait! Nettoyage Intégral confirmé.\n\n✅ Sélectionné automatiquement: ☑️ Nettoyage Intégral\n\n📅 Étape suivante: Donnez-moi modèle voiture et date préférée.",
+        siCita: (servicio) => `Super! Réservation ${servicio} confirmée ✅\n\nInfos nécessaires:\n• Marque/Modèle\n• Kilométrage actuel\n• Date préférée (lun-ven 9-18h)\n\nExemple: "Peugeot 5008, 45.000 km, demain 10:00"`,
+        pedirDatos: "Données reçues! Traitement de votre RDV...\n\n🔄 Confirmation sous 24h par WhatsApp/SMS:\n• Heure exacte\n• Préparatifs\n• Rappel\n\nTout correct? (modèle/km)",
+        noCita: "Quel autre service? Diagnostic, Révision, Freins, etc.",
+        servicios: {
+            aceite: ['Vidange + Filtres', '30-45 min', '89€'],
+            revision: ['Révision Complète', '2-3h', '199€'],
+            limpieza: ['Nettoyage Intégral', '4-6h', '299€']
+        },
+        enlacePregunta: "Voulez-vous aller à [Seccion]?",
+        enlaces: { comprar: 'comprar.html', alquilar: 'alquilar.html' },
+        secciones: { comprar: 'Achat', alquilar: 'Location' },
+        opciones: ["🔧 Diagnostic (ex: 'ma voiture fait du bruit')", "⏱️ Durées (ex: 'combien de temps révision')", "📅 RDV (ex: 'rendez-vous vidange')"],
+        textosNoEntendido: (userMessage) => `Pas compris "${userMessage}". En Maintenance Castilla Motors je peux aider diagnostic, RDV, devis:`
+    },
+    'de': {
+        default: "Ich bin im Wartungsbereich. Brauchen Sie Diagnose, Termin, Ölwechsel oder Service-Infos?",
+        diagnostico: "Komplette Diagnose (45-90 min): Motor, Bremsen, Federung, Elektronik, Reifen. Welche Symptome hat Ihr Fahrzeug?",
+        revision: "Komplette Inspektion (2-3 Std): Öl/Filter, Bremsen, Reifen, Lichter, Batterie, Federung, OBD-Diagnose. Alle 15.000 km.",
+        aceite: "Ölwechsel (30-45 min): Premium Synthetiköl + Filter. Alle 10.000 km oder 6 Monate.",
+        limpieza: "Komplettreinigung (4-6h): Motor, Innenraum, Außenseite, Polsterung, Pro-Detailing.",
+        cita: "Für Termin: Fahrzeugmodell, km-Stand, gewünschter Service. Welchen Tag bevorzugen Sie? Mo-Fr 9-18 Uhr.",
+        comprar: "Für Fahrzeuge zum Kauf bringe ich Sie zum Kauf-Bereich.",
+        alquilar: "Für Fahrzeugmiete bringe ich Sie zum Miet-Bereich.",
+        precio: "Wartungspreise:\n• Ölwechsel: ab 89€\n• Komplette Inspektion: ab 199€\n• Komplettreinigung: ab 299€",
+        hola: "Hallo! Willkommen Castilla Motors Wartung. Welchen Service brauchen Sie?",
+        horario: "Wartungszeiten:\nMo-Fr: 9-18 Uhr\nSa: 9-14 Uhr",
+        contacto: "Kontakt Wartung:\n📞 +34 456 789 042\n✉️ CastillaMotors@uclm.es",
+        gracias: "Perfekt! Ihr Termin ist bestätigt. WhatsApp-Erinnerung. Sonst noch etwas?",
+        confirmarCita: "Perfekt! Ölwechsel + Filter Termin bestätigt.\n\n✅ Automatisch ausgewählt: ☑️ Ölwechsel\n\n📅 Nächster Schritt: Sagen Sie mir Fahrzeugmodell und km-Stand zur Finalisierung.",
+        confirmarRevision: "Perfekt! Komplette Inspektion bestätigt.\n\n✅ Automatisch ausgewählt: ☑️ Komplette Inspektion\n\n📅 Nächster Schritt: Sagen Sie mir Fahrzeugmodell und km-Stand.",
+        confirmarLimpieza: "Perfekt! Komplettreinigung Termin bestätigt.\n\n✅ Automatisch ausgewählt: ☑️ Komplettreinigung\n\n📅 Nächster Schritt: Sagen Sie mir Fahrzeugmodell und Wunschdatum.",
+        siCita: (servicio) => `Toll! ${servicio} Termin bestätigt ✅\n\nBenötigte Infos:\n• Marke/Modell\n• Aktueller km-Stand\n• Wunschdatum (Mo-Fr 9-18 Uhr)\n\nBeispiel: "Peugeot 5008, 45.000 km, morgen 10:00"`,
+        pedirDatos: "Daten erhalten! Termin wird bearbeitet...\n\n🔄 Bestätigung in 24h per WhatsApp/SMS:\n• Genaue Uhrzeit\n• Vorbereitung\n• Erinnerung\n\nAlles korrekt? (Modell/km)",
+        noCita: "Welchen anderen Service? Diagnose, Inspektion, Bremsen, etc.",
+        servicios: {
+            aceite: ['Ölwechsel + Filter', '30-45 min', '89€'],
+            revision: ['Komplette Inspektion', '2-3 Std', '199€'],
+            limpieza: ['Komplettreinigung', '4-6h', '299€']
+        },
+        enlacePregunta: "Zum [Seccion]-Bereich?",
+        enlaces: { comprar: 'comprar.html', alquilar: 'alquilar.html' },
+        secciones: { comprar: 'Kauf', alquilar: 'Vermietung' },
+        opciones: ["🔧 Diagnose (z.B.: 'mein Auto macht Geräusche')", "⏱️ Zeiten (z.B.: 'wie lange dauert Inspektion')"],
+        textosNoEntendido: (userMessage) => `Nicht verstanden "${userMessage}". Im Castilla Motors Wartungsbereich helfe ich bei Diagnose, Terminen, Angeboten:`
+    }
+};
 
-                // Enlaces (Solo salimos de 'comprar.html')
-                enlacePregunta: "¿Quieres ir a la sección de [Seccion]?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Alquiler',
-                    mantenimiento: 'Mantenimiento'
-                },
+const respuestasIdioma = respuestas[idiomaBase] || respuestas['es'];
+let response = respuestasIdioma.default;
+let keywordMatch = '';
+const userMsgLower = userMessage.toLowerCase();
 
-                // Opciones de Fallback (Ahora enfocadas en la Compra)
-                opciones: [
-                    "🔍 Detalles del vehículo (ej: 'dime más sobre el Mercedes')",
-                    "💵 Financiación (ej: 'préstamo' o 'leasing')",
-                    "📅 Cita (ej: 'quiero probar el BMW')",
-                    "🔑 Alquiler (para salir de esta sección)",
-                    "📞 Contacto / ⏰ Horario"
-                ],
-                textosNoEntendido: (userMessage) => `Disculpa, no he entendido bien "${userMessage}". En esta sección de Compra, puedo ayudarte a buscar modelos o hablar de financiación:`
-            },
-            'en': {
-                // General y Contextual
-                default: "I am in the purchase section. To help you, are you looking for specific information about a model or about financing?",
-                modeloInfo: (modelo, precio) => `The ${modelo} is one of our featured models, priced at ${precio}. Do you want to see the full vehicle details or discuss financing?`,
-                detalles: "To view the technical specifications, click on the 'View Details' button beneath the car you are interested in. I'm here if you have questions about financing.",
-                financiacion: "We can calculate the financing for any vehicle. Do you want to check our loan or leasing plans? (Type 'loan' or 'leasing').",
+let servicioEncontrado = null;
+let servicioKey = null;
 
-                // Reorientation
-                alquilar: "If you want to see rental options, I can take you to the Rental section.",
-                mantenimiento: "If you need maintenance, I can take you to the Maintenance section.",
+// 1️⃣ PRIMERO: Detectar si es un servicio
+for (const key in respuestasIdioma.servicios) {
+    if (userMsgLower.includes(key)) {
+        servicioKey = key;
+        servicioEncontrado = respuestasIdioma.servicios[key];
+        break;
+    }
+}
 
-                // Generic Messages
-                precio: "Prices are shown below each vehicle. Would you like to check details or financing for any of them?",
-                hola: "Hello! Welcome to the Best Deals section. Can I help you find details, pricing, or financing for any of our models?",
-                horario: "Our business hours are Monday to Friday from 9:00 to 19:00 and Saturdays from 10:00 to 14:00. We look forward to seeing you!",
-                contacto: "You can contact us at +34 456 789 042 or by email at CastillaMotors@uclm.es.",
-                gracias: "You're welcome! I'm here to help you with your purchase. Is there anything else?",
-
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '€43,900'],
-                    toyota: ['Toyota Fortuner', '€47,900'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '€85,000'],
-                    bmw: ['BMW Alpina B7', '€110,000'],
-                    audi: ['Audi Q5 S Line', '€28,900'],
-                    lexus: ['Lexus RX500H F Sport', '€70,900']
-                },
-
-                // Links
-                enlacePregunta: "Do you want to go to the [Seccion] section?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Rental',
-                    mantenimiento: 'Maintenance'
-                },
-
-                // Fallback Options
-                opciones: [
-                    "🔍 Details about a vehicle (e.g.: 'tell me more about the Mercedes')",
-                    "💵 Financing (e.g.: 'loan' or 'leasing')",
-                    "📅 Appointment (e.g.: 'I want to test drive the BMW')",
-                    "🔑 Rental (to leave this section)",
-                    "📞 Contact / ⏰ Business Hours"
-                ],
-                textosNoEntendido: (userMessage) => `Sorry, I didn't quite understand "${userMessage}". In this Purchase section, I can help you search models or discuss financing:`
-            },
-            'fr': {
-                // General y Contextual
-                default: "Je suis dans la section Achat. Pour vous aider, recherchez-vous des informations spécifiques sur un modèle ou sur le financement?",
-                modeloInfo: (modelo, precio) => `Le ${modelo} est l'un de nos modèles phares, au prix de ${precio}. Voulez-vous consulter les détails complets du véhicule ou parler de financement?`,
-                detalles: "Pour consulter les spécifications techniques, cliquez sur le bouton 'Voir Détails' sous la voiture qui vous intéresse. Je suis là si vous avez des questions sur le financement.",
-                financiacion: "Nous pouvons calculer le financement pour n'importe quel véhicule. Souhaitez-vous consulter nos plans de prêt ou de leasing? (Écrivez 'prêt' ou 'leasing').",
-
-                // Reorientation
-                alquilar: "Si vous voulez voir les options de location, je peux vous emmener à la section Location.",
-                mantenimiento: "Si vous avez besoin de maintenance, je peux vous emmener à la section Maintenance.",
-
-                // Generic Messages
-                precio: "Les prix sont affichés sous chaque véhicule. Voulez-vous consulter les détails ou le financement de l'un d'entre eux?",
-                hola: "Bonjour! Bienvenue dans la section Meilleures Offres. Puis-je vous aider à trouver les détails, le prix ou le financement de l'un de nos modèles?",
-                horario: "Nos heures d'ouverture sont du lundi au vendredi de 9h00 à 19h00 et le samedi de 10h00 à 14h00.",
-                contacto: "Vous pouvez nous contacter au +34 456 789 042 ou par email à CastillaMotors@uclm.es.",
-                gracias: "De rien! Je suis là pour vous aider avec votre achat. Y a-t-il autre chose?",
-
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
-
-                // Links
-                enlacePregunta: "Voulez-vous aller à la section [Seccion] ?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Location',
-                    mantenimiento: 'Maintenance'
-                },
-
-                // Fallback Options
-                opciones: [
-                    "🔍 Détails du véhicule (ex: 'dites-m'en plus sur la Mercedes')",
-                    "💵 Financement (ex: 'prêt' ou 'leasing')",
-                    "📅 Rendez-vous (ex: 'je veux essayer la BMW')",
-                    "🔑 Location (pour quitter cette section)",
-                    "📞 Contact / ⏰ Heures d'ouverture"
-                ],
-                textosNoEntendido: (userMessage) => `Désolé, je n'ai pas bien compris "${userMessage}". Dans cette section Achat, je peux vous aider à rechercher des modèles ou à parler de financement:`
-            },
-            'de': {
-                // General y Contextual
-                default: "Ich bin im Kaufbereich. Suchen Sie spezifische Informationen zu einem Modell oder zur Finanzierung?",
-                modeloInfo: (modelo, precio) => `Der ${modelo} ist eines unserer Top-Modelle zum Preis von ${precio}. Möchten Sie die vollständigen Fahrzeugdetails sehen oder über die Finanzierung sprechen?`,
-                detalles: "Um die technischen Daten anzuzeigen, klicken Sie auf die Schaltfläche 'Details anzeigen' unter dem Fahrzeug, das Sie interessiert. Ich bin für Fragen zur Finanzierung da.",
-                financiacion: "Wir können die Finanzierung für jedes Fahrzeug berechnen. Möchten Sie unsere Kredit- oder Leasing-Pläne prüfen? (Geben Sie 'Kredit' oder 'Leasing' ein).",
-
-                // Reorientation
-                alquilar: "Wenn Sie Mietoptionen sehen möchten, kann ich Sie zum Mietbereich bringen.",
-                mantenimiento: "Wenn Sie Wartung benötigen, kann ich Sie zum Wartungsbereich bringen.",
-
-                // Generic Messages
-                precio: "Die Preise werden unter jedem Fahrzeug angezeigt. Möchten Sie Details oder Finanzierung für eines davon prüfen?",
-                hola: "Hallo! Willkommen im Bereich Beste Angebote. Kann ich Ihnen helfen, Details, Preise oder Finanzierung für eines unserer Modelle zu finden?",
-                horario: "Unsere Geschäftszeiten sind Montag bis Freitag von 9:00 bis 19:00 Uhr und Samstag von 10:00 bis 14:00 Uhr.",
-                contacto: "Sie können uns unter +34 456 789 042 oder per E-Mail an CastillaMotors@uclm.es kontaktieren.",
-                gracias: "Gern geschehen! Ich bin hier, um Ihnen bei Ihrem Kauf zu helfen. Gibt es noch etwas?",
-
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
-
-                // Links
-                enlacePregunta: "Möchten Sie zum [Seccion]-Bereich gehen?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Vermietung',
-                    mantenimiento: 'Wartung'
-                },
-
-                // Fallback Options
-                opciones: [
-                    "🔍 Details zum Fahrzeug (z.B.: 'Erzählen Sie mir mehr über den Mercedes')",
-                    "💵 Finanzierung (z.B.: 'Kredit' oder 'Leasing')",
-                    "📅 Termin (z.B.: 'Ich möchte den BMW Probe fahren')",
-                    "🔑 Vermietung (um diesen Abschnitt zu verlassen)",
-                    "📞 Kontakt / ⏰ Öffnungszeiten"
-                ],
-                textosNoEntendido: (userMessage) => `Entschuldigung, ich habe "${userMessage}" nicht ganz verstanden. In diesem Kaufbereich kann ich Ihnen bei der Modellsuch oder der Finanzierung helfen:`
+if (servicioEncontrado) {
+    response = `${servicioEncontrado[0]}: ${servicioEncontrado[1]} | ${servicioEncontrado[2]}\n\n¿Quieres pedir cita para este servicio?`;
+}
+// 2️⃣ SEGUNDO: Si dijo SÍ y hay servicioKey (IMPORTANTE EL ORDEN)
+else if ((userMsgLower.includes('si') || userMsgLower.includes('sí') || userMsgLower.includes('yes') || userMsgLower.includes('claro') || userMsgLower.includes('vale') || userMsgLower.includes('ok') || userMsgLower.includes('perfecto') || userMsgLower.includes('ja') || userMsgLower.includes('oui')) && servicioKey) {
+    servicioSeleccionado = respuestasIdioma.servicios[servicioKey][0];
+    if (servicioKey === 'aceite') {
+        response = respuestasIdioma.confirmarCita;
+    } else if (servicioKey === 'revision') {
+        response = respuestasIdioma.confirmarRevision;
+    } else if (servicioKey === 'limpieza') {
+        response = respuestasIdioma.confirmarLimpieza;
+    }
+    setTimeout(() => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            const panelText = cb.closest('.panel-body')?.textContent.toLowerCase() || '';
+            if (panelText.includes(servicioKey)) {
+                cb.checked = true;
+                cb.focus();
+                calcularTotal();
             }
-        };
+        });
+        sessionStorage.setItem('servicioSeleccionado', servicioKey);
+    }, 500);
+}
+else if (userMsgLower.includes('diagnostico') || userMsgLower.includes('diagnóstico') || userMsgLower.includes('diagnosis') || userMsgLower.includes('problema') || userMsgLower.includes('fallo') || userMsgLower.includes('ruido')) {
+    response = respuestasIdioma.diagnostico;
+}
+else if (userMsgLower.includes('revision') || userMsgLower.includes('revisión') || userMsgLower.includes('service') || userMsgLower.includes('inspeccion') || userMsgLower.includes('check')) {
+    response = respuestasIdioma.revision;
+}
+else if (userMsgLower.includes('aceite') || userMsgLower.includes('oil') || userMsgLower.includes('vidange')) {
+    response = respuestasIdioma.aceite;
+}
+else if (userMsgLower.includes('limpieza') || userMsgLower.includes('limpiar') || userMsgLower.includes('detailing') || userMsgLower.includes('clean')) {
+    response = respuestasIdioma.limpieza;
+}
+else if (userMsgLower.includes('cita') || userMsgLower.includes('appointment') || userMsgLower.includes('termin') || userMsgLower.includes('rendez-vous')) {
+    response = respuestasIdioma.cita;
+}
+else if (userMsgLower.includes('comprar') || userMsgLower.includes('buy')) {
+    response = respuestasIdioma.comprar;
+    keywordMatch = 'comprar';
+}
+else if (userMsgLower.includes('alquilar') || userMsgLower.includes('rent')) {
+    response = respuestasIdioma.alquilar;
+    keywordMatch = 'alquilar';
+}
+else if (userMsgLower.includes('precio') || userMsgLower.includes('price') || userMsgLower.includes('cuánto')) {
+    response = respuestasIdioma.precio;
+}
+else if (userMsgLower.includes('hola') || userMsgLower.includes('hello')) {
+    response = respuestasIdioma.hola;
+}
+else if (userMsgLower.includes('horario') || userMsgLower.includes('hours')) {
+    response = respuestasIdioma.horario;
+}
+else if (userMsgLower.includes('contacto') || userMsgLower.includes('contact')) {
+    response = respuestasIdioma.contacto;
+}
+else if (userMsgLower.includes('gracias') || userMsgLower.includes('thanks')) {
+    response = respuestasIdioma.gracias;
+}
+else {
+    const opciones = respuestasIdioma.opciones;
+    const textoNoEntendido = respuestasIdioma.textosNoEntendido(userMessage);
+    response = `${textoNoEntendido}\n\n ${opciones.join('\n ')}`;
+}
 
-        // Seleccionar respuestas según idioma
-        const respuestasIdioma = respuestas[idiomaBase] || respuestas['es'];
-        let response = respuestasIdioma.default;
-        let keywordMatch = '';
+if ((keywordMatch === 'comprar' || keywordMatch === 'alquilar') && respuestasIdioma.enlaces[keywordMatch]) {
+    const linkHTML = respuestasIdioma.enlaces[keywordMatch];
+    const sectionName = respuestasIdioma.secciones[keywordMatch];
+    const enlaceTexto = respuestasIdioma.enlacePregunta.replace('[Seccion]', sectionName);
+    const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
+    response += `\n\n<a href="${linkHTML}" onclick="${clickHandler}" style="font-weight: bold; text-decoration: underline;">${enlaceTexto}</a>`;
+}
 
-        const userMsgLower = userMessage.toLowerCase();
+console.log(`📝 Respuesta MANTENIMIENTO generada en ${idiomaBase}`);
+this.addMessage(response, 'bot');
+this.hablarTexto(response);
 
-        // 1. Detección de Modelos Específicos
-        let modeloEncontrado = null;
-        let modeloKey = null;
 
-        // Iterar sobre las claves de los modelos para ver si se menciona alguno
-        for (const key in respuestasIdioma.modelos) {
-            if (userMsgLower.includes(key)) {
-                modeloKey = key;
-                modeloEncontrado = respuestasIdioma.modelos[key];
-                break;
-            }
-        }
-
-        if (modeloEncontrado) {
-            // Respuesta si se detecta un modelo (ej. 'Peugeot 5008' / '43.900€')
-            response = respuestasIdioma.modeloInfo(modeloEncontrado[0], modeloEncontrado[1]);
-            keywordMatch = 'modelo'; // Usamos un match genérico para modelos
-
-        } else if (userMsgLower.includes('detalles') || userMsgLower.includes('details') || userMsgLower.includes('spécifications') || userMsgLower.includes('daten') || userMsgLower.includes('mehr')) {
-            response = respuestasIdioma.detalles;
-
-        } else if (userMsgLower.includes('financiacion') || userMsgLower.includes('financing') || userMsgLower.includes('financement') || userMsgLower.includes('finanzierung') || userMsgLower.includes('préstamo') || userMsgLower.includes('loan') || userMsgLower.includes('prêt') || userMsgLower.includes('kredit') || userMsgLower.includes('leasing')) {
-            response = respuestasIdioma.financiacion;
-
-        // 2. Lógica para salir de la sección (Baja prioridad aquí)
-        } else if (userMsgLower.includes('alquilar') || userMsgLower.includes('rent') || userMsgLower.includes('louer') || userMsgLower.includes('mieten')) {
-            response = respuestasIdioma.alquilar;
-            keywordMatch = 'alquilar';
-        } else if (userMsgLower.includes('mantenimiento') || userMsgLower.includes('maintenance') || userMsgLower.includes('entretien') || userMsgLower.includes('wartung')) {
-            response = respuestasIdioma.mantenimiento;
-            keywordMatch = 'mantenimiento';
-
-        // 3. Lógica Genérica de Baja Prioridad (Se mantiene)
-        } else if (userMsgLower.includes('precio') || userMsgLower.includes('cuánto') || userMsgLower.includes('price') || userMsgLower.includes('prix') || userMsgLower.includes('kosten')) {
-            response = respuestasIdioma.precio;
-        } else if (userMsgLower.includes('hola') || userMsgLower.includes('buenas') || userMsgLower.includes('hello') || userMsgLower.includes('bonjour') || userMsgLower.includes('hallo')) {
-            response = respuestasIdioma.hola;
-        } else if (userMsgLower.includes('horario') || userMsgLower.includes('abierto') || userMsgLower.includes('hours') || userMsgLower.includes('heure') || userMsgLower.includes('öffnungszeiten')) {
-            response = respuestasIdioma.horario;
-        } else if (userMsgLower.includes('contacto') || userMsgLower.includes('teléfono') || userMsgLower.includes('contact') || userMsgLower.includes('téléphone') || userMsgLower.includes('telefon')) {
-            response = respuestasIdioma.contacto;
-        } else if (userMsgLower.includes('gracias') || userMsgLower.includes('thanks') || userMsgLower.includes('merci') || userMsgLower.includes('danke')) {
-            response = respuestasIdioma.gracias;
-
-        } else {
-            // Fallback reorientado a la compra
-            const opciones = respuestasIdioma.opciones;
-            const textoNoEntendido = respuestasIdioma.textosNoEntendido(userMessage);
-
-            response = `${textoNoEntendido} \n\n ${opciones.join('\n ')}`;
-        }
-
-        // Lógica de enlace condicional para salir de la sección
-        if ((keywordMatch === 'alquilar' || keywordMatch === 'mantenimiento') && respuestasIdioma.enlaces[keywordMatch]) {
-            const linkHTML = respuestasIdioma.enlaces[keywordMatch];
-            const sectionName = respuestasIdioma.secciones[keywordMatch];
-
-            // Crear el texto del enlace final
-            const enlaceTexto = respuestasIdioma.enlacePregunta.replace('[Seccion]', sectionName);
-
-            // *** NUEVO: Lógica para forzar la apertura del chat en la página de destino ***
-
-            // Crear una función JS que el enlace llamará al ser clickeado.
-            const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
-
-            // El enlace final debe ejecutar el clickHandler antes de navegar.
-            const enlaceFinal = `\n\n<a href="${linkHTML}" onclick="${clickHandler}" style="font-weight: bold; text-decoration: underline;">${enlaceTexto}</a>`;
-
-            response += enlaceFinal;
-        }
-
-        console.log(`📝 Respuesta generada en ${idiomaBase}:`, response);
-
-        this.addMessage(response, 'bot');
-        this.hablarTexto(response);
     }
 }
 // ==================== INICIALIZACIÓN ====================

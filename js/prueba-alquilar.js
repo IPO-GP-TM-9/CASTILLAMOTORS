@@ -1272,7 +1272,7 @@ class ChatbotHolograma {
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}`;
-        messageDiv.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
+        messageDiv.innerHTML = `<p>${text}</p>`;
         messagesContainer.appendChild(messageDiv);
 
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1485,289 +1485,393 @@ class ChatbotHolograma {
         let idiomaBase = idiomaActual.split('-')[0];
 
         // --- OBJETO DE RESPUESTAS CON LÓGICA DE FORMATO Y ENLACES ---
-        const respuestas = {
-            'es': {
-                // General y Contextual
-                default: "Estoy en la sección de compra. Para ayudarte, ¿buscas información específica sobre un modelo o sobre financiación?",
-                modeloInfo: (modelo, precio) => `El ${modelo} es uno de nuestros modelos destacados, con un precio de ${precio}. ¿Quieres ver los detalles completos del vehículo o hablar de financiación?`,
-                detalles: "Para ver las especificaciones técnicas, haz clic en el botón 'Ver Detalles' debajo del coche que te interese. Estoy aquí si tienes preguntas sobre financiación.",
-                financiacion: "Podemos calcular la financiación de cualquier vehículo. ¿Quieres consultar nuestros planes de préstamo o leasing? (Escribe 'préstamo' o 'leasing').",
+        const respuestasAlquiler = {
+    'es': {
+        // General y contextual
+        default: "Estoy en la sección de alquiler. Para ayudarte, ¿buscas un modelo concreto o quieres saber precio por día y kilómetros incluidos?",
+        modeloInfo: (modelo, precioDia, kms) =>
+            `El ${modelo} es uno de nuestros modelos destacados en alquiler, desde ${precioDia} con un máximo de ${kms} incluidos. ¿Quieres ver las condiciones completas o hacer una reserva?`,
+        detalles: "Para ver equipamiento, política de combustible, fianza y otros detalles, haz clic en el botón 'Ver Detalles' debajo del coche que te interese. Si quieres, puedo ayudarte a comparar varios modelos.",
+        condiciones: "En nuestros alquileres se incluye un número máximo de kilómetros, seguro básico y asistencia en carretera. Puedes añadir kilómetros extra o coberturas adicionales con un coste por día. Si lo deseas, también puedo ayudarte a iniciar la reserva de este modelo.",
 
-                // Reorientación (Si pregunta por otras secciones)
-                alquilar: "Si quieres ver opciones de alquiler, te llevo a la sección de Alquiler.",
-                mantenimiento: "Si necesitas mantenimiento, te llevo a la sección de Mantenimiento.",
+        // Reorientación a otras secciones
+        comprar: "Si prefieres comprar en lugar de alquilar, te llevo a la sección de Compra.",
+        mantenimiento: "Si necesitas mantenimiento de tu vehículo, te llevo a la sección de Mantenimiento.",
 
-                // Mensajes Genéricos
-                precio: "Los precios se muestran debajo de cada vehículo. ¿Quieres consultar detalles o financiación de alguno de ellos?",
-                hola: "¡Hola! Bienvenido a la sección de Mejores Ofertas. ¿Puedo ayudarte a encontrar detalles, precio o financiación de alguno de nuestros modelos?",
-                horario: "Nuestro horario de atención es de lunes a viernes de 9:00 a 19:00 y sábados de 10:00 a 14:00. ¡Te esperamos!",
-                contacto: "Puedes contactarnos al +34 456 789 042 o por email a CastillaMotors@uclm.es.",
-                gracias: "¡De nada! Estoy aquí para ayudarte con tu compra. ¿Hay algo más?",
+        // Mensajes genéricos
+        precio: "El precio por día aparece debajo de cada vehículo, junto con los kilómetros incluidos. ¿Quieres que te explique las condiciones de alguno en concreto o que te ayude a reservar?",
+        hola: "¡Hola! Estás en la sección de Mejores Ofertas de Alquiler. ¿Te ayudo a elegir coche, a entender el precio por día o los kilómetros incluidos?",
+        horario: "Nuestro horario de atención es de lunes a viernes de 9:00 a 19:00 y sábados de 10:00 a 14:00.",
+        contacto: "Puedes contactarnos al +34 456 789 042 o por email a CastillaMotors@uclm.es.",
+        gracias: "¡De nada! Estoy aquí para ayudarte con tu alquiler. ¿Necesitas algo más?",
 
-                // Modelos de la imagen (Clave: [Nombre, Precio])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
+        // Modelos (nombre, precio/día, info km)
+        modelos: {
+            peugeot: ['Peugeot 5008', '50€ / día', '10.000 km'],
+            toyota: ['Toyota Fortuner', '45€ / día', '15.000 km'],
+            mercedes: ['Mercedes-Benz CLS AMG', '60€ / día', 'kilometraje limitado y seguro premium'],
+            bmw: ['BMW Alpina B7', '90€ / día', '8.000 km'],
+            audi: ['Audi Q2 S-Line', '30€ / día', '12.000 km'],
+            lexus: ['Lexus RX500h F Sport', '65€ / día', '80.000 km']
+        },
 
-                // Enlaces (Solo salimos de 'comprar.html')
-                enlacePregunta: "¿Quieres ir a la sección de [Seccion]?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Alquiler',
-                    mantenimiento: 'Mantenimiento'
-                },
+        // Enlaces de cambio de sección
+        enlacePregunta: "¿Quieres ir a la sección de [Seccion]?",
+        enlaces: {
+            comprar: 'comprar.html',
+            mantenimiento: 'mantenimiento.html'
+        },
+        secciones: {
+            comprar: 'Compra',
+            mantenimiento: 'Mantenimiento'
+        },
 
-                // Opciones de Fallback (Ahora enfocadas en la Compra)
-                opciones: [
-                    "🔍 Detalles del vehículo (ej: 'dime más sobre el Mercedes')",
-                    "💵 Financiación (ej: 'préstamo' o 'leasing')",
-                    "📅 Cita (ej: 'quiero probar el BMW')",
-                    "🔑 Alquiler (para salir de esta sección)",
-                    "📞 Contacto / ⏰ Horario"
-                ],
-                textosNoEntendido: (userMessage) => `Disculpa, no he entendido bien "${userMessage}". En esta sección de Compra, puedo ayudarte a buscar modelos o hablar de financiación:`
-            },
-            'en': {
-                // General y Contextual
-                default: "I am in the purchase section. To help you, are you looking for specific information about a model or about financing?",
-                modeloInfo: (modelo, precio) => `The ${modelo} is one of our featured models, priced at ${precio}. Do you want to see the full vehicle details or discuss financing?`,
-                detalles: "To view the technical specifications, click on the 'View Details' button beneath the car you are interested in. I'm here if you have questions about financing.",
-                financiacion: "We can calculate the financing for any vehicle. Do you want to check our loan or leasing plans? (Type 'loan' or 'leasing').",
+        // Opciones de fallback
+        opciones: [
+            "• Ver modelos disponibles",
+            "• Consultar precio por día",
+            "• Ver kilómetros incluidos y seguro",
+            "• Iniciar una reserva",
+            "• Ir a la sección de Compra o Mantenimiento",
+            "• Ver contacto y horario"
+        ],
+        textosNoEntendido: (userMessage) =>
+            `Disculpa, no he entendido bien "${userMessage}".<br><br>` +`En esta sección de Alquiler puedo ayudarte con estas opciones:`
+    },
 
-                // Reorientation
-                alquilar: "If you want to see rental options, I can take you to the Rental section.",
-                mantenimiento: "If you need maintenance, I can take you to the Maintenance section.",
+    'en': {
+        default: "You are in the rental section. Are you looking for a specific model or do you want to know the daily price and included mileage?",
+        modeloInfo: (modelo, precioDia, kms) =>
+            `The ${modelo} is one of our featured rental models, from ${precioDia} with ${kms} included. Would you like to see the full rental conditions or make a booking?`,
+        detalles: "To see equipment, fuel policy, deposit and other details, click on the 'View Details' button under the car you are interested in. I can also help you compare different models.",
+        condiciones: "Our rentals include a maximum mileage, basic insurance and roadside assistance. You can add extra mileage or additional coverage for an extra daily cost. If you want, I can also help you start a booking for this model.",
 
-                // Generic Messages
-                precio: "Prices are shown below each vehicle. Would you like to check details or financing for any of them?",
-                hola: "Hello! Welcome to the Best Deals section. Can I help you find details, pricing, or financing for any of our models?",
-                horario: "Our business hours are Monday to Friday from 9:00 to 19:00 and Saturdays from 10:00 to 14:00. We look forward to seeing you!",
-                contacto: "You can contact us at +34 456 789 042 or by email at CastillaMotors@uclm.es.",
-                gracias: "You're welcome! I'm here to help you with your purchase. Is there anything else?",
+        comprar: "If you prefer to buy instead of renting, I can take you to the Purchase section.",
+        mantenimiento: "If you need maintenance, I can take you to the Maintenance section.",
 
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '€43,900'],
-                    toyota: ['Toyota Fortuner', '€47,900'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '€85,000'],
-                    bmw: ['BMW Alpina B7', '€110,000'],
-                    audi: ['Audi Q5 S Line', '€28,900'],
-                    lexus: ['Lexus RX500H F Sport', '€70,900']
-                },
+        precio: "Daily prices are shown below each vehicle, together with the included mileage. Would you like me to explain the conditions for a specific car or help you book it?",
+        hola: "Hello! You are in the Best Rental Deals section. Shall I help you choose a car, understand the daily price or the included mileage?",
+        horario: "Our business hours are Monday to Friday from 9:00 to 19:00 and Saturdays from 10:00 to 14:00.",
+        contacto: "You can contact us at +34 456 789 042 or by email at CastillaMotors@uclm.es.",
+        gracias: "You're welcome! Here to help with your rental. Anything else?",
 
-                // Links
-                enlacePregunta: "Do you want to go to the [Seccion] section?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Rental',
-                    mantenimiento: 'Maintenance'
-                },
+        modelos: {
+            peugeot: ['Peugeot 5008', '€50 / day', '10,000 km'],
+            toyota: ['Toyota Fortuner', '€45 / day', '15,000 km'],
+            mercedes: ['Mercedes-Benz CLS AMG', '€60 / day', 'limited mileage and premium insurance'],
+            bmw: ['BMW Alpina B7', '€90 / day', '8,000 km'],
+            audi: ['Audi Q2 S-Line', '€30 / day', '12,000 km'],
+            lexus: ['Lexus RX500h F Sport', '€65 / day', '80,000 km']
+        },
 
-                // Fallback Options
-                opciones: [
-                    "🔍 Details about a vehicle (e.g.: 'tell me more about the Mercedes')",
-                    "💵 Financing (e.g.: 'loan' or 'leasing')",
-                    "📅 Appointment (e.g.: 'I want to test drive the BMW')",
-                    "🔑 Rental (to leave this section)",
-                    "📞 Contact / ⏰ Business Hours"
-                ],
-                textosNoEntendido: (userMessage) => `Sorry, I didn't quite understand "${userMessage}". In this Purchase section, I can help you search models or discuss financing:`
-            },
-            'fr': {
-                // General y Contextual
-                default: "Je suis dans la section Achat. Pour vous aider, recherchez-vous des informations spécifiques sur un modèle ou sur le financement?",
-                modeloInfo: (modelo, precio) => `Le ${modelo} est l'un de nos modèles phares, au prix de ${precio}. Voulez-vous consulter les détails complets du véhicule ou parler de financement?`,
-                detalles: "Pour consulter les spécifications techniques, cliquez sur le bouton 'Voir Détails' sous la voiture qui vous intéresse. Je suis là si vous avez des questions sur le financement.",
-                financiacion: "Nous pouvons calculer le financement pour n'importe quel véhicule. Souhaitez-vous consulter nos plans de prêt ou de leasing? (Écrivez 'prêt' ou 'leasing').",
+        enlacePregunta: "Do you want to go to the [Seccion] section?",
+        enlaces: {
+            comprar: 'comprar.html',
+            mantenimiento: 'mantenimiento.html'
+        },
+        secciones: {
+            comprar: 'Purchase',
+            mantenimiento: 'Maintenance'
+        },
 
-                // Reorientation
-                alquilar: "Si vous voulez voir les options de location, je peux vous emmener à la section Location.",
-                mantenimiento: "Si vous avez besoin de maintenance, je peux vous emmener à la section Maintenance.",
+        opciones: [
+            "See available models",
+            "Check the daily price",
+            "Check included mileage and insurance",
+            "Start a booking",
+            "Go to the Purchase or Maintenance section",
+            "See contact details and business hours"
+        ],
+        textosNoEntendido: (userMessage) =>
+            `Sorry, "${userMessage}" was not clear. In this Rental section I can help you choose a model, see the daily price or understand the included mileage and conditions:`
+    },
 
-                // Generic Messages
-                precio: "Les prix sont affichés sous chaque véhicule. Voulez-vous consulter les détails ou le financement de l'un d'entre eux?",
-                hola: "Bonjour! Bienvenue dans la section Meilleures Offres. Puis-je vous aider à trouver les détails, le prix ou le financement de l'un de nos modèles?",
-                horario: "Nos heures d'ouverture sont du lundi au vendredi de 9h00 à 19h00 et le samedi de 10h00 à 14h00.",
-                contacto: "Vous pouvez nous contacter au +34 456 789 042 ou par email à CastillaMotors@uclm.es.",
-                gracias: "De rien! Je suis là pour vous aider avec votre achat. Y a-t-il autre chose?",
+    'fr': {
+        default: "Vous êtes dans la section Location. Cherchez-vous un modèle précis ou souhaitez-vous connaître le prix par jour et les kilomètres inclus ?",
+        modeloInfo: (modelo, precioDia, kms) =>
+            `La ${modelo} est l’un de nos modèles phares en location, à partir de ${precioDia} avec ${kms} inclus. Voulez-vous voir toutes les conditions de location ou effectuer une réservation ?`,
+        detalles: "Pour voir l’équipement, la politique de carburant, la caution et d’autres détails, cliquez sur le bouton « Voir détails » sous la voiture qui vous intéresse. Je peux aussi vous aider à comparer plusieurs modèles.",
+        condiciones: "Nos locations incluent un kilométrage maximum, une assurance de base et une assistance routière. Vous pouvez ajouter des kilomètres supplémentaires ou des couvertures additionnelles avec un coût journalier. Si vous le souhaitez, je peux également vous aider à commencer la réservation de ce modèle.",
 
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
+        comprar: "Si vous préférez acheter plutôt que louer, je peux vous emmener à la section Achat.",
+        mantenimiento: "Si vous avez besoin d’entretien, je peux vous emmener à la section Maintenance.",
 
-                // Links
-                enlacePregunta: "Voulez-vous aller à la section [Seccion] ?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Location',
-                    mantenimiento: 'Maintenance'
-                },
+        precio: "Le prix par jour apparaît sous chaque véhicule, avec les kilomètres inclus. Voulez-vous que je vous explique les conditions pour un modèle en particulier ou que je vous aide à le réserver ?",
+        hola: "Bonjour ! Vous êtes dans la section Meilleures offres de location. Puis-je vous aider à choisir une voiture, comprendre le prix par jour ou les kilomètres inclus ?",
+        horario: "Nos horaires d’ouverture sont du lundi au vendredi de 9h00 à 19h00 et le samedi de 10h00 à 14h00.",
+        contacto: "Vous pouvez nous contacter au +34 456 789 042 ou par email à CastillaMotors@uclm.es.",
+        gracias: "Avec plaisir ! Je suis là pour vous aider avec votre location. Autre chose ?",
 
-                // Fallback Options
-                opciones: [
-                    "🔍 Détails du véhicule (ex: 'dites-m'en plus sur la Mercedes')",
-                    "💵 Financement (ex: 'prêt' ou 'leasing')",
-                    "📅 Rendez-vous (ex: 'je veux essayer la BMW')",
-                    "🔑 Location (pour quitter cette section)",
-                    "📞 Contact / ⏰ Heures d'ouverture"
-                ],
-                textosNoEntendido: (userMessage) => `Désolé, je n'ai pas bien compris "${userMessage}". Dans cette section Achat, je peux vous aider à rechercher des modèles ou à parler de financement:`
-            },
-            'de': {
-                // General y Contextual
-                default: "Ich bin im Kaufbereich. Suchen Sie spezifische Informationen zu einem Modell oder zur Finanzierung?",
-                modeloInfo: (modelo, precio) => `Der ${modelo} ist eines unserer Top-Modelle zum Preis von ${precio}. Möchten Sie die vollständigen Fahrzeugdetails sehen oder über die Finanzierung sprechen?`,
-                detalles: "Um die technischen Daten anzuzeigen, klicken Sie auf die Schaltfläche 'Details anzeigen' unter dem Fahrzeug, das Sie interessiert. Ich bin für Fragen zur Finanzierung da.",
-                financiacion: "Wir können die Finanzierung für jedes Fahrzeug berechnen. Möchten Sie unsere Kredit- oder Leasing-Pläne prüfen? (Geben Sie 'Kredit' oder 'Leasing' ein).",
+        modelos: {
+            peugeot: ['Peugeot 5008', '50€ / jour', '10 000 km'],
+            toyota: ['Toyota Fortuner', '45€ / jour', '15 000 km'],
+            mercedes: ['Mercedes-Benz CLS AMG', '60€ / jour', 'kilométrage limité et assurance premium'],
+            bmw: ['BMW Alpina B7', '90€ / jour', '8 000 km'],
+            audi: ['Audi Q2 S-Line', '30€ / jour', '12 000 km'],
+            lexus: ['Lexus RX500h F Sport', '65€ / jour', '80 000 km']
+        },
 
-                // Reorientation
-                alquilar: "Wenn Sie Mietoptionen sehen möchten, kann ich Sie zum Mietbereich bringen.",
-                mantenimiento: "Wenn Sie Wartung benötigen, kann ich Sie zum Wartungsbereich bringen.",
+        enlacePregunta: "Voulez-vous aller à la section [Seccion] ?",
+        enlaces: {
+            comprar: 'comprar.html',
+            mantenimiento: 'mantenimiento.html'
+        },
+        secciones: {
+            comprar: 'Achat',
+            mantenimiento: 'Maintenance'
+        },
 
-                // Generic Messages
-                precio: "Die Preise werden unter jedem Fahrzeug angezeigt. Möchten Sie Details oder Finanzierung für eines davon prüfen?",
-                hola: "Hallo! Willkommen im Bereich Beste Angebote. Kann ich Ihnen helfen, Details, Preise oder Finanzierung für eines unserer Modelle zu finden?",
-                horario: "Unsere Geschäftszeiten sind Montag bis Freitag von 9:00 bis 19:00 Uhr und Samstag von 10:00 bis 14:00 Uhr.",
-                contacto: "Sie können uns unter +34 456 789 042 oder per E-Mail an CastillaMotors@uclm.es kontaktieren.",
-                gracias: "Gern geschehen! Ich bin hier, um Ihnen bei Ihrem Kauf zu helfen. Gibt es noch etwas?",
+        opciones: [
+            "Voir les modèles disponibles",
+            "Consulter le prix par jour",
+            "Voir le kilométrage inclus et l’assurance",
+            "Commencer une réservation",
+            "Aller à la section Achat ou Maintenance",
+            "Voir le contact et les horaires d’ouverture"
+        ],
+        textosNoEntendido: (userMessage) =>
+            `Désolé, je n’ai pas bien compris « ${userMessage} ». Dans cette section Location, je peux vous aider à choisir un modèle, voir le prix par jour ou expliquer le kilométrage inclus et les conditions :`
+    },
 
-                // Models (Key: [Name, Price])
-                modelos: {
-                    peugeot: ['Peugeot 5008', '43.900€'],
-                    toyota: ['Toyota Fortuner', '47.900€'],
-                    mercedes: ['Mercedes-Benz CLS AMG', '85.000€'],
-                    bmw: ['BMW Alpina B7', '110.000€'],
-                    audi: ['Audi Q5 S Line', '28.900€'],
-                    lexus: ['Lexus RX500H F Sport', '70.900€']
-                },
+    'de': {
+        default: "Sie befinden sich im Mietbereich. Suchen Sie ein bestimmtes Modell oder möchten Sie den Tagespreis und die enthaltenen Kilometer wissen?",
+        modeloInfo: (modelo, precioDia, kms) =>
+            `Der ${modelo} gehört zu unseren Top-Mietfahrzeugen, ab ${precioDia} mit ${kms} inklusive. Möchten Sie die vollständigen Mietbedingungen sehen oder eine Reservierung vornehmen?`,
+        detalles: "Um Ausstattung, Tankregelung, Kaution und weitere Details zu sehen, klicken Sie auf die Schaltfläche „Details anzeigen“ unter dem Fahrzeug, das Sie interessiert. Gern helfe ich Ihnen auch beim Vergleich mehrerer Modelle.",
+        condiciones: "Unsere Mietwagen beinhalten eine maximale Kilometerzahl, eine Basisversicherung und Pannenhilfe. Sie können gegen einen täglichen Aufpreis zusätzliche Kilometer oder weitere Versicherungen hinzufügen. Wenn Sie möchten, kann ich Ihnen auch beim Start der Reservierung für dieses Modell helfen.",
 
-                // Links
-                enlacePregunta: "Möchten Sie zum [Seccion]-Bereich gehen?",
-                enlaces: {
-                    alquilar: 'alquilar.html',
-                    mantenimiento: 'mantenimiento.html'
-                },
-                secciones: {
-                    alquilar: 'Vermietung',
-                    mantenimiento: 'Wartung'
-                },
+        comprar: "Wenn Sie lieber kaufen statt mieten möchten, kann ich Sie in den Kaufbereich bringen.",
+        mantenimiento: "Wenn Sie Wartung benötigen, kann ich Sie in den Wartungsbereich bringen.",
 
-                // Fallback Options
-                opciones: [
-                    "🔍 Details zum Fahrzeug (z.B.: 'Erzählen Sie mir mehr über den Mercedes')",
-                    "💵 Finanzierung (z.B.: 'Kredit' oder 'Leasing')",
-                    "📅 Termin (z.B.: 'Ich möchte den BMW Probe fahren')",
-                    "🔑 Vermietung (um diesen Abschnitt zu verlassen)",
-                    "📞 Kontakt / ⏰ Öffnungszeiten"
-                ],
-                textosNoEntendido: (userMessage) => `Entschuldigung, ich habe "${userMessage}" nicht ganz verstanden. In diesem Kaufbereich kann ich Ihnen bei der Modellsuch oder der Finanzierung helfen:`
-            }
-        };
+        precio: "Der Tagespreis wird unter jedem Fahrzeug zusammen mit den enthaltenen Kilometern angezeigt. Möchten Sie, dass ich Ihnen die Bedingungen für ein bestimmtes Auto erkläre oder bei der Reservierung helfe?",
+        hola: "Hallo! Sie sind im Bereich Beste Mietangebote. Soll ich Ihnen helfen, ein Auto auszuwählen, den Tagespreis zu verstehen oder die enthaltenen Kilometer zu klären?",
+        horario: "Unsere Öffnungszeiten sind Montag bis Freitag von 9:00 bis 19:00 Uhr und Samstag von 10:00 bis 14:00 Uhr.",
+        contacto: "Sie erreichen uns unter +34 456 789 042 oder per E‑Mail an CastillaMotors@uclm.es.",
+        gracias: "Gern geschehen! Ich helfe Ihnen gern bei Ihrer Miete. Benötigen Sie noch etwas?",
 
-        // Seleccionar respuestas según idioma
-        const respuestasIdioma = respuestas[idiomaBase] || respuestas['es'];
-        let response = respuestasIdioma.default;
-        let keywordMatch = '';
+        modelos: {
+            peugeot: ['Peugeot 5008', '50€ / Tag', '10.000 km'],
+            toyota: ['Toyota Fortuner', '45€ / Tag', '15.000 km'],
+            mercedes: ['Mercedes-Benz CLS AMG', '60€ / Tag', 'begrenzte Kilometer und Premium-Versicherung'],
+            bmw: ['BMW Alpina B7', '90€ / Tag', '8.000 km'],
+            audi: ['Audi Q2 S-Line', '30€ / Tag', '12.000 km'],
+            lexus: ['Lexus RX500h F Sport', '65€ / Tag', '80.000 km']
+        },
 
-        const userMsgLower = userMessage.toLowerCase();
+        enlacePregunta: "Möchten Sie zum Bereich [Seccion] gehen?",
+        enlaces: {
+            comprar: 'comprar.html',
+            mantenimiento: 'mantenimiento.html'
+        },
+        secciones: {
+            comprar: 'Kauf',
+            mantenimiento: 'Wartung'
+        },
 
-        // 1. Detección de Modelos Específicos
-        let modeloEncontrado = null;
-        let modeloKey = null;
+        opciones: [
+            "Verfügbare Modelle anzeigen",
+            "Tagespreis prüfen",
+            "Enthaltene Kilometer und Versicherung prüfen",
+            "Eine Reservierung starten",
+            "Zum Kauf- oder Wartungsbereich wechseln",
+            "Kontakt und Öffnungszeiten anzeigen"
+        ],
+        textosNoEntendido: (userMessage) =>
+            `Entschuldigung, "${userMessage}" habe ich nicht ganz verstanden. In diesem Mietbereich kann ich Ihnen helfen, ein Modell auszuwählen, den Tagespreis zu sehen oder die enthaltenen Kilometer und Bedingungen zu erklären:`
+    }
+};
 
-        // Iterar sobre las claves de los modelos para ver si se menciona alguno
-        for (const key in respuestasIdioma.modelos) {
-            if (userMsgLower.includes(key)) {
-                modeloKey = key;
-                modeloEncontrado = respuestasIdioma.modelos[key];
-                break;
-            }
+
+
+    const respuestasIdioma = respuestasAlquiler[idiomaBase] || respuestasAlquiler['es'];
+    let response = respuestasIdioma.default;
+    let keywordMatch = '';
+    const userMsgLower = userMessage.toLowerCase();
+
+    // 1. Detección de modelo
+    let modeloEncontrado = null;
+    for (const key in respuestasIdioma.modelos) {
+        if (userMsgLower.includes(key)) {
+            modeloEncontrado = respuestasIdioma.modelos[key];
+            break;
         }
+    }
 
-        if (modeloEncontrado) {
-            // Respuesta si se detecta un modelo (ej. 'Peugeot 5008' / '43.900€')
-            response = respuestasIdioma.modeloInfo(modeloEncontrado[0], modeloEncontrado[1]);
-            keywordMatch = 'modelo'; // Usamos un match genérico para modelos
+    if (modeloEncontrado) {
+        // Ej.: "Quiero alquilar el Peugeot 5008..."
+        response = respuestasIdioma.modeloInfo(
+            modeloEncontrado[0],
+            modeloEncontrado[1],
+            modeloEncontrado[2]
+        );
+        keywordMatch = 'modelo';
+        this.lastQuestionType = 'condicionesModelo';
 
-        } else if (userMsgLower.includes('detalles') || userMsgLower.includes('details') || userMsgLower.includes('spécifications') || userMsgLower.includes('daten') || userMsgLower.includes('mehr')) {
-            response = respuestasIdioma.detalles;
+    } else if (
+        // Respuesta tipo "sí" / "yes" justo después de preguntar por condiciones
+        this.lastQuestionType === 'condicionesModelo' &&
+        (
+            userMsgLower === 'si' || userMsgLower === 'sí' ||
+            userMsgLower === 'yes' || userMsgLower === 'oui' ||
+            userMsgLower === 'ja' ||
+            userMsgLower.includes('condiciones completas') ||
+            userMsgLower.includes('ver condiciones') ||
+            userMsgLower.includes('todas las condiciones') ||
+            userMsgLower.includes('see full conditions') ||
+            userMsgLower.includes('see all conditions') ||
+            userMsgLower.includes('voir toutes les conditions') ||
+            userMsgLower.includes('alle bedingungen')
+        )
+    ) {
+        response = respuestasIdioma.condiciones;
+        this.lastQuestionType = null;
 
-        } else if (userMsgLower.includes('financiacion') || userMsgLower.includes('financing') || userMsgLower.includes('financement') || userMsgLower.includes('finanzierung') || userMsgLower.includes('préstamo') || userMsgLower.includes('loan') || userMsgLower.includes('prêt') || userMsgLower.includes('kredit') || userMsgLower.includes('leasing')) {
-            response = respuestasIdioma.financiacion;
+    } else if (
+        // Ver ficha técnica / ficha web
+        userMsgLower.includes('detalles') ||
+        userMsgLower.includes('ver detalles') ||
+        userMsgLower.includes('details') ||
+        userMsgLower.includes('see details') ||
+        userMsgLower.includes('más info') ||
+        userMsgLower.includes('more info') ||
+        userMsgLower.includes('spécifications') ||
+        userMsgLower.includes('détails') ||
+        userMsgLower.includes('details anzeigen')
+    ) {
+        response = respuestasIdioma.detalles;
 
-        // 2. Lógica para salir de la sección (Baja prioridad aquí)
-        } else if (userMsgLower.includes('alquilar') || userMsgLower.includes('rent') || userMsgLower.includes('louer') || userMsgLower.includes('mieten')) {
-            response = respuestasIdioma.alquilar;
-            keywordMatch = 'alquilar';
-        } else if (userMsgLower.includes('mantenimiento') || userMsgLower.includes('maintenance') || userMsgLower.includes('entretien') || userMsgLower.includes('wartung')) {
-            response = respuestasIdioma.mantenimiento;
-            keywordMatch = 'mantenimiento';
+    } else if (
+        // Condiciones en general
+        userMsgLower.includes('condiciones') ||
+        userMsgLower.includes('términos') ||
+        userMsgLower.includes('terms') ||
+        userMsgLower.includes('conditions') ||
+        userMsgLower.includes('política') ||
+        userMsgLower.includes('policy')
+    ) {
+        response = respuestasIdioma.condiciones;
 
-        // 3. Lógica Genérica de Baja Prioridad (Se mantiene)
-        } else if (userMsgLower.includes('precio') || userMsgLower.includes('cuánto') || userMsgLower.includes('price') || userMsgLower.includes('prix') || userMsgLower.includes('kosten')) {
-            response = respuestasIdioma.precio;
-        } else if (userMsgLower.includes('hola') || userMsgLower.includes('buenas') || userMsgLower.includes('hello') || userMsgLower.includes('bonjour') || userMsgLower.includes('hallo')) {
-            response = respuestasIdioma.hola;
-        } else if (userMsgLower.includes('horario') || userMsgLower.includes('abierto') || userMsgLower.includes('hours') || userMsgLower.includes('heure') || userMsgLower.includes('öffnungszeiten')) {
-            response = respuestasIdioma.horario;
-        } else if (userMsgLower.includes('contacto') || userMsgLower.includes('teléfono') || userMsgLower.includes('contact') || userMsgLower.includes('téléphone') || userMsgLower.includes('telefon')) {
-            response = respuestasIdioma.contacto;
-        } else if (userMsgLower.includes('gracias') || userMsgLower.includes('thanks') || userMsgLower.includes('merci') || userMsgLower.includes('danke')) {
-            response = respuestasIdioma.gracias;
+    } else if (
+        // Cambiar a sección de compra
+        userMsgLower.includes('comprar') ||
+        userMsgLower.includes('compra') ||
+        userMsgLower.includes('buy') ||
+        userMsgLower.includes('purchase') ||
+        userMsgLower.includes('acheter') ||
+        userMsgLower.includes('kaufen')
+    ) {
+        response = respuestasIdioma.comprar;
+        keywordMatch = 'comprar';
 
-        } else {
-            // Fallback reorientado a la compra
-            const opciones = respuestasIdioma.opciones;
-            const textoNoEntendido = respuestasIdioma.textosNoEntendido(userMessage);
+    } else if (
+        // Ir a mantenimiento
+        userMsgLower.includes('mantenimiento') ||
+        userMsgLower.includes('maintenance') ||
+        userMsgLower.includes('entretien') ||
+        userMsgLower.includes('wartung') ||
+        userMsgLower.includes('revisión')
+    ) {
+        response = respuestasIdioma.mantenimiento;
+        keywordMatch = 'mantenimiento';
 
-            response = `${textoNoEntendido} \n\n ${opciones.join('\n ')}`;
-        }
+    } else if (
+        // Preguntas de precio
+        userMsgLower.includes('precio') ||
+        userMsgLower.includes('cuánto cuesta') ||
+        userMsgLower.includes('cuanto cuesta') ||
+        userMsgLower.includes('price') ||
+        userMsgLower.includes('how much') ||
+        userMsgLower.includes('prix') ||
+        userMsgLower.includes('combien') ||
+        userMsgLower.includes('kosten') ||
+        userMsgLower.includes('preis')
+    ) {
+        response = respuestasIdioma.precio;
 
-        // Lógica de enlace condicional para salir de la sección
-        if ((keywordMatch === 'alquilar' || keywordMatch === 'mantenimiento') && respuestasIdioma.enlaces[keywordMatch]) {
-            const linkHTML = respuestasIdioma.enlaces[keywordMatch];
-            const sectionName = respuestasIdioma.secciones[keywordMatch];
+    } else if (
+        // Saludos
+        userMsgLower.includes('hola') ||
+        userMsgLower.includes('buenas') ||
+        userMsgLower.includes('hello') ||
+        userMsgLower.includes('hi ') ||
+        userMsgLower === 'hi' ||
+        userMsgLower.includes('bonjour') ||
+        userMsgLower.includes('hallo')
+    ) {
+        response = respuestasIdioma.hola;
 
-            // Crear el texto del enlace final
-            const enlaceTexto = respuestasIdioma.enlacePregunta.replace('[Seccion]', sectionName);
+    } else if (
+        // Horario
+        userMsgLower.includes('horario') ||
+        userMsgLower.includes('abierto') ||
+        userMsgLower.includes('hours') ||
+        userMsgLower.includes('opening') ||
+        userMsgLower.includes('heure') ||
+        userMsgLower.includes('ouvert') ||
+        userMsgLower.includes('öffnungszeiten')
+    ) {
+        response = respuestasIdioma.horario;
 
-            // *** NUEVO: Lógica para forzar la apertura del chat en la página de destino ***
+    } else if (
+        // Contacto
+        userMsgLower.includes('contacto') ||
+        userMsgLower.includes('teléfono') ||
+        userMsgLower.includes('telefono') ||
+        userMsgLower.includes('llamar') ||
+        userMsgLower.includes('contact') ||
+        userMsgLower.includes('phone') ||
+        userMsgLower.includes('call') ||
+        userMsgLower.includes('téléphone') ||
+        userMsgLower.includes('telefon')
+    ) {
+        response = respuestasIdioma.contacto;
 
-            // Crear una función JS que el enlace llamará al ser clickeado.
-            const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
+    } else if (
+        // Agradecimientos
+        userMsgLower.includes('gracias') ||
+        userMsgLower.includes('thank you') ||
+        userMsgLower.includes('thanks') ||
+        userMsgLower.includes('merci') ||
+        userMsgLower.includes('danke')
+    ) {
+        response = respuestasIdioma.gracias;
 
-            // El enlace final debe ejecutar el clickHandler antes de navegar.
-            const enlaceFinal = `\n\n<a href="${linkHTML}" onclick="${clickHandler}" style="font-weight: bold; text-decoration: underline;">${enlaceTexto}</a>`;
+    } else {
+        // Fallback genérico
+        const opciones = respuestasIdioma.opciones;
+        const textoNoEntendido = respuestasIdioma.textosNoEntendido(userMessage);
+        const listaOpciones = opciones
+        .map(op => `${op}`)
+        .join('<br>');
+        response = `${textoNoEntendido}<br><br>${listaOpciones}`;
+    }
 
-            response += enlaceFinal;
-        }
+    // Enlaces condicionales para cambiar de sección (igual que en compra)
+    if (
+        (keywordMatch === 'comprar' || keywordMatch === 'mantenimiento') &&
+        respuestasIdioma.enlaces &&
+        respuestasIdioma.enlaces[keywordMatch]
+    ) {
+        const linkHTML = respuestasIdioma.enlaces[keywordMatch];
+        const sectionName = respuestasIdioma.secciones[keywordMatch];
+        const enlaceTexto = respuestasIdioma.enlacePregunta.replace('[Seccion]', sectionName);
+        const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
 
-        console.log(`📝 Respuesta generada en ${idiomaBase}:`, response);
+        const enlaceFinal = `\n\n<a href="${linkHTML}"
+            onclick="${clickHandler}"
+            style="font-weight: bold; text-decoration: underline;">
+            ${enlaceTexto}
+        </a>`;
 
-        this.addMessage(response, 'bot');
-        this.hablarTexto(response);
+        response += enlaceFinal;
+    }
+
+    this.addMessage(response, 'bot');
+    this.hablarTexto(response);
+
     }
 }
+
 // ==================== INICIALIZACIÓN ====================
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

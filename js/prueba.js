@@ -1274,7 +1274,7 @@ class ChatbotHolograma {
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}`;
-        messageDiv.innerHTML = `<p>${text}</p>`;
+        messageDiv.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`;
         messagesContainer.appendChild(messageDiv);
 
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1513,12 +1513,12 @@ class ChatbotHolograma {
                     mantenimiento: 'Mantenimiento'
                 },
                 opciones: [
-                    "**🚗 Compra** de vehículos (ej: 'quiero comprar')",
-                    "**🔑 Alquiler** de vehículos (ej: 'alquilar un coche')",
-                    "**🛠️ Mantenimiento** (ej: 'pedir cita para mantenimiento')",
-                    "**💶 Precio** (ej: 'cuánto cuesta este modelo')",
-                    "**⏰ Horario**",
-                    "**📞 Contacto**"
+                    "🚗 Compra de vehículos (ej: 'quiero comprar')",
+                    "🔑 Alquiler de vehículos (ej: 'alquilar un coche')",
+                    "🛠️ Mantenimiento (ej: 'pedir cita para mantenimiento')",
+                    "💶 Precio (ej: 'cuánto cuesta este modelo')",
+                    "⏰ Horario",
+                    "📞 Contacto"
                 ],
                 textosNoEntendido: (userMessage) => `Disculpa, no he entendido bien "${userMessage}". Como Asistente Virtual de Castilla Motors, puedo ayudarte con lo siguiente. Por favor, escribe un mensaje que contenga una de estas palabras clave:`
             },
@@ -1547,12 +1547,12 @@ class ChatbotHolograma {
                     mantenimiento: 'Maintenance'
                 },
                 opciones: [
-                    "**🚗 Purchase** of vehicles (e.g.: 'I want to buy')",
-                    "**🔑 Rental** information (e.g.: 'rent a car')",
-                    "**🛠️ Maintenance** service (e.g.: 'request maintenance appointment')",
-                    "**💶 Price** inquiries (e.g.: 'how much does this model cost')",
-                    "**⏰ Check Business hours**",
-                    "**📞 Contact** information (phone/email)"
+                    "🚗 Purchase of vehicles (e.g.: 'I want to buy')",
+                    "🔑 Rental information (e.g.: 'rent a car')",
+                    "🛠️ Maintenance service (e.g.: 'request maintenance appointment')",
+                    "💶 Price inquiries (e.g.: 'how much does this model cost')",
+                    "⏰ Check Business hours",
+                    "📞 Contact information (phone/email)"
                 ],
                 textosNoEntendido: (userMessage) => `Sorry, I didn't quite understand "${userMessage}". As Castilla Motors Virtual Assistant, I can help you with the following. Please write a message containing one of these keywords:`
             },
@@ -1581,12 +1581,12 @@ class ChatbotHolograma {
                     mantenimiento: 'Maintenance'
                 },
                 opciones: [
-                    "**🚗 Achat** de véhicules (ex: 'je veux acheter')",
-                    "**🔑 Location** de véhicules (ex: 'louer une voiture')",
-                    "**🛠️ Maintenance** (ex: 'demander un rendez-vous de maintenance')",
-                    "**💶 Prix** (ex: 'combien coûte ce modèle')",
-                    "**⏰ Heures d'ouverture**",
-                    "**📞 Contact**"
+                    "🚗 Achat de véhicules (ex: 'je veux acheter')",
+                    "🔑 Location de véhicules (ex: 'louer une voiture')",
+                    "🛠️ Maintenance (ex: 'demander un rendez-vous de maintenance')",
+                    "💶 Prix (ex: 'combien coûte ce modèle')",
+                    "⏰ Heures d'ouverture",
+                    "📞 Contact"
                 ],
                 textosNoEntendido: (userMessage) => `Désolé, je n'ai pas bien compris "${userMessage}". En tant qu'Assistant Virtuel de Castilla Motors, je peux vous aider avec les points suivants. Veuillez écrire un message contenant l'un de ces mots-clés:`
             },
@@ -1615,12 +1615,12 @@ class ChatbotHolograma {
                     mantenimiento: 'Wartung'
                 },
                 opciones: [
-                    "**🚗 Kauf** von Fahrzeugen (z.B.: 'Ich möchte kaufen')",
-                    "**🔑 Vermietung** (z.B.: 'Auto mieten')",
-                    "**🛠️ Wartungsservice** (z.B.: 'Wartungstermin anfordern')",
-                    "**💶 Preisanfragen** (z.B.: 'Wie viel kostet dieses Modell')",
-                    "**⏰ Öffnungszeiten** prüfen",
-                    "**📞 Kontaktinformationen** (Telefon/E-Mail)"
+                    "🚗 Kauf von Fahrzeugen (z.B.: 'Ich möchte kaufen')",
+                    "🔑 Vermietung (z.B.: 'Auto mieten')",
+                    "🛠️ Wartungsservice (z.B.: 'Wartungstermin anfordern')",
+                    "💶 Preisanfragen (z.B.: 'Wie viel kostet dieses Modell')",
+                    "⏰ Öffnungszeiten prüfen",
+                    "📞 Kontaktinformationen (Telefon/E-Mail)"
                 ],
                 textosNoEntendido: (userMessage) => `Entschuldigung, ich habe "${userMessage}" nicht ganz verstanden. Als Virtueller Assistent von Castilla Motors kann ich Ihnen bei folgenden Punkten helfen. Bitte schreiben Sie eine Nachricht, die eines dieser Schlüsselwörter enthält:`
             }
@@ -1661,7 +1661,7 @@ class ChatbotHolograma {
             const textoNoEntendido = respuestasIdioma.textosNoEntendido(userMessage);
 
             // Formato de lista con asteriscos para renderizar mejor en Markdown/HTML
-            response = `${textoNoEntendido} \n\n* ${opciones.join('\n* ')}`;
+            response = `${textoNoEntendido} \n\n ${opciones.join('\n ')}`;
         }
 
         let textToDisplay = response;
@@ -1682,13 +1682,10 @@ class ChatbotHolograma {
             const clickHandler = `sessionStorage.setItem('chatbotOpenOnLoad', 'true');`;
 
             // El enlace final debe ejecutar el clickHandler antes de navegar.
-            enlaceHTML = `\n\n<a href="${linkHTML}"
-                onclick="${clickHandler}"
-                style="font-weight: bold; text-decoration: underline;">
-                ${enlaceTexto}
-            </a>`;
+            enlaceHTML = `\n\n<a href="${linkHTML}" onclick="${clickHandler}" style="font-weight: bold; text-decoration: underline;">${enlaceTexto}</a>`;
 
             textToDisplay += enlaceHTML;
+            textToSpeak= response + " " + enlaceTexto;
             textToSpeak= response + " " + enlaceTexto;
         }
 
